@@ -204,6 +204,78 @@ const CareerSchema = new Schema({
     postedAt: String,
 }, { _id: false });
 
+// ─── Application ─────────────────────────────────────────────────────────────
+const ApplicationSchema = new Schema({
+    careerId: { type: String, required: true },
+    jobTitle: { type: String, required: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: String,
+    linkedIn: String,
+    portfolio: String,
+    expectedCTC: String,
+    coverLetter: String,
+    resumeUrl: String,
+    resumeFileName: String,
+    resumePublicId: String,
+    status: {
+        type: String,
+        enum: ['New', 'Shortlisted', 'On Hold', 'Interview Scheduled', 'Selected', 'Rejected'],
+        default: 'New',
+    },
+    notes: { type: String, default: '' },
+    docsSubmitted: { type: Boolean, default: false },
+    appliedAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
+});
+
+// ─── Onboarding ───────────────────────────────────────────────────────────────
+const OnboardingSchema = new Schema({
+    employeeId: { type: String, required: false, default: '' },
+    applicationId: { type: String, index: true },  // set before hire; replaced by employeeId after
+    email: { type: String, required: true },
+    // Step 1: Personal
+    dob: String,
+    gender: String,
+    permanentAddress: String,
+    currentAddress: String,
+    // Step 2: Bank & Tax
+    bankAccountNumber: String,
+    ifscCode: String,
+    bankName: String,
+    panNumber: String,
+    // Step 3: Emergency Contact
+    emergencyContactName: String,
+    emergencyContactRelation: String,
+    emergencyContactPhone: String,
+    // Step 4: Documents
+    aadhaarUrl: String,
+    panCardUrl: String,
+    degreeUrl: String,
+    experienceLetterUrl: String,
+    passportPhotoUrl: String,
+    // Step 5: Declaration
+    declarationAccepted: { type: Boolean, default: false },
+    completedSteps: { type: [Number], default: [] },
+    isComplete: { type: Boolean, default: false },
+    submittedAt: Date,
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
+});
+
+// ─── OnboardingToken ──────────────────────────────────────────────────────────
+// One-time secure token sent to selected candidates to submit docs without login
+const OnboardingTokenSchema = new Schema({
+    token: { type: String, required: true, unique: true },
+    applicationId: { type: String, required: true },
+    email: { type: String, required: true },
+    name: { type: String, required: true },
+    jobTitle: { type: String, required: true },
+    expiresAt: { type: Date, required: true },
+    used: { type: Boolean, default: false },
+    createdAt: { type: Date, default: Date.now },
+});
+
 // ─── ServicePackage ─────────────────────────────────────────────────────────
 const ServicePackageSchema = new Schema({
     _id: String,
@@ -248,3 +320,6 @@ export const CareerModel = models.Career || model('Career', CareerSchema);
 export const ServicePackageModel = models.ServicePackage || model('ServicePackage', ServicePackageSchema);
 export const ActivityLogModel = models.ActivityLog || model('ActivityLog', ActivityLogSchema);
 export const ContactModel = models.Contact || model('Contact', ContactSubmissionSchema);
+export const ApplicationModel = models.Application || model('Application', ApplicationSchema);
+export const OnboardingModel = models.Onboarding || model('Onboarding', OnboardingSchema);
+export const OnboardingTokenModel = models.OnboardingToken || model('OnboardingToken', OnboardingTokenSchema);

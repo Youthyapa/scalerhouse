@@ -1,7 +1,8 @@
 // pages/admin/careers.tsx – Admin Career listings management
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import { Plus, Trash2, ToggleLeft, ToggleRight } from 'lucide-react';
+import { Plus, Trash2, ToggleLeft, ToggleRight, Users } from 'lucide-react';
+import Link from 'next/link';
 import { withAuth } from '../../lib/auth';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import { getAll, addItem, deleteItem, saveAll, KEYS, Career, genId } from '../../lib/store';
@@ -13,6 +14,7 @@ const adminNav = [
     { href: '/admin/clients', label: 'Clients', icon: '🏢' },
     { href: '/admin/affiliates', label: 'Affiliates', icon: '🤝' },
     { href: '/admin/employees', label: 'Employees', icon: '👥' },
+    { href: '/admin/applications', label: 'Applications', icon: '📝' },
     { href: '/admin/proposals', label: 'Proposals', icon: '📄' },
     { href: '/admin/blog', label: 'Blog', icon: '✍️' },
     { href: '/admin/services', label: 'Services & Pricing', icon: '⚙️' },
@@ -87,6 +89,10 @@ function CareersAdminPage() {
                                 <p className="text-slate-400 text-sm">{job.description}</p>
                             </div>
                             <div className="flex gap-2 items-center">
+                                <Link href={`/admin/applications?careerId=${job.id}`}
+                                    className="flex items-center gap-1.5 text-xs text-cyan-400 border border-cyan-400/20 rounded-lg px-3 py-1.5 hover:bg-cyan-400/10 transition-all">
+                                    <Users size={12} /> View Applicants
+                                </Link>
                                 <button onClick={() => toggleActive(job.id)} className={job.isActive ? 'text-cyan-400' : 'text-slate-500'}>
                                     {job.isActive ? <ToggleRight size={26} /> : <ToggleLeft size={26} />}
                                 </button>
