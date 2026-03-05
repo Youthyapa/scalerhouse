@@ -39,9 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Build the URL
         const getAppUrl = () => {
             if (process.env.NEXT_PUBLIC_APP_URL) return process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, '');
-            if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-            if (process.env.NEXT_PUBLIC_VERCEL_URL) return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
-            return 'http://localhost:3000';
+            return 'https://scalerhouse.vercel.app';
         };
         const appUrl = getAppUrl();
         const onboardingUrl = `${appUrl}/onboarding/${token}`;
