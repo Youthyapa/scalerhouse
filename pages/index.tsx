@@ -1,540 +1,922 @@
 // pages/index.tsx
-import Head from 'next/head';
-import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import Head from "next/head";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import {
-    TrendingUp, Search, Megaphone, Globe, BarChart2, Mail,
-    ArrowRight, Star, ChevronLeft, ChevronRight, Users, Award,
-    Zap, CheckCircle, Play
-} from 'lucide-react';
-import Navbar from '../components/layout/Navbar';
-import Footer from '../components/layout/Footer';
-import WhatsAppFAB from '../components/layout/WhatsAppFAB';
-import { getAll, KEYS, Offer } from '../lib/store';
+  TrendingUp,
+  Search,
+  Megaphone,
+  Globe,
+  BarChart2,
+  Mail,
+  ArrowRight,
+  Star,
+  ChevronLeft,
+  ChevronRight,
+  Users,
+  Award,
+  Zap,
+  CheckCircle,
+  Play,
+} from "lucide-react";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
+import WhatsAppFAB from "../components/layout/WhatsAppFAB";
+import { getAll, KEYS, Offer } from "../lib/store";
+
+interface ContentItem {
+  _id: string;
+  type: "client_logo" | "achievement" | "news_link" | "faq";
+  title: string;
+  imageUrl?: string;
+  linkUrl?: string;
+  description?: string;
+}
 
 // ── Counter Hook ──
 function useCounter(end: number, duration: number = 2000) {
-    const [count, setCount] = useState(0);
-    const [started, setStarted] = useState(false);
-    const ref = useRef<HTMLDivElement>(null);
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const obs = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting && !started) setStarted(true);
-        }, { threshold: 0.5 });
-        if (ref.current) obs.observe(ref.current);
-        return () => obs.disconnect();
-    }, [started]);
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started) setStarted(true);
+      },
+      { threshold: 0.5 },
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [started]);
 
-    useEffect(() => {
-        if (!started) return;
-        let start = 0;
-        const step = end / (duration / 16);
-        const timer = setInterval(() => {
-            start += step;
-            if (start >= end) { setCount(end); clearInterval(timer); }
-            else setCount(Math.floor(start));
-        }, 16);
-        return () => clearInterval(timer);
-    }, [started, end, duration]);
+  useEffect(() => {
+    if (!started) return;
+    let start = 0;
+    const step = end / (duration / 16);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= end) {
+        setCount(end);
+        clearInterval(timer);
+      } else setCount(Math.floor(start));
+    }, 16);
+    return () => clearInterval(timer);
+  }, [started, end, duration]);
 
-    return { count, ref };
+  return { count, ref };
 }
 
 const services = [
-    { icon: Search, title: 'SEO & Content', desc: 'Dominate search rankings with data-driven SEO strategies and compelling content.', color: 'from-blue-600/20 to-blue-900/10', border: 'border-blue-500/20' },
-    { icon: Megaphone, title: 'Performance Ads', desc: 'Google & Meta campaigns engineered for maximum ROAS and scalable growth.', color: 'from-cyan-600/20 to-cyan-900/10', border: 'border-cyan-500/20' },
-    { icon: Globe, title: 'Social Media', desc: 'Build authority and community across Instagram, LinkedIn, YouTube & more.', color: 'from-purple-600/20 to-purple-900/10', border: 'border-purple-500/20' },
-    { icon: BarChart2, title: 'Analytics & CRO', desc: 'Turn data into decisions. Conversion rate optimization that multiplies revenue.', color: 'from-green-600/20 to-green-900/10', border: 'border-green-500/20' },
-    { icon: Mail, title: 'Email Marketing', desc: 'Automated drip campaigns that nurture leads and drive repeat revenue.', color: 'from-orange-600/20 to-orange-900/10', border: 'border-orange-500/20' },
-    { icon: TrendingUp, title: 'Brand Strategy', desc: 'Position your brand as a market leader with our strategic growth framework.', color: 'from-pink-600/20 to-pink-900/10', border: 'border-pink-500/20' },
+  {
+    icon: Search,
+    title: "SEO & Content",
+    desc: "Dominate search rankings with data-driven SEO strategies and compelling content.",
+    color: "from-blue-600/20 to-blue-900/10",
+    border: "border-blue-500/20",
+  },
+  {
+    icon: Megaphone,
+    title: "Performance Ads",
+    desc: "Google & Meta campaigns engineered for maximum ROAS and scalable growth.",
+    color: "from-cyan-600/20 to-cyan-900/10",
+    border: "border-cyan-500/20",
+  },
+  {
+    icon: Globe,
+    title: "Social Media",
+    desc: "Build authority and community across Instagram, LinkedIn, YouTube & more.",
+    color: "from-purple-600/20 to-purple-900/10",
+    border: "border-purple-500/20",
+  },
+  {
+    icon: BarChart2,
+    title: "Analytics & CRO",
+    desc: "Turn data into decisions. Conversion rate optimization that multiplies revenue.",
+    color: "from-green-600/20 to-green-900/10",
+    border: "border-green-500/20",
+  },
+  {
+    icon: Mail,
+    title: "Email Marketing",
+    desc: "Automated drip campaigns that nurture leads and drive repeat revenue.",
+    color: "from-orange-600/20 to-orange-900/10",
+    border: "border-orange-500/20",
+  },
+  {
+    icon: TrendingUp,
+    title: "Brand Strategy",
+    desc: "Position your brand as a market leader with our strategic growth framework.",
+    color: "from-pink-600/20 to-pink-900/10",
+    border: "border-pink-500/20",
+  },
 ];
 
 const caseStudies = [
-    {
-        brand: 'TechCorp India',
-        category: 'SEO + Content',
-        result: '340% organic traffic increase in 6 months',
-        stat: '+340%',
-        metric: 'Organic Traffic',
-        bg: 'from-blue-900/60 to-slate-900',
-    },
-    {
-        brand: 'Fashion Hive',
-        category: 'Performance Ads',
-        result: '8.2x ROAS on Meta & Google Ads campaigns',
-        stat: '8.2x',
-        metric: 'ROAS Achieved',
-        bg: 'from-purple-900/60 to-slate-900',
-    },
-    {
-        brand: 'BuildMasters',
-        category: 'Social Media + SEO',
-        result: '500K+ brand reach from zero in 90 days',
-        stat: '500K+',
-        metric: 'Brand Reach',
-        bg: 'from-cyan-900/60 to-slate-900',
-    },
+  {
+    brand: "TechCorp India",
+    category: "SEO + Content",
+    result: "340% organic traffic increase in 6 months",
+    stat: "+340%",
+    metric: "Organic Traffic",
+    bg: "from-blue-900/60 to-slate-900",
+  },
+  {
+    brand: "Fashion Hive",
+    category: "Performance Ads",
+    result: "8.2x ROAS on Meta & Google Ads campaigns",
+    stat: "8.2x",
+    metric: "ROAS Achieved",
+    bg: "from-purple-900/60 to-slate-900",
+  },
+  {
+    brand: "BuildMasters",
+    category: "Social Media + SEO",
+    result: "500K+ brand reach from zero in 90 days",
+    stat: "500K+",
+    metric: "Brand Reach",
+    bg: "from-cyan-900/60 to-slate-900",
+  },
 ];
 
 const testimonials = [
-    {
-        name: 'Rajesh Kumar',
-        company: 'TechCorp India',
-        text: 'ScalerHouse transformed our online presence. We went from page 5 to page 1 for our main keywords in just 4 months. Our leads have tripled.',
-        rating: 5,
-        avatar: 'RK',
-    },
-    {
-        name: 'Sneha Gupta',
-        company: 'Fashion Hive',
-        text: 'The performance ads team delivered 8x ROAS. We\'ve never seen numbers like this before. Truly a world-class performance marketing team.',
-        rating: 5,
-        avatar: 'SG',
-    },
-    {
-        name: 'Vikram Singh',
-        company: 'BuildMasters',
-        text: 'In 90 days, our brand went from unknown to 500K+ reach. The social media strategy was brilliant and execution was flawless.',
-        rating: 5,
-        avatar: 'VS',
-    },
+  {
+    name: "Rajesh Kumar",
+    company: "TechCorp India",
+    text: "ScalerHouse transformed our online presence. We went from page 5 to page 1 for our main keywords in just 4 months. Our leads have tripled.",
+    rating: 5,
+    avatar: "RK",
+  },
+  {
+    name: "Sneha Gupta",
+    company: "Fashion Hive",
+    text: "The performance ads team delivered 8x ROAS. We've never seen numbers like this before. Truly a world-class performance marketing team.",
+    rating: 5,
+    avatar: "SG",
+  },
+  {
+    name: "Vikram Singh",
+    company: "BuildMasters",
+    text: "In 90 days, our brand went from unknown to 500K+ reach. The social media strategy was brilliant and execution was flawless.",
+    rating: 5,
+    avatar: "VS",
+  },
 ];
 
 export default function Home() {
-    const [activeCase, setActiveCase] = useState(0);
-    const [activeTestimonial, setActiveTestimonial] = useState(0);
-    const [offer, setOffer] = useState<Offer | null>(null);
-    const [showOfferPopup, setShowOfferPopup] = useState(false);
-    const clients100 = useCounter(150);
-    const revenue500 = useCounter(500);
-    const roas8 = useCounter(8);
-    const happy99 = useCounter(99);
+  const [activeCase, setActiveCase] = useState(0);
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [offer, setOffer] = useState<Offer | null>(null);
+  const [showOfferPopup, setShowOfferPopup] = useState(false);
 
-    // Animate on scroll
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => entries.forEach((e) => e.target.classList.toggle('visible', e.isIntersecting)),
-            { threshold: 0.1 }
-        );
-        document.querySelectorAll('.animate-fade-up').forEach((el) => observer.observe(el));
-        return () => observer.disconnect();
-    }, []);
+  // Dynamic Content
+  const [content, setContent] = useState<Record<string, ContentItem[]>>({
+    client_logo: [],
+    achievement: [],
+    news_link: [],
+    faq: [],
+  });
 
-    // Offer popup
-    useEffect(() => {
-        const offers = getAll<Offer>(KEYS.OFFERS);
-        const now = new Date();
-        const active = offers.find(o =>
-            o.isActive &&
-            o.pages.includes('/') &&
-            new Date(o.startDate) <= now &&
-            new Date(o.endDate) >= now
-        );
-        if (active) {
-            setOffer(active);
-            const dismissed = sessionStorage.getItem('sh_offer_dismissed_' + active.id);
-            if (!dismissed) {
-                setTimeout(() => setShowOfferPopup(true), 3000);
-            }
-        }
-    }, []);
+  const clients100 = useCounter(150);
+  const revenue500 = useCounter(500);
+  const roas8 = useCounter(8);
+  const happy99 = useCounter(99);
 
-    const closeOffer = () => {
-        if (offer) sessionStorage.setItem('sh_offer_dismissed_' + offer.id, '1');
-        setShowOfferPopup(false);
-    };
-
-    return (
-        <>
-            <Head>
-                <title>ScalerHouse – Engineering Predictable Growth for Ambitious Brands</title>
-                <meta name="description" content="ScalerHouse is a performance-driven digital marketing agency. SEO, Ads, Social Media, CRO. Scale Faster. Smarter. Stronger." />
-            </Head>
-
-            <Navbar />
-            <WhatsAppFAB />
-
-            {/* ── HERO ── */}
-            <section className="hero-bg grid-bg min-h-screen flex items-center relative pt-20">
-                <div className="orb orb-1" />
-                <div className="orb orb-2" />
-                <div className="max-w-7xl mx-auto px-6 py-24 relative z-10">
-                    <div className="grid lg:grid-cols-2 gap-16 items-center">
-                        <div>
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6 }}
-                                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-400/30 bg-cyan-400/5 text-cyan-400 text-sm font-medium mb-6"
-                            >
-                                <Zap size={14} className="animate-pulse" />
-                                Growth Is Not Luck. It&apos;s Strategy.
-                            </motion.div>
-                            <motion.h1
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.7, delay: 0.1 }}
-                                className="font-syne font-bold text-4xl lg:text-6xl text-white leading-tight mb-6"
-                            >
-                                Engineering{' '}
-                                <span className="gradient-text">Predictable</span>{' '}
-                                Growth.
-                            </motion.h1>
-                            <motion.p
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.2 }}
-                                className="text-slate-300 text-lg leading-relaxed mb-8 max-w-xl"
-                            >
-                                We don&apos;t run campaigns. We build growth systems. ScalerHouse delivers measurable, predictable digital growth for ambitious brands across SEO, ads, social media, and beyond.
-                            </motion.p>
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.3 }}
-                                className="flex flex-wrap gap-4"
-                            >
-                                <Link href="/contact" className="btn-glow text-base !py-4 !px-8">
-                                    Get Free Proposal <ArrowRight size={18} />
-                                </Link>
-                                <Link href="/case-studies" className="btn-outline text-base !py-4 !px-8">
-                                    <Play size={16} /> See Results
-                                </Link>
-                            </motion.div>
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.8, delay: 0.5 }}
-                                className="flex items-center gap-4 mt-10"
-                            >
-                                <div className="flex -space-x-3">
-                                    {['RK', 'SG', 'VS', 'AK', 'PM'].map((i) => (
-                                        <div key={i} className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 border-2 border-[#0f172a] flex items-center justify-center text-xs font-bold text-white">
-                                            {i}
-                                        </div>
-                                    ))}
-                                </div>
-                                <div>
-                                    <div className="flex text-yellow-400">
-                                        {[...Array(5)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
-                                    </div>
-                                    <p className="text-slate-400 text-sm">Trusted by 150+ brands</p>
-                                </div>
-                            </motion.div>
-                        </div>
-
-                        {/* Hero Right – Floating Dashboard Card */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 40 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8, delay: 0.3 }}
-                            className="relative hidden lg:block"
-                        >
-                            <div className="glass-card p-6 animate-float">
-                                <div className="flex items-center justify-between mb-4">
-                                    <div>
-                                        <p className="text-slate-400 text-xs">Client Growth Dashboard</p>
-                                        <p className="text-white font-semibold">Q1 2026 Performance</p>
-                                    </div>
-                                    <span className="badge-green badge">Live</span>
-                                </div>
-                                <div className="grid grid-cols-2 gap-4 mb-4">
-                                    {[
-                                        { label: 'Organic Traffic', val: '+340%', color: 'text-green-400' },
-                                        { label: 'ROAS', val: '8.2x', color: 'text-cyan-400' },
-                                        { label: 'Leads Generated', val: '2,847', color: 'text-blue-400' },
-                                        { label: 'Revenue Growth', val: '+₹42L', color: 'text-yellow-400' },
-                                    ].map((m) => (
-                                        <div key={m.label} className="bg-white/5 rounded-xl p-3">
-                                            <p className={`font-bold text-xl ${m.color}`}>{m.val}</p>
-                                            <p className="text-slate-400 text-xs mt-1">{m.label}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="space-y-2">
-                                    {[
-                                        { label: 'SEO Progress', val: 87 },
-                                        { label: 'Ads Performance', val: 94 },
-                                        { label: 'Social Reach', val: 72 },
-                                    ].map((p) => (
-                                        <div key={p.label}>
-                                            <div className="flex justify-between text-xs mb-1">
-                                                <span className="text-slate-400">{p.label}</span>
-                                                <span className="text-slate-300">{p.val}%</span>
-                                            </div>
-                                            <div className="progress-bar">
-                                                <div className="progress-fill" style={{ width: `${p.val}%` }} />
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            {/* Floating bubbles */}
-                            <div className="absolute -top-4 -right-4 glass-card px-4 py-3 text-sm animate-float" style={{ animationDelay: '-2s' }}>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                                    <span className="text-green-400 font-medium">New Lead: ₹80K/mo</span>
-                                </div>
-                            </div>
-                            <div className="absolute -bottom-6 -left-4 glass-card px-4 py-3 animate-float" style={{ animationDelay: '-4s' }}>
-                                <div className="flex items-center gap-2">
-                                    <Award size={16} className="text-yellow-400" />
-                                    <span className="text-white text-sm font-medium">Deal Closed 🎉</span>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ── STATS ── */}
-            <section className="py-16 border-y border-white/5 bg-[#080f1e]">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div ref={clients100.ref} className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                        {[
-                            { value: clients100.count, suffix: '+', label: 'Brands Scaled', icon: Users },
-                            { value: revenue500.count, suffix: 'Cr+', label: 'Revenue Generated', icon: TrendingUp },
-                            { value: roas8.count, suffix: '.2x', label: 'Average ROAS', icon: BarChart2 },
-                            { value: happy99.count, suffix: '%', label: 'Client Retention', icon: Star },
-                        ].map((stat) => (
-                            <div key={stat.label} className="stat-card text-center">
-                                <stat.icon size={24} className="text-cyan-400 mx-auto mb-3" />
-                                <div className="font-syne font-black text-4xl text-white">
-                                    {stat.value}{stat.suffix}
-                                </div>
-                                <div className="text-slate-400 text-sm mt-1">{stat.label}</div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ── SERVICES ── */}
-            <section className="py-24 bg-[#0a1222]">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="text-center mb-16 animate-fade-up">
-                        <span className="badge badge-blue mb-4">What We Do</span>
-                        <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
-                            Full-Stack <span className="gradient-text">Growth Services</span>
-                        </h2>
-                        <p className="text-slate-400 max-w-xl mx-auto">
-                            Every service we offer is tied to measurable outcomes. No vanity metrics. Just growth.
-                        </p>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {services.map((svc, i) => (
-                            <motion.div
-                                key={svc.title}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: i * 0.08 }}
-                                className={`glass-card-hover p-6 bg-gradient-to-br ${svc.color} border ${svc.border}`}
-                            >
-                                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${svc.color} border ${svc.border} flex items-center justify-center mb-4`}>
-                                    <svc.icon size={22} className="text-cyan-400" />
-                                </div>
-                                <h3 className="font-semibold text-white text-lg mb-2">{svc.title}</h3>
-                                <p className="text-slate-400 text-sm leading-relaxed">{svc.desc}</p>
-                                <Link href="/services" className="inline-flex items-center gap-1 text-cyan-400 text-sm mt-4 hover:gap-2 transition-all">
-                                    Learn more <ArrowRight size={14} />
-                                </Link>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ── CASE STUDIES ── */}
-            <section className="py-24 bg-[#080f1e]">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="text-center mb-16 animate-fade-up">
-                        <span className="badge badge-cyan mb-4">Proof of Work</span>
-                        <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
-                            Real Results. <span className="gradient-text">Real Brands.</span>
-                        </h2>
-                    </div>
-                    <div className="relative">
-                        <div className={`rounded-2xl overflow-hidden bg-gradient-to-br ${caseStudies[activeCase].bg} border border-white/10 p-8 lg:p-12 min-h-64`}>
-                            <div className="grid lg:grid-cols-2 gap-8 items-center">
-                                <div>
-                                    <span className="badge badge-blue mb-4">{caseStudies[activeCase].category}</span>
-                                    <h3 className="font-syne font-bold text-3xl text-white mb-3">{caseStudies[activeCase].brand}</h3>
-                                    <p className="text-slate-300 text-lg">{caseStudies[activeCase].result}</p>
-                                    <Link href="/case-studies" className="btn-glow mt-6 !py-3 !px-6 !text-sm">
-                                        View Full Case Study <ArrowRight size={15} />
-                                    </Link>
-                                </div>
-                                <div className="text-center lg:text-right">
-                                    <div className="font-syne font-black text-8xl gradient-text">{caseStudies[activeCase].stat}</div>
-                                    <div className="text-slate-400 text-lg mt-2">{caseStudies[activeCase].metric}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex justify-center gap-3 mt-6">
-                            <button onClick={() => setActiveCase((p) => (p - 1 + caseStudies.length) % caseStudies.length)} className="w-10 h-10 rounded-full glass-card flex items-center justify-center text-slate-300 hover:text-white hover:border-cyan-400/30 transition-all">
-                                <ChevronLeft size={18} />
-                            </button>
-                            {caseStudies.map((_, i) => (
-                                <button key={i} onClick={() => setActiveCase(i)} className={`w-2.5 h-2.5 rounded-full transition-all ${i === activeCase ? 'bg-cyan-400 w-8' : 'bg-slate-600'}`} />
-                            ))}
-                            <button onClick={() => setActiveCase((p) => (p + 1) % caseStudies.length)} className="w-10 h-10 rounded-full glass-card flex items-center justify-center text-slate-300 hover:text-white hover:border-cyan-400/30 transition-all">
-                                <ChevronRight size={18} />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ── WHY SCALERHOUSE ── */}
-            <section className="py-24 bg-[#0a1222]">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="grid lg:grid-cols-2 gap-16 items-center">
-                        <div className="animate-fade-up">
-                            <span className="badge badge-purple mb-4">Why ScalerHouse</span>
-                            <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-6">
-                                We Build <span className="gradient-text">Growth Engines,</span><br />Not Just Campaigns
-                            </h2>
-                            <p className="text-slate-400 mb-8 leading-relaxed">
-                                Most agencies run ads and hope for the best. We engineer end-to-end growth systems — from strategy to execution to reporting — all tied to your revenue goals.
-                            </p>
-                            <div className="space-y-4">
-                                {[
-                                    'Dedicated growth strategist for every client',
-                                    'Weekly reporting & monthly strategy sessions',
-                                    'Zero lock-in. Cancel anytime with 30-day notice',
-                                    'In-house team — no outsourcing, ever',
-                                    'KPI-driven retainers with guaranteed benchmarks',
-                                ].map((item) => (
-                                    <div key={item} className="flex items-start gap-3">
-                                        <CheckCircle size={18} className="text-cyan-400 shrink-0 mt-0.5" />
-                                        <span className="text-slate-300 text-sm">{item}</span>
-                                    </div>
-                                ))}
-                            </div>
-                            <Link href="/about" className="btn-glow mt-8">
-                                About ScalerHouse <ArrowRight size={16} />
-                            </Link>
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            {[
-                                { number: '150+', label: 'Brands Scaled', desc: 'Across 15+ industries' },
-                                { number: '₹500Cr+', label: 'Revenue Driven', desc: 'For our clients' },
-                                { number: '45 Days', label: 'First Results', desc: 'Average time to see growth' },
-                                { number: '24/7', label: 'Support', desc: 'Always available via portal' },
-                            ].map((item) => (
-                                <motion.div
-                                    key={item.label}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    viewport={{ once: true }}
-                                    className="glass-card p-5"
-                                >
-                                    <div className="font-syne font-black text-3xl gradient-text">{item.number}</div>
-                                    <div className="font-semibold text-white mt-1">{item.label}</div>
-                                    <div className="text-slate-500 text-xs mt-1">{item.desc}</div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ── TESTIMONIALS ── */}
-            <section className="py-24 bg-[#080f1e]">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="text-center mb-16 animate-fade-up">
-                        <span className="badge badge-yellow mb-4">Client Love</span>
-                        <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
-                            What Our <span className="gradient-text">Clients Say</span>
-                        </h2>
-                    </div>
-                    <div className="max-w-3xl mx-auto">
-                        <motion.div
-                            key={activeTestimonial}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="glass-card p-8 text-center"
-                        >
-                            <div className="flex justify-center text-yellow-400 mb-6">
-                                {[...Array(testimonials[activeTestimonial].rating)].map((_, i) => <Star key={i} size={20} fill="currentColor" />)}
-                            </div>
-                            <p className="text-slate-200 text-lg leading-relaxed mb-8 italic">
-                                &ldquo;{testimonials[activeTestimonial].text}&rdquo;
-                            </p>
-                            <div className="flex items-center justify-center gap-3">
-                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center font-bold text-white">
-                                    {testimonials[activeTestimonial].avatar}
-                                </div>
-                                <div className="text-left">
-                                    <div className="font-semibold text-white">{testimonials[activeTestimonial].name}</div>
-                                    <div className="text-slate-400 text-sm">{testimonials[activeTestimonial].company}</div>
-                                </div>
-                            </div>
-                        </motion.div>
-                        <div className="flex justify-center gap-2 mt-6">
-                            {testimonials.map((_, i) => (
-                                <button key={i} onClick={() => setActiveTestimonial(i)} className={`w-2.5 h-2.5 rounded-full transition-all ${i === activeTestimonial ? 'bg-cyan-400 w-8' : 'bg-slate-600'}`} />
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ── AFFILIATE CTA ── */}
-            <section className="py-16 bg-[#0a1222]">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="rounded-2xl bg-gradient-to-r from-blue-900/60 via-[#0f172a] to-cyan-900/30 border border-white/10 p-10 lg:p-14 text-center">
-                        <span className="badge badge-green mb-4">Affiliate Program</span>
-                        <h2 className="font-syne font-black text-4xl text-white mb-4">
-                            Earn Up To <span className="gradient-text">15% Commission</span> Per Deal
-                        </h2>
-                        <p className="text-slate-400 mb-8 max-w-xl mx-auto">
-                            Refer clients to ScalerHouse and earn recurring commissions on every deal that closes. Zero investment. High returns.
-                        </p>
-                        <div className="flex flex-wrap gap-4 justify-center">
-                            <Link href="/affiliate/register" className="btn-glow !py-4 !px-8 text-base">
-                                Become an Affiliate <ArrowRight size={18} />
-                            </Link>
-                            <Link href="/contact" className="btn-outline !py-4 !px-8 text-base">
-                                Get Free Proposal
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <Footer />
-
-            {/* ── OFFER POPUP ── */}
-            {showOfferPopup && offer && (
-                <div className="modal-overlay" onClick={closeOffer}>
-                    <motion.div
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        className="modal-box max-w-md text-center"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <div className="text-5xl mb-4">🎉</div>
-                        <span className="badge badge-green mb-3">Limited Time Offer</span>
-                        <h3 className="font-syne font-black text-2xl text-white mb-3">{offer.title}</h3>
-                        <p className="text-slate-300 mb-4">{offer.description}</p>
-                        <div className="bg-gradient-to-r from-blue-900/50 to-cyan-900/30 rounded-xl p-4 mb-6 border border-cyan-400/20">
-                            <p className="text-slate-400 text-sm mb-1">Use coupon code</p>
-                            <p className="font-syne font-black text-3xl gradient-text tracking-widest">{offer.couponCode}</p>
-                            <p className="text-slate-400 text-xs mt-1">Valid till {new Date(offer.endDate).toLocaleDateString('en-IN')}</p>
-                        </div>
-                        <Link href="/contact" onClick={closeOffer} className="btn-glow w-full justify-center !py-3.5">
-                            Claim Offer Now <ArrowRight size={16} />
-                        </Link>
-                        <button onClick={closeOffer} className="mt-4 text-slate-500 text-sm hover:text-slate-300 transition-colors">
-                            No thanks, I&apos;ll pay full price
-                        </button>
-                    </motion.div>
-                </div>
-            )}
-        </>
+  // Animate on scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) =>
+          e.target.classList.toggle("visible", e.isIntersecting),
+        ),
+      { threshold: 0.1 },
     );
+    document
+      .querySelectorAll(".animate-fade-up")
+      .forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  // Fetch Dynamic Content
+  useEffect(() => {
+    fetch("/api/content")
+      .then((res) => res.json())
+      .then((data: ContentItem[]) => {
+        setContent({
+          client_logo: data.filter((d) => d.type === "client_logo"),
+          achievement: data.filter((d) => d.type === "achievement"),
+          news_link: data.filter((d) => d.type === "news_link"),
+          faq: data.filter((d) => d.type === "faq"),
+        });
+      })
+      .catch((err) => console.error("Failed to load content", err));
+  }, []);
+
+  // Offer popup
+  useEffect(() => {
+    const offers = getAll<Offer>(KEYS.OFFERS);
+    const now = new Date();
+    const active = offers.find(
+      (o) =>
+        o.isActive &&
+        o.pages.includes("/") &&
+        new Date(o.startDate) <= now &&
+        new Date(o.endDate) >= now,
+    );
+    if (active) {
+      setOffer(active);
+      const dismissed = sessionStorage.getItem(
+        "sh_offer_dismissed_" + active.id,
+      );
+      if (!dismissed) {
+        setTimeout(() => setShowOfferPopup(true), 3000);
+      }
+    }
+  }, []);
+
+  const closeOffer = () => {
+    if (offer) sessionStorage.setItem("sh_offer_dismissed_" + offer.id, "1");
+    setShowOfferPopup(false);
+  };
+
+  return (
+    <>
+      <Head>
+        <title>
+          ScalerHouse – Engineering Predictable Growth for Ambitious Brands
+        </title>
+        <meta
+          name="description"
+          content="ScalerHouse is a performance-driven digital marketing agency. SEO, Ads, Social Media, CRO. Scale Faster. Smarter. Stronger."
+        />
+      </Head>
+
+      <Navbar />
+      <WhatsAppFAB />
+
+      {/* ── HERO ── */}
+      <section className="hero-bg grid-bg min-h-screen flex items-center relative pt-20">
+        <div className="orb orb-1" />
+        <div className="orb orb-2" />
+        <div className="max-w-7xl mx-auto px-6 py-24 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-400/30 bg-cyan-400/5 text-cyan-400 text-sm font-medium mb-6"
+              >
+                <Zap size={14} className="animate-pulse" />
+                Growth Is Not Luck. It&apos;s Strategy.
+              </motion.div>
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.1 }}
+                className="font-syne font-bold text-4xl lg:text-6xl text-white leading-tight mb-6"
+              >
+                Engineering <span className="gradient-text">Predictable</span>{" "}
+                Growth.
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-slate-300 text-lg leading-relaxed mb-8 max-w-xl"
+              >
+                We don&apos;t run campaigns. We build growth systems.
+                ScalerHouse delivers measurable, predictable digital growth for
+                ambitious brands across SEO, ads, social media, and beyond.
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="flex flex-wrap gap-4"
+              >
+                <Link
+                  href="/contact"
+                  className="btn-glow text-base !py-4 !px-8"
+                >
+                  Get Free Proposal <ArrowRight size={18} />
+                </Link>
+                <Link
+                  href="/case-studies"
+                  className="btn-outline text-base !py-4 !px-8"
+                >
+                  <Play size={16} /> See Results
+                </Link>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="flex items-center gap-4 mt-10"
+              >
+                <div className="flex -space-x-3">
+                  {["RK", "SG", "VS", "AK", "PM"].map((i) => (
+                    <div
+                      key={i}
+                      className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 border-2 border-[#0f172a] flex items-center justify-center text-xs font-bold text-white"
+                    >
+                      {i}
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <div className="flex text-yellow-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={14} fill="currentColor" />
+                    ))}
+                  </div>
+                  <p className="text-slate-400 text-sm">
+                    Trusted by 150+ brands
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Featured In Logos (News) */}
+              {content.news_link.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.6 }}
+                  className="mt-10"
+                >
+                  <p className="text-slate-500 text-xs font-semibold tracking-wider uppercase mb-3">
+                    Featured In
+                  </p>
+                  <div className="flex gap-6 items-center flex-wrap opacity-50 grayscale hover:grayscale-0 transition-all hover:opacity-100 duration-500">
+                    {content.news_link.map((news) =>
+                      news.linkUrl ? (
+                        <a
+                          key={news._id}
+                          href={news.linkUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          title={news.title}
+                        >
+                          <img
+                            src={news.imageUrl}
+                            alt={news.title}
+                            className="h-6 w-auto object-contain"
+                          />
+                        </a>
+                      ) : (
+                        <img
+                          key={news._id}
+                          src={news.imageUrl}
+                          alt={news.title}
+                          className="h-6 w-auto object-contain"
+                          title={news.title}
+                        />
+                      ),
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </div>
+
+            {/* Hero Right – Floating Dashboard Card */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="relative hidden lg:block"
+            >
+              <div className="glass-card p-6 animate-float">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <p className="text-slate-400 text-xs">
+                      Client Growth Dashboard
+                    </p>
+                    <p className="text-white font-semibold">
+                      Q1 2026 Performance
+                    </p>
+                  </div>
+                  <span className="badge-green badge">Live</span>
+                </div>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  {[
+                    {
+                      label: "Organic Traffic",
+                      val: "+340%",
+                      color: "text-green-400",
+                    },
+                    { label: "ROAS", val: "8.2x", color: "text-cyan-400" },
+                    {
+                      label: "Leads Generated",
+                      val: "2,847",
+                      color: "text-blue-400",
+                    },
+                    {
+                      label: "Revenue Growth",
+                      val: "+₹42L",
+                      color: "text-yellow-400",
+                    },
+                  ].map((m) => (
+                    <div key={m.label} className="bg-white/5 rounded-xl p-3">
+                      <p className={`font-bold text-xl ${m.color}`}>{m.val}</p>
+                      <p className="text-slate-400 text-xs mt-1">{m.label}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="space-y-2">
+                  {[
+                    { label: "SEO Progress", val: 87 },
+                    { label: "Ads Performance", val: 94 },
+                    { label: "Social Reach", val: 72 },
+                  ].map((p) => (
+                    <div key={p.label}>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="text-slate-400">{p.label}</span>
+                        <span className="text-slate-300">{p.val}%</span>
+                      </div>
+                      <div className="progress-bar">
+                        <div
+                          className="progress-fill"
+                          style={{ width: `${p.val}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {/* Floating bubbles */}
+              <div
+                className="absolute -top-4 -right-4 glass-card px-4 py-3 text-sm animate-float"
+                style={{ animationDelay: "-2s" }}
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                  <span className="text-green-400 font-medium">
+                    New Lead: ₹80K/mo
+                  </span>
+                </div>
+              </div>
+              <div
+                className="absolute -bottom-6 -left-4 glass-card px-4 py-3 animate-float"
+                style={{ animationDelay: "-4s" }}
+              >
+                <div className="flex items-center gap-2">
+                  <Award size={16} className="text-yellow-400" />
+                  <span className="text-white text-sm font-medium">
+                    Deal Closed 🎉
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── STATS ── */}
+      <section className="py-16 border-y border-white/5 bg-[#080f1e]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div
+            ref={clients100.ref}
+            className="grid grid-cols-2 lg:grid-cols-4 gap-6"
+          >
+            {[
+              {
+                value: clients100.count,
+                suffix: "+",
+                label: "Brands Scaled",
+                icon: Users,
+              },
+              {
+                value: revenue500.count,
+                suffix: "Cr+",
+                label: "Revenue Generated",
+                icon: TrendingUp,
+              },
+              {
+                value: roas8.count,
+                suffix: ".2x",
+                label: "Average ROAS",
+                icon: BarChart2,
+              },
+              {
+                value: happy99.count,
+                suffix: "%",
+                label: "Client Retention",
+                icon: Star,
+              },
+            ].map((stat) => (
+              <div key={stat.label} className="stat-card text-center">
+                <stat.icon size={24} className="text-cyan-400 mx-auto mb-3" />
+                <div className="font-syne font-black text-4xl text-white">
+                  {stat.value}
+                  {stat.suffix}
+                </div>
+                <div className="text-slate-400 text-sm mt-1">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── OUR CLIENTS ── */}
+      {content.client_logo.length > 0 && (
+        <section className="py-12 bg-[#0a1222] border-b border-white/5 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 mb-8 text-center">
+            <p className="text-slate-500 text-sm font-semibold tracking-wider uppercase">Trusted by Industry Leaders</p>
+          </div>
+          {/* Using flex wrap for simplicity, can be animated via CSS later */}
+          <div className="max-w-7xl mx-auto px-6 flex justify-center gap-8 md:gap-16 items-center flex-wrap">
+            {content.client_logo.map((logo, i) => (
+              <div key={`${logo._id}-${i}`} className="w-24 md:w-32 h-12 md:h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                <img src={logo.imageUrl} alt={logo.title} className="max-w-full max-h-full object-contain" title={logo.title} />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ── SERVICES ── */}
+      <section className="py-24 bg-[#0a1222]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16 animate-fade-up">
+            <span className="badge badge-blue mb-4">What We Do</span>
+            <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
+              Full-Stack <span className="gradient-text">Growth Services</span>
+            </h2>
+            <p className="text-slate-400 max-w-xl mx-auto">
+              Every service we offer is tied to measurable outcomes. No vanity
+              metrics. Just growth.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((svc, i) => (
+              <motion.div
+                key={svc.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className={`glass-card-hover p-6 bg-gradient-to-br ${svc.color} border ${svc.border}`}
+              >
+                <div
+                  className={`w-12 h-12 rounded-xl bg-gradient-to-br ${svc.color} border ${svc.border} flex items-center justify-center mb-4`}
+                >
+                  <svc.icon size={22} className="text-cyan-400" />
+                </div>
+                <h3 className="font-semibold text-white text-lg mb-2">
+                  {svc.title}
+                </h3>
+                <p className="text-slate-400 text-sm leading-relaxed">
+                  {svc.desc}
+                </p>
+                <Link
+                  href="/services"
+                  className="inline-flex items-center gap-1 text-cyan-400 text-sm mt-4 hover:gap-2 transition-all"
+                >
+                  Learn more <ArrowRight size={14} />
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CASE STUDIES ── */}
+      <section className="py-24 bg-[#080f1e]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16 animate-fade-up">
+            <span className="badge badge-cyan mb-4">Proof of Work</span>
+            <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
+              Real Results. <span className="gradient-text">Real Brands.</span>
+            </h2>
+          </div>
+          <div className="relative">
+            <div
+              className={`rounded-2xl overflow-hidden bg-gradient-to-br ${caseStudies[activeCase].bg} border border-white/10 p-8 lg:p-12 min-h-64`}
+            >
+              <div className="grid lg:grid-cols-2 gap-8 items-center">
+                <div>
+                  <span className="badge badge-blue mb-4">
+                    {caseStudies[activeCase].category}
+                  </span>
+                  <h3 className="font-syne font-bold text-3xl text-white mb-3">
+                    {caseStudies[activeCase].brand}
+                  </h3>
+                  <p className="text-slate-300 text-lg">
+                    {caseStudies[activeCase].result}
+                  </p>
+                  <Link
+                    href="/case-studies"
+                    className="btn-glow mt-6 !py-3 !px-6 !text-sm"
+                  >
+                    View Full Case Study <ArrowRight size={15} />
+                  </Link>
+                </div>
+                <div className="text-center lg:text-right">
+                  <div className="font-syne font-black text-8xl gradient-text">
+                    {caseStudies[activeCase].stat}
+                  </div>
+                  <div className="text-slate-400 text-lg mt-2">
+                    {caseStudies[activeCase].metric}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-center gap-3 mt-6">
+              <button
+                onClick={() =>
+                  setActiveCase(
+                    (p) => (p - 1 + caseStudies.length) % caseStudies.length,
+                  )
+                }
+                className="w-10 h-10 rounded-full glass-card flex items-center justify-center text-slate-300 hover:text-white hover:border-cyan-400/30 transition-all"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              {caseStudies.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveCase(i)}
+                  className={`w-2.5 h-2.5 rounded-full transition-all ${i === activeCase ? "bg-cyan-400 w-8" : "bg-slate-600"}`}
+                />
+              ))}
+              <button
+                onClick={() =>
+                  setActiveCase((p) => (p + 1) % caseStudies.length)
+                }
+                className="w-10 h-10 rounded-full glass-card flex items-center justify-center text-slate-300 hover:text-white hover:border-cyan-400/30 transition-all"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── ACHIEVEMENTS ── */}
+      {content.achievement.length > 0 && (
+        <section className="py-24 bg-[#0a1222] border-t border-white/5">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-16 animate-fade-up">
+              <span className="badge badge-yellow mb-4">Recognitions</span>
+              <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
+                Awards & <span className="gradient-text">Certifications</span>
+              </h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              {content.achievement.map((ach, i) => (
+                <motion.div
+                  key={ach._id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  className="glass-card p-6 text-center border border-white/10"
+                >
+                  <div className="h-20 flex items-center justify-center mb-6">
+                    <img src={ach.imageUrl} alt={ach.title} className="max-h-full object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" />
+                  </div>
+                  <h3 className="font-syne font-bold text-lg text-white mb-2">{ach.title}</h3>
+                  {ach.description && <p className="text-slate-400 text-sm leading-relaxed">{ach.description}</p>}
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── WHY SCALERHOUSE ── */}
+      <section className="py-24 bg-[#0a1222]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="animate-fade-up">
+              <span className="badge badge-purple mb-4">Why ScalerHouse</span>
+              <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-6">
+                We Build <span className="gradient-text">Growth Engines,</span>
+                <br />
+                Not Just Campaigns
+              </h2>
+              <p className="text-slate-400 mb-8 leading-relaxed">
+                Most agencies run ads and hope for the best. We engineer
+                end-to-end growth systems — from strategy to execution to
+                reporting — all tied to your revenue goals.
+              </p>
+              <div className="space-y-4">
+                {[
+                  "Dedicated growth strategist for every client",
+                  "Weekly reporting & monthly strategy sessions",
+                  "Zero lock-in. Cancel anytime with 30-day notice",
+                  "In-house team — no outsourcing, ever",
+                  "KPI-driven retainers with guaranteed benchmarks",
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-3">
+                    <CheckCircle
+                      size={18}
+                      className="text-cyan-400 shrink-0 mt-0.5"
+                    />
+                    <span className="text-slate-300 text-sm">{item}</span>
+                  </div>
+                ))}
+              </div>
+              <Link href="/about" className="btn-glow mt-8">
+                About ScalerHouse <ArrowRight size={16} />
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                {
+                  number: "150+",
+                  label: "Brands Scaled",
+                  desc: "Across 15+ industries",
+                },
+                {
+                  number: "₹500Cr+",
+                  label: "Revenue Driven",
+                  desc: "For our clients",
+                },
+                {
+                  number: "45 Days",
+                  label: "First Results",
+                  desc: "Average time to see growth",
+                },
+                {
+                  number: "24/7",
+                  label: "Support",
+                  desc: "Always available via portal",
+                },
+              ].map((item) => (
+                <motion.div
+                  key={item.label}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  viewport={{ once: true }}
+                  className="glass-card p-5"
+                >
+                  <div className="font-syne font-black text-3xl gradient-text">
+                    {item.number}
+                  </div>
+                  <div className="font-semibold text-white mt-1">
+                    {item.label}
+                  </div>
+                  <div className="text-slate-500 text-xs mt-1">{item.desc}</div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQs ── */}
+      {content.faq.length > 0 && (
+        <section className="py-24 bg-[#080f1e] border-t border-white/5">
+          <div className="max-w-4xl mx-auto px-6">
+            <div className="text-center mb-16 animate-fade-up">
+              <span className="badge badge-purple mb-4">Common Questions</span>
+              <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
+                Why <span className="gradient-text">Choose Us?</span>
+              </h2>
+            </div>
+            <div className="space-y-4">
+              {content.faq.map((faq, i) => (
+                <details key={faq._id} className="glass-card p-6 group cursor-pointer marker:content-['']">
+                  <summary className="font-syne font-bold text-lg text-white flex justify-between items-center outline-none select-none">
+                    {faq.title}
+                    <span className="text-cyan-400 group-open:rotate-45 transition-transform text-2xl leading-none">+</span>
+                  </summary>
+                  <p className="text-slate-400 mt-4 leading-relaxed pr-8">{faq.description}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── TESTIMONIALS ── */}
+      <section className="py-24 bg-[#080f1e]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16 animate-fade-up">
+            <span className="badge badge-yellow mb-4">Client Love</span>
+            <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
+              What Our <span className="gradient-text">Clients Say</span>
+            </h2>
+          </div>
+          <div className="max-w-3xl mx-auto">
+            <motion.div
+              key={activeTestimonial}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="glass-card p-8 text-center"
+            >
+              <div className="flex justify-center text-yellow-400 mb-6">
+                {[...Array(testimonials[activeTestimonial].rating)].map(
+                  (_, i) => (
+                    <Star key={i} size={20} fill="currentColor" />
+                  ),
+                )}
+              </div>
+              <p className="text-slate-200 text-lg leading-relaxed mb-8 italic">
+                &ldquo;{testimonials[activeTestimonial].text}&rdquo;
+              </p>
+              <div className="flex items-center justify-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center font-bold text-white">
+                  {testimonials[activeTestimonial].avatar}
+                </div>
+                <div className="text-left">
+                  <div className="font-semibold text-white">
+                    {testimonials[activeTestimonial].name}
+                  </div>
+                  <div className="text-slate-400 text-sm">
+                    {testimonials[activeTestimonial].company}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+            <div className="flex justify-center gap-2 mt-6">
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveTestimonial(i)}
+                  className={`w-2.5 h-2.5 rounded-full transition-all ${i === activeTestimonial ? "bg-cyan-400 w-8" : "bg-slate-600"}`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── AFFILIATE CTA ── */}
+      <section className="py-16 bg-[#0a1222]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="rounded-2xl bg-gradient-to-r from-blue-900/60 via-[#0f172a] to-cyan-900/30 border border-white/10 p-10 lg:p-14 text-center">
+            <span className="badge badge-green mb-4">Affiliate Program</span>
+            <h2 className="font-syne font-black text-4xl text-white mb-4">
+              Earn Up To <span className="gradient-text">15% Commission</span>{" "}
+              Per Deal
+            </h2>
+            <p className="text-slate-400 mb-8 max-w-xl mx-auto">
+              Refer clients to ScalerHouse and earn recurring commissions on
+              every deal that closes. Zero investment. High returns.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link
+                href="/affiliate/register"
+                className="btn-glow !py-4 !px-8 text-base"
+              >
+                Become an Affiliate <ArrowRight size={18} />
+              </Link>
+              <Link
+                href="/contact"
+                className="btn-outline !py-4 !px-8 text-base"
+              >
+                Get Free Proposal
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+
+      {/* ── OFFER POPUP ── */}
+      {showOfferPopup && offer && (
+        <div className="modal-overlay" onClick={closeOffer}>
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="modal-box max-w-md text-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-5xl mb-4">🎉</div>
+            <span className="badge badge-green mb-3">Limited Time Offer</span>
+            <h3 className="font-syne font-black text-2xl text-white mb-3">
+              {offer.title}
+            </h3>
+            <p className="text-slate-300 mb-4">{offer.description}</p>
+            <div className="bg-gradient-to-r from-blue-900/50 to-cyan-900/30 rounded-xl p-4 mb-6 border border-cyan-400/20">
+              <p className="text-slate-400 text-sm mb-1">Use coupon code</p>
+              <p className="font-syne font-black text-3xl gradient-text tracking-widest">
+                {offer.couponCode}
+              </p>
+              <p className="text-slate-400 text-xs mt-1">
+                Valid till {new Date(offer.endDate).toLocaleDateString("en-IN")}
+              </p>
+            </div>
+            <Link
+              href="/contact"
+              onClick={closeOffer}
+              className="btn-glow w-full justify-center !py-3.5"
+            >
+              Claim Offer Now <ArrowRight size={16} />
+            </Link>
+            <button
+              onClick={closeOffer}
+              className="mt-4 text-slate-500 text-sm hover:text-slate-300 transition-colors"
+            >
+              No thanks, I&apos;ll pay full price
+            </button>
+          </motion.div>
+        </div>
+      )}
+    </>
+  );
 }

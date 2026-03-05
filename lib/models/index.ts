@@ -282,6 +282,19 @@ const OnboardingTokenSchema = new Schema({
     createdAt: { type: Date, default: Date.now },
 });
 
+// ─── ContentItem (Dynamic Homepage/Global Content) ──────────────────────────
+const ContentItemSchema = new Schema({
+    _id: String,
+    type: { type: String, required: true, enum: ['client_logo', 'achievement', 'news_link', 'faq'] },
+    title: { type: String, required: true },
+    imageUrl: String,
+    linkUrl: String,
+    description: String,
+    isActive: { type: Boolean, default: true },
+    order: { type: Number, default: 0 },
+    createdAt: { type: String, default: () => new Date().toISOString() },
+}, { _id: false });
+
 // ─── Service ────────────────────────────────────────────────────────────────
 const ServiceSchema = new Schema({
     _id: String,
@@ -337,6 +350,7 @@ export const TicketModel = models.Ticket || model('Ticket', TicketSchema);
 export const CareerModel = models.Career || model('Career', CareerSchema);
 export const ServiceModel = models.Service || model('Service', ServiceSchema);
 export const ServicePackageModel = models.ServicePackage || model('ServicePackage', ServicePackageSchema);
+export const ContentItemModel = models.ContentItem || model('ContentItem', ContentItemSchema);
 export const ActivityLogModel = models.ActivityLog || model('ActivityLog', ActivityLogSchema);
 export const ContactModel = models.Contact || model('Contact', ContactSubmissionSchema);
 export const ApplicationModel = models.Application || model('Application', ApplicationSchema);
