@@ -2,23 +2,30 @@
 // Premium branded "You're Hired!" email with credentials
 
 export function hireWelcomeEmail({
-    name,
-    jobTitle,
-    userId,
-    tempPassword,
-    joiningDate,
+  name,
+  jobTitle,
+  userId,
+  tempPassword,
+  joiningDate,
 }: {
-    name: string;
-    jobTitle: string;
-    userId: string;
-    tempPassword: string;
-    joiningDate?: string;
+  name: string;
+  jobTitle: string;
+  userId: string;
+  tempPassword: string;
+  joiningDate?: string;
 }): string {
-    const firstName = name.split(' ')[0];
-    const loginUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://scalerhouse.vercel.app'}/login`;
-    const onboardingUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://scalerhouse.vercel.app'}/employee/onboarding`;
+  const firstName = name.split(' ')[0];
+  const getAppUrl = () => {
+    if (process.env.NEXT_PUBLIC_APP_URL) return process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, '');
+    if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+    if (process.env.NEXT_PUBLIC_VERCEL_URL) return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
+    return 'https://scalerhouse.vercel.app';
+  };
+  const appUrl = getAppUrl();
+  const loginUrl = `${appUrl}/login`;
+  const onboardingUrl = `${appUrl}/employee/onboarding`;
 
-    return `
+  return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,12 +100,12 @@ export function hireWelcomeEmail({
               <!-- Onboarding Checklist -->
               <h2 style="color:#e2e8f0;font-size:15px;font-weight:700;margin:0 0 14px;text-transform:uppercase;letter-spacing:1px;">Your Onboarding Checklist</h2>
               ${[
-            ['✅', 'Login to your Employee Portal using the credentials above'],
-            ['📋', 'Complete your digital onboarding form (personal, bank & tax details)'],
-            ['📎', 'Upload required documents (Aadhaar, PAN, Degree certificate)'],
-            ['🤝', 'Connect with your reporting manager and team'],
-            ['🎯', 'Review your first-week goals and responsibilities'],
-        ].map(([icon, text]) => `
+      ['✅', 'Login to your Employee Portal using the credentials above'],
+      ['📋', 'Complete your digital onboarding form (personal, bank & tax details)'],
+      ['📎', 'Upload required documents (Aadhaar, PAN, Degree certificate)'],
+      ['🤝', 'Connect with your reporting manager and team'],
+      ['🎯', 'Review your first-week goals and responsibilities'],
+    ].map(([icon, text]) => `
               <div style="display:flex;align-items:flex-start;margin-bottom:12px;">
                 <span style="font-size:16px;margin-right:12px;">${icon}</span>
                 <span style="color:#94a3b8;font-size:14px;line-height:1.6;">${text}</span>

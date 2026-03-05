@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const { applicationId } = req.body;
         if (!applicationId) return res.status(400).json({ error: 'applicationId is required' });
 
-        const application = await ApplicationModel.findById(applicationId).lean() as any;
+        const application = await (ApplicationModel as any).findById(applicationId).lean();
         if (!application) return res.status(404).json({ error: 'Application not found' });
 
         // Generate a unique token
@@ -37,7 +37,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         // Build the URL
-        const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+        const getAppUrl = () => {
+            if (process.env.NEXT_PUBLIC_APP_URL) return process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, '');
+            if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+            if (process.env.NEXT_PUBLIC_VERCEL_URL) return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
+            return 'http://localhost:3000';
+        };
+        const appUrl = getAppUrl();
         const onboardingUrl = `${appUrl}/onboarding/${token}`;
 
         // Send email to candidate

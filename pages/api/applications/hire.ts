@@ -62,17 +62,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         // Send hire welcome email
-        sendMail({
-            to: application.email,
-            subject: `🎉 Congratulations! You're Hired at ScalerHouse – ${application.jobTitle}`,
-            html: hireWelcomeEmail({
-                name: application.name,
-                jobTitle: application.jobTitle,
-                userId,
-                tempPassword,
-                joiningDate,
-            }),
-        }).catch((e) => console.error('Hire email failed:', e));
+        try {
+            await sendMail({
+                to: application.email,
+                subject: `🎉 Congratulations! You're Hired at ScalerHouse – ${application.jobTitle}`,
+                html: hireWelcomeEmail({
+                    name: application.name,
+                    jobTitle: application.jobTitle,
+                    userId,
+                    tempPassword,
+                    joiningDate,
+                }),
+            });
+        } catch (e) {
+            console.error('Hire email failed:', e);
+        }
 
         return res.status(200).json({
             success: true,

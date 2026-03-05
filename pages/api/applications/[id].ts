@@ -28,26 +28,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             // 🔔 Send status-change email if the status is meaningful and has changed
             if (status && (EMAIL_STATUSES as readonly string[]).includes(status)) {
-                sendMail({
-                    to: doc.email,
-                    subject: getEmailSubject(status as EmailableStatus, doc.jobTitle),
-                    html: statusUpdateEmail({
-                        name: doc.name,
-                        jobTitle: doc.jobTitle,
-                        status: status as EmailableStatus,
-                        interviewDate,
-                        interviewTime,
-                        interviewLink,
-                        adminNotes,
-                    }),
-                }).catch((e) => console.error(`Status email failed (${status}):`, e));
+                try {
+                    await sendMail({
+                        to: doc.email,
+                        subject: getEmailSubject(status as EmailableStatus, doc.jobTitle),
+                        html: statusUpdateEmail({
+                            name: doc.name,
+                            jobTitle: doc.jobTitle,
+                            status: status as EmailableStatus,
+                            interviewDate,
+                            interviewTime,
+                            interviewLink,
+                            adminNotes,
+                        }),
+                    });
+                } catch (e) {
+                    console.error(`Status email failed (${status}):`, e);
+                }
             }
 
             return res.status(200).json(doc);
         }
 
         if (req.method === 'DELETE') {
-            await ApplicationModel.findByIdAndDelete(id);
+            await (ApplicationModel as any).findByIdAndDelete(id);
             return res.status(200).json({ success: true });
         }
 

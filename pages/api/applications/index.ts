@@ -117,15 +117,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 });
 
                 // Send branded confirmation email (non-blocking)
-                sendMail({
-                    to: email,
-                    subject: `✅ Application Received – ${career.title} | ScalerHouse`,
-                    html: applicationConfirmationEmail({
-                        name: get('name'),
-                        jobTitle: career.title,
-                        department: career.department,
-                    }),
-                }).catch((e) => console.error('Email send failed:', e));
+                try {
+                    await sendMail({
+                        to: email,
+                        subject: `✅ Application Received – ${career.title} | ScalerHouse`,
+                        html: applicationConfirmationEmail({
+                            name: get('name'),
+                            jobTitle: career.title,
+                            department: career.department,
+                        }),
+                    });
+                } catch (e) {
+                    console.error('Email send failed:', e);
+                }
 
                 return res.status(201).json({ success: true, applicationId: application._id });
             } catch (e: any) {

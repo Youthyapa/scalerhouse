@@ -113,11 +113,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             await OnboardingTokenModel.findOneAndUpdate({ token }, { used: true });
 
             // Send confirmation email to candidate
-            sendMail({
-                to: email,
-                subject: `✅ Documents Received – ScalerHouse`,
-                html: docsConfirmationEmail({ name, jobTitle }),
-            }).catch((e) => console.error('Doc confirmation email failed:', e));
+            try {
+                await sendMail({
+                    to: email,
+                    subject: `✅ Documents Received – ScalerHouse`,
+                    html: docsConfirmationEmail({ name, jobTitle }),
+                });
+            } catch (e) {
+                console.error('Doc confirmation email failed:', e);
+            }
 
             return res.status(200).json({ success: true, message: 'Documents submitted successfully!' });
         } catch (e: any) {
