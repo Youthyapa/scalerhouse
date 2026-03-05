@@ -660,8 +660,11 @@ export default function Home() {
             <div className="text-center mb-16 animate-fade-up">
               <span className="badge badge-yellow mb-4">Recognitions</span>
               <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
-                Awards & <span className="gradient-text">Certifications</span>
+                Our <span className="gradient-text">Achievements</span>
               </h2>
+              <p className="text-slate-400 max-w-xl mx-auto">
+                Recognized globally for delivering outstanding digital growth and performance marketing results.
+              </p>
             </div>
             <div className="grid md:grid-cols-3 gap-6">
               {content.achievement.map((ach, i) => (
@@ -671,13 +674,15 @@ export default function Home() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="glass-card p-6 text-center border border-white/10"
+                  className="glass-card flex items-center gap-6 p-6 border border-white/10 hover:border-cyan-400/30 transition-all group"
                 >
-                  <div className="h-20 flex items-center justify-center mb-6">
-                    <img src={ach.imageUrl} alt={ach.title} className="max-h-full object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" />
+                  <div className="w-24 h-24 shrink-0 flex items-center justify-center p-2 bg-white/5 rounded-xl group-hover:bg-white/10 transition-colors">
+                    <img src={ach.imageUrl} alt={ach.title} className="max-h-full max-w-full object-contain filter drop-shadow-md" />
                   </div>
-                  <h3 className="font-syne font-bold text-lg text-white mb-2">{ach.title}</h3>
-                  {ach.description && <p className="text-slate-400 text-sm leading-relaxed">{ach.description}</p>}
+                  <div>
+                    <h3 className="font-syne font-bold text-lg text-white mb-1.5">{ach.title}</h3>
+                    {ach.description && <p className="text-slate-400 text-sm leading-relaxed line-clamp-3">{ach.description}</p>}
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -766,24 +771,126 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── WHY SCALERHOUSE (Animated Features) ── */}
+      <section className="py-24 bg-[#050b14] border-t border-white/5 relative overflow-hidden">
+        {/* Abstract Background Elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-blue-600/10 blur-[120px]" />
+          <div className="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-cyan-600/10 blur-[120px]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="text-center mb-20 animate-fade-up">
+            <span className="badge badge-purple mb-4">Why ScalerHouse</span>
+            <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-6">
+              Why Brands Choose <span className="gradient-text">Us</span>
+            </h2>
+            <p className="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
+              We don&apos;t just run campaigns. We build predictable, scalable, and data-driven growth engines for ambitious brands.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            {/* Left side metrics */}
+            <div className="grid grid-cols-2 gap-4 lg:gap-6 order-2 lg:order-1">
+              {[
+                { number: "150+", label: "Brands Scaled", desc: "Across 15+ industries", delay: 0.1 },
+                { number: "₹500Cr+", label: "Revenue Driven", desc: "For our clients", delay: 0.2 },
+                { number: "45 Days", label: "First Results", desc: "Average time to ROI", delay: 0.3 },
+                { number: "100%", label: "In-House Team", desc: "No outsourcing, ever", delay: 0.4 },
+              ].map((item, idx) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: item.delay }}
+                  className={`glass-card p-6 lg:p-8 ${idx === 1 || idx === 3 ? 'lg:translate-y-12' : ''} border border-white/5 hover:border-cyan-400/20 transition-all`}
+                >
+                  <div className="font-syne font-black text-4xl lg:text-5xl gradient-text mb-2">
+                    {item.number}
+                  </div>
+                  <div className="font-bold text-white text-lg mb-1">
+                    {item.label}
+                  </div>
+                  <div className="text-slate-500 text-sm">{item.desc}</div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Right side features */}
+            <div className="order-1 lg:order-2">
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="space-y-8"
+              >
+                {[
+                  {
+                    title: "Data-Driven Decisions",
+                    desc: "No guesswork. Every strategy is backed by deep analytics, market research, and continuous A/B testing to ensure maximum ROI.",
+                    icon: <BarChart2 size={24} className="text-blue-400" />
+                  },
+                  {
+                    title: "Dedicated Growth Experts",
+                    desc: "You get a dedicated pod of specialists—strategists, media buyers, and copywriters—working relentlessly on your account.",
+                    icon: <Users size={24} className="text-purple-400" />
+                  },
+                  {
+                    title: "Transparent Reporting",
+                    desc: "Real-time dashboards and weekly strategy calls. You always know exactly where your budget is going and what it's generating.",
+                    icon: <TrendingUp size={24} className="text-emerald-400" />
+                  }
+                ].map((feature, i) => (
+                  <div key={i} className="flex gap-5 group">
+                    <div className="w-14 h-14 shrink-0 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 group-hover:scale-110 transition-all duration-300">
+                      {feature.icon}
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-2 font-syne group-hover:text-cyan-400 transition-colors">
+                        {feature.title}
+                      </h3>
+                      <p className="text-slate-400 leading-relaxed text-sm lg:text-base">
+                        {feature.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+
+                <div className="pt-6">
+                  <Link href="/about" className="btn-glow inline-flex items-center gap-2">
+                    Learn More About Us <ArrowRight size={18} />
+                  </Link>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── FAQs ── */}
       {content.faq.length > 0 && (
         <section className="py-24 bg-[#080f1e] border-t border-white/5">
           <div className="max-w-4xl mx-auto px-6">
             <div className="text-center mb-16 animate-fade-up">
-              <span className="badge badge-purple mb-4">Common Questions</span>
+              <span className="badge badge-purple mb-4">FAQ</span>
               <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
-                Why <span className="gradient-text">Choose Us?</span>
+                Frequently Asked <span className="gradient-text">Questions</span>
               </h2>
+              <p className="text-slate-400 max-w-2xl mx-auto">
+                Everything you need to know about partnering with ScalerHouse. Can&apos;t find an answer? Feel free to reach out to us.
+              </p>
             </div>
             <div className="space-y-4">
               {content.faq.map((faq, i) => (
-                <details key={faq._id} className="glass-card p-6 group cursor-pointer marker:content-['']">
+                <details key={faq._id} className="glass-card p-6 group cursor-pointer marker:content-[''] transition-all hover:bg-white/5">
                   <summary className="font-syne font-bold text-lg text-white flex justify-between items-center outline-none select-none">
                     {faq.title}
-                    <span className="text-cyan-400 group-open:rotate-45 transition-transform text-2xl leading-none">+</span>
+                    <span className="text-cyan-400 group-open:rotate-45 transition-transform text-2xl leading-none flex items-center justify-center w-8 h-8 rounded-full bg-cyan-400/10 shrink-0 ml-4">+</span>
                   </summary>
-                  <p className="text-slate-400 mt-4 leading-relaxed pr-8">{faq.description}</p>
+                  <p className="text-slate-400 mt-4 leading-relaxed pr-8 border-t border-white/10 pt-4">{faq.description}</p>
                 </details>
               ))}
             </div>
