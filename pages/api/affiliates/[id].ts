@@ -20,7 +20,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse, user: AuthPayl
             return res.status(200).json(aff);
         }
 
-        if (req.method === 'PUT') {
+        if (req.method === 'PUT' || req.method === 'PATCH') {
             const { _id, passwordHash: _ph, ...updates } = req.body;
             const aff = await AffiliateModel.findByIdAndUpdate(id, updates, { new: true })
                 .select('-passwordHash')

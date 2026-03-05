@@ -91,6 +91,8 @@ const ClientSchema = new Schema({
     company: String,
     service: String,
     projectName: String,
+    budget: String,
+    specialRequirements: String,
     status: { type: String, enum: ['Active', 'On Hold', 'Completed'], default: 'Active' },
     passwordHash: String,
     startDate: String,
@@ -118,6 +120,10 @@ const AffiliateSchema = new Schema({
     phone: String,
     pan: String,
     bank: String,
+    city: String,
+    commissionRate: String,
+    notes: String,
+    extraFields: [{ label: String, value: String }],
     passwordHash: String,
     status: { type: String, enum: ['Pending', 'Approved', 'Rejected'], default: 'Pending' },
     walletBalance: { type: Number, default: 0 },
@@ -276,6 +282,18 @@ const OnboardingTokenSchema = new Schema({
     createdAt: { type: Date, default: Date.now },
 });
 
+// ─── Service ────────────────────────────────────────────────────────────────
+const ServiceSchema = new Schema({
+    _id: String,
+    slug: { type: String, required: true, unique: true },
+    title: { type: String, required: true },
+    iconEmoji: { type: String, default: '⚙️' },
+    description: String,
+    isActive: { type: Boolean, default: true },
+    order: { type: Number, default: 0 },
+    createdAt: { type: String, default: () => new Date().toISOString() },
+}, { _id: false });
+
 // ─── ServicePackage ─────────────────────────────────────────────────────────
 const ServicePackageSchema = new Schema({
     _id: String,
@@ -317,6 +335,7 @@ export const OfferModel = models.Offer || model('Offer', OfferSchema);
 export const BlogPostModel = models.BlogPost || model('BlogPost', BlogPostSchema);
 export const TicketModel = models.Ticket || model('Ticket', TicketSchema);
 export const CareerModel = models.Career || model('Career', CareerSchema);
+export const ServiceModel = models.Service || model('Service', ServiceSchema);
 export const ServicePackageModel = models.ServicePackage || model('ServicePackage', ServicePackageSchema);
 export const ActivityLogModel = models.ActivityLog || model('ActivityLog', ActivityLogSchema);
 export const ContactModel = models.Contact || model('Contact', ContactSubmissionSchema);
