@@ -32,7 +32,10 @@ export default function ServicesPage() {
     const [packages, setPackages] = useState<ServicePackage[]>([]);
 
     useEffect(() => {
-        setPackages(getAll<ServicePackage>(KEYS.SERVICE_PACKAGES));
+        fetch('/api/services/packages')
+            .then(res => res.json())
+            .then(data => setPackages(data))
+            .catch(err => console.error('Failed to load packages', err));
     }, []);
 
     const getStartingPrice = (slug: string) => {

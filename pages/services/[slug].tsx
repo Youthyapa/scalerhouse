@@ -31,8 +31,10 @@ export default function ServiceDetailPage({ slug }: Props) {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     useEffect(() => {
-        const all = getAll<ServicePackage>(KEYS.SERVICE_PACKAGES);
-        setPackages(all.filter(p => p.serviceSlug === slug));
+        fetch(`/api/services/packages?serviceSlug=${slug}`)
+            .then(res => res.json())
+            .then(data => setPackages(data))
+            .catch(err => console.error('Failed to load packages', err));
     }, [slug]);
 
     if (!service) return null;
