@@ -42,6 +42,41 @@ const DEFAULT_PACKAGES: Record<string, { name: string; price: string; priceNote:
         { name: 'Growth', price: '₹22,000', priceNote: '/month', isPopular: true, ctaLabel: 'Choose Growth', deliverables: ['6 campaigns/month', 'Advanced automation flows', 'A/B email testing', 'Subscriber list growth strategy', 'Personalized content blocks', 'Monthly strategy call'] },
         { name: 'Enterprise', price: '₹45,000', priceNote: '/month', isPopular: false, ctaLabel: 'Contact Sales', deliverables: ['Unlimited email campaigns', 'Complex lifecycle automations', 'Advanced segmentation & personalization', 'Deliverability optimization', 'SMS integration', 'Dedicated email strategist', 'Weekly reports'] },
     ],
+    'google-my-business': [
+        { name: 'Starter', price: '₹12,000', priceNote: '/month', isPopular: false, ctaLabel: 'Get Started', deliverables: ['GMB Profile Setup & Verification', 'Basic Profile Optimization', '4 Local Posts/month', 'Basic Review Management', 'Monthly Performance Report'] },
+        { name: 'Growth', price: '₹25,000', priceNote: '/month', isPopular: true, ctaLabel: 'Choose Growth', deliverables: ['Everything in Starter', 'Advanced Profile SEO Optimization', '10 Local Posts/month', 'Q&A Section Management', 'Reputation Management & Replies', 'Monthly Strategy Call'] },
+        { name: 'Enterprise', price: '₹45,000', priceNote: '/month', isPopular: false, ctaLabel: 'Contact Sales', deliverables: ['Multi-location Management', '15+ Local Posts/month', 'Local Citations Building', 'Competitor Intelligence', 'Dedicated GMB Manager', 'Bi-weekly Performance Reports'] },
+    ],
+    'app-development': [
+        { name: 'Starter', price: '₹1,50,000', priceNote: ' onwards', isPopular: false, ctaLabel: 'Get Started', deliverables: ['Native iOS or Android MVP', 'Basic UI/UX Design', '3 Core Features', 'Standard API Integrations', '1 Month Free Maintenance'] },
+        { name: 'Growth', price: '₹3,50,000', priceNote: ' onwards', isPopular: true, ctaLabel: 'Choose Growth', deliverables: ['Cross-Platform App (React Native/Flutter)', 'Custom UI/UX Design', 'Advanced Features & Animations', 'Custom API Development', 'App Store Optimization (ASO)', '3 Months Free Maintenance'] },
+        { name: 'Enterprise', price: '₹8,00,000+', priceNote: ' custom', isPopular: false, ctaLabel: 'Contact Sales', deliverables: ['Custom Native or Cross-Platform iOS & Android', 'Complex Backend Architecture', 'AI/ML or IoT Integrations', 'High Security Compliance', 'Dedicated Development Team', '12 Months Priority Support'] },
+    ],
+    'ui-ux-design': [
+        { name: 'Starter', price: '₹40,000', priceNote: ' one-time', isPopular: false, ctaLabel: 'Get Started', deliverables: ['Up to 5 Pages/Screens', 'Wireframing & Prototyping', 'Basic Design System', '1 Revision Round', 'Figma Source File Delivery'] },
+        { name: 'Growth', price: '₹95,000', priceNote: ' one-time', isPopular: true, ctaLabel: 'Choose Growth', deliverables: ['Up to 15 Pages/Screens', 'In-depth User Research', 'Comprehensive Design System', 'Interactive Prototypes', '3 Revision Rounds', 'Developer Handoff Support'] },
+        { name: 'Enterprise', price: '₹2,50,000+', priceNote: ' custom', isPopular: false, ctaLabel: 'Contact Sales', deliverables: ['Unlimited Pages/Screens', 'Full Product Lifecycle Design', 'Extensive Usability Testing', 'Complex Interaction Design', 'Dedicated Lead Designer', 'Ongoing Design Support (Retainer)'] },
+    ],
+    'graphic-designing': [
+        { name: 'Starter', price: '₹15,000', priceNote: '/month', isPopular: false, ctaLabel: 'Get Started', deliverables: ['10 Graphic Assets / month', 'Social Media Creatives', 'Basic Print Collaterals', '2 Revisions per Asset', 'Standard Delivery (2-3 days)'] },
+        { name: 'Growth', price: '₹35,000', priceNote: '/month', isPopular: true, ctaLabel: 'Choose Growth', deliverables: ['30 Graphic Assets / month', 'Ad Creatives & Banners', 'Presentations & Pitch Decks', 'Unlimited Revisions', 'Priority Delivery (24-48 hours)'] },
+        { name: 'Enterprise', price: '₹70,000', priceNote: '/month', isPopular: false, ctaLabel: 'Contact Sales', deliverables: ['Unlimited Graphic Assets', 'Brand Campaign Storyboarding', 'Complex Illustrations & 3D (Basic)', 'Dedicated Senior Designer', 'Same-day Delivery for urgent tasks'] },
+    ],
+    'logo-designing': [
+        { name: 'Starter', price: '₹12,000', priceNote: ' one-time', isPopular: false, ctaLabel: 'Get Started', deliverables: ['2 Unique Logo Concepts', '2 Revision Rounds', 'Primary Logo File Formats (PNG, JPG)', 'Vector File Delivery (SVG, AI)', 'Basic Typographical Font Setup'] },
+        { name: 'Growth', price: '₹28,000', priceNote: ' one-time', isPopular: true, ctaLabel: 'Choose Growth', deliverables: ['4 Unique Logo Concepts', 'Unlimited Revisions', 'Full Brand Guidelines (Basic)', 'Color Palette & Typography', 'Social Media Kit (Profile & Covers)'] },
+        { name: 'Enterprise', price: '₹60,000', priceNote: ' one-time', isPopular: false, ctaLabel: 'Contact Sales', deliverables: ['6+ Unique Logo Concepts', 'Comprehensive Brand Identity System', 'Stationery Design (Cards, Letterheads)', 'Brand Voice & Tone Guidelines', 'Dedicated Brand Director'] },
+    ],
+    'crm-development': [
+        { name: 'Starter', price: '₹75,000', priceNote: ' one-time', isPopular: false, ctaLabel: 'Get Started', deliverables: ['Custom Basic CRM Setup', 'Up to 3 User Roles', 'Lead & Contact Management', 'Basic Reporting Dashboard', 'Standard Email Integration', '1 Month Support'] },
+        { name: 'Growth', price: '₹2,00,000', priceNote: ' one-time', isPopular: true, ctaLabel: 'Choose Growth', deliverables: ['Advanced Automation & Workflows', 'Up to 10 User Roles', 'Sales Pipeline & Deal Tracking', 'Custom Analytics & Custom Reporting', 'Third-party API Integrations (Zapier, etc)', '3 Months Support'] },
+        { name: 'Enterprise', price: '₹5,00,000+', priceNote: ' custom', isPopular: false, ctaLabel: 'Contact Sales', deliverables: ['Enterprise-grade Modular CRM', 'Unlimited User Roles', 'Complex Legacy System Migration', 'AI-powered Insights & Predictions', 'Dedicated Infrastructure Setup', '12 Months Priority Support'] },
+    ],
+    'api-automations': [
+        { name: 'Starter', price: '₹25,000', priceNote: ' one-time', isPopular: false, ctaLabel: 'Get Started', deliverables: ['Up to 3 App Integrations', 'Zapier/Make Workflow Setup', 'Data Syncing Configuration', 'Basic Error Logging', '1 Month Monitoring'] },
+        { name: 'Growth', price: '₹65,000', priceNote: ' one-time', isPopular: true, ctaLabel: 'Choose Growth', deliverables: ['Up to 10 App Integrations', 'Custom Webhook Development', 'Complex Multi-step Workflows', 'Data Transformation & Processing', 'Advanced Error Handling & Retry Logic', '3 Months Monitoring & Tweaks'] },
+        { name: 'Enterprise', price: '₹1,50,000+', priceNote: ' custom', isPopular: false, ctaLabel: 'Contact Sales', deliverables: ['Unlimited Integrations & Scalability', 'Custom API Aggregation Layer', 'High Availability Architecture', 'Strict Security & Compliance Controls', 'Dedicated Automation Engineer', '12 Months Priority Retainer Maintenance'] },
+    ],
 };
 
 async function seedPackagesForService(serviceSlug: string) {

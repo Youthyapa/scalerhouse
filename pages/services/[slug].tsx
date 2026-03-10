@@ -1,20 +1,17 @@
 // pages/services/[slug].tsx
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, CheckCircle, ChevronDown, ChevronUp, Star, Building2, Briefcase } from 'lucide-react';
+import { ArrowRight, CheckCircle, ChevronDown, ChevronUp, Star, Building2, Briefcase, Lightbulb } from 'lucide-react';
 import Link from 'next/link';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
 import WhatsAppFAB from '../../components/layout/WhatsAppFAB';
 import { getServiceBySlug, ALL_SERVICES } from '../../lib/serviceData';
-import { getAll, KEYS, ServicePackage } from '../../lib/store';
+import { ServicePackage } from '../../lib/store';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 
-interface Props {
-    slug: string;
-}
+interface Props { slug: string; }
 
 export const getStaticPaths: GetStaticPaths = async () => ({
     paths: ALL_SERVICES.map(s => ({ params: { slug: s.slug } })),
@@ -41,16 +38,22 @@ export default function ServiceDetailPage({ slug }: Props) {
 
     const toggleFaq = (i: number) => setOpenFaq(prev => (prev === i ? null : i));
 
+    const hasWhyItMatters = Array.isArray((service as any).whyItMatters) && (service as any).whyItMatters.length > 0;
+    const hasDescription = typeof (service as any).description === 'string';
+
     return (
         <>
             <Head>
-                <title>{`${service.title} – ScalerHouse`}</title>
+                <title>{`${service.title} – ScalerHouse Digital Agency`}</title>
                 <meta name="description" content={service.metaDesc} />
+                <meta name="keywords" content={`${service.title}, ${service.title.toLowerCase()} services, ScalerHouse, digital agency India`} />
+                <meta property="og:title" content={`${service.title} – ScalerHouse`} />
+                <meta property="og:description" content={service.metaDesc} />
             </Head>
             <Navbar />
             <WhatsAppFAB />
 
-            {/* ── HERO ─────────────────────────────────────────── */}
+            {/* ── HERO ───────────────────────────────────────────────── */}
             <section className="hero-bg grid-bg pt-32 pb-24 relative overflow-hidden">
                 <div className="orb orb-1" />
                 <div className="orb orb-2" />
@@ -80,7 +83,63 @@ export default function ServiceDetailPage({ slug }: Props) {
                 </div>
             </section>
 
-            {/* ── HOW IT WORKS ─────────────────────────────────── */}
+            {/* ── WHAT IS THIS SERVICE ─────────────────────────────── */}
+            {hasDescription && (
+                <section className="py-24 bg-[#080f1e]">
+                    <div className="max-w-7xl mx-auto px-6">
+                        <div className="grid lg:grid-cols-2 gap-14 items-start">
+                            {/* Left: explanation text */}
+                            <motion.article
+                                initial={{ opacity: 0, x: -30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6 }}
+                            >
+                                <span className="badge badge-blue mb-4">Service Overview</span>
+                                <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-6">
+                                    What is <span className="gradient-text">{service.title}?</span>
+                                </h2>
+                                <div className="space-y-4">
+                                    {(service as any).description.split('\n').filter((p: string) => p.trim()).map((para: string, i: number) => (
+                                        <p key={i} className="text-slate-300 text-base leading-relaxed">
+                                            {para.trim()}
+                                        </p>
+                                    ))}
+                                </div>
+                            </motion.article>
+
+                            {/* Right: why it matters */}
+                            {hasWhyItMatters && (
+                                <div className="space-y-5">
+                                    {(service as any).whyItMatters.map((item: { icon: string; title: string; desc: string }, i: number) => (
+                                        <motion.div
+                                            key={i}
+                                            initial={{ opacity: 0, x: 30 }}
+                                            whileInView={{ opacity: 1, x: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{ duration: 0.5, delay: i * 0.12 }}
+                                            className="glass-card p-6 border border-white/8 flex gap-5 hover:border-cyan-400/20 transition-colors duration-300"
+                                        >
+                                            <div
+                                                className="text-3xl shrink-0 w-14 h-14 flex items-center justify-center rounded-2xl"
+                                                style={{ background: `linear-gradient(135deg, ${service.gradientFrom}22, ${service.gradientTo}11)` }}
+                                            >
+                                                {item.icon}
+                                            </div>
+                                            <div>
+                                                <h3 className="font-syne font-bold text-white text-lg mb-1">{item.title}</h3>
+                                                <p className="text-slate-400 text-sm leading-relaxed">{item.desc}</p>
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* ── HOW IT WORKS ─────────────────────────────────────── */}
             <section className="py-24 bg-[#0a1222]">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-16">
@@ -88,7 +147,7 @@ export default function ServiceDetailPage({ slug }: Props) {
                         <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
                             How <span className="gradient-text">It Works</span>
                         </h2>
-                        <p className="text-slate-400 max-w-xl mx-auto">A clear, proven process — from onboarding to measurable results.</p>
+                        <p className="text-slate-400 max-w-xl mx-auto">A clear, proven process — from onboarding to measurable results. No guesswork, no ambiguity.</p>
                     </div>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {service.howItWorks.map((step, i) => (
@@ -97,7 +156,7 @@ export default function ServiceDetailPage({ slug }: Props) {
                                 initial={{ opacity: 0, y: 24 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.45, delay: i * 0.08 }}
+                                transition={{ duration: 0.45, delay: i * 0.07 }}
                                 className="glass-card p-6 border border-white/8 relative"
                             >
                                 <div
@@ -114,7 +173,7 @@ export default function ServiceDetailPage({ slug }: Props) {
                 </div>
             </section>
 
-            {/* ── BENEFITS ─────────────────────────────────────── */}
+            {/* ── BENEFITS ─────────────────────────────────────────── */}
             <section className="py-24 bg-[#080f1e]">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-16">
@@ -125,7 +184,6 @@ export default function ServiceDetailPage({ slug }: Props) {
                         <p className="text-slate-400 max-w-xl mx-auto">Whether you're a growing startup or a large enterprise, our approach adapts to your scale and goals.</p>
                     </div>
                     <div className="grid lg:grid-cols-2 gap-8">
-                        {/* Small Business */}
                         <motion.div
                             initial={{ opacity: 0, x: -30 }}
                             whileInView={{ opacity: 1, x: 0 }}
@@ -152,7 +210,6 @@ export default function ServiceDetailPage({ slug }: Props) {
                             </div>
                         </motion.div>
 
-                        {/* Enterprise */}
                         <motion.div
                             initial={{ opacity: 0, x: 30 }}
                             whileInView={{ opacity: 1, x: 0 }}
@@ -182,7 +239,7 @@ export default function ServiceDetailPage({ slug }: Props) {
                 </div>
             </section>
 
-            {/* ── PROCESS / STRATEGY ───────────────────────────── */}
+            {/* ── OUR APPROACH ────────────────────────────────────── */}
             <section className="py-24 bg-[#0a1222]">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-16">
@@ -190,10 +247,9 @@ export default function ServiceDetailPage({ slug }: Props) {
                         <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
                             Our <span className="gradient-text">Approach</span>
                         </h2>
-                        <p className="text-slate-400 max-w-xl mx-auto">A structured, repeatable strategy that drives consistent results every engagement.</p>
+                        <p className="text-slate-400 max-w-xl mx-auto">A structured, repeatable 6-step strategy that drives consistent results — from discovery to measurable outcomes.</p>
                     </div>
                     <div className="relative">
-                        {/* Connector line */}
                         <div className="hidden lg:block absolute top-12 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent" />
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
                             {service.process.map((step, i) => (
@@ -220,7 +276,7 @@ export default function ServiceDetailPage({ slug }: Props) {
                 </div>
             </section>
 
-            {/* ── PACKAGES ─────────────────────────────────────── */}
+            {/* ── PACKAGES ─────────────────────────────────────────── */}
             <section id="packages" className="py-24 bg-[#080f1e]">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-16">
@@ -232,7 +288,10 @@ export default function ServiceDetailPage({ slug }: Props) {
                     </div>
 
                     {packages.length === 0 ? (
-                        <p className="text-center text-slate-500">Loading packages…</p>
+                        <div className="text-center py-12">
+                            <p className="text-slate-400 mb-4">Packages are customised for this service.</p>
+                            <Link href="/contact" className="btn-glow !py-3 !px-6">Request a Custom Quote <ArrowRight size={16} /></Link>
+                        </div>
                     ) : (
                         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
                             {packages.map((pkg, i) => (
@@ -283,7 +342,7 @@ export default function ServiceDetailPage({ slug }: Props) {
                 </div>
             </section>
 
-            {/* ── FAQs ─────────────────────────────────────────── */}
+            {/* ── FAQs ─────────────────────────────────────────────── */}
             <section className="py-24 bg-[#0a1222]">
                 <div className="max-w-3xl mx-auto px-6">
                     <div className="text-center mb-16">
@@ -291,6 +350,7 @@ export default function ServiceDetailPage({ slug }: Props) {
                         <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
                             Frequently Asked <span className="gradient-text">Questions</span>
                         </h2>
+                        <p className="text-slate-400 max-w-lg mx-auto">Everything you need to know before working with us. Still have questions? <Link href="/contact" className="text-cyan-400 hover:underline">Ask us directly</Link>.</p>
                     </div>
                     <div className="space-y-3">
                         {service.faqs.map((faq, i) => (
@@ -299,7 +359,7 @@ export default function ServiceDetailPage({ slug }: Props) {
                                 initial={{ opacity: 0, y: 16 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.35, delay: i * 0.05 }}
+                                transition={{ duration: 0.35, delay: i * 0.04 }}
                                 className={`glass-card border transition-all duration-300 ${openFaq === i ? 'border-cyan-400/30' : 'border-white/8'}`}
                             >
                                 <button
@@ -331,7 +391,7 @@ export default function ServiceDetailPage({ slug }: Props) {
                 </div>
             </section>
 
-            {/* ── BOTTOM CTA ────────────────────────────────────── */}
+            {/* ── BOTTOM CTA ────────────────────────────────────────── */}
             <section className="py-20 bg-[#080f1e]">
                 <div className="max-w-4xl mx-auto px-6">
                     <div className="rounded-2xl bg-gradient-to-r from-blue-900/60 via-[#0f172a] to-cyan-900/30 border border-white/10 p-10 lg:p-14 text-center">
