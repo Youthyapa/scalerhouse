@@ -7,20 +7,28 @@ import Link from 'next/link';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import WhatsAppFAB from '../components/layout/WhatsAppFAB';
-import { getAll, KEYS, BlogPost } from '../lib/store';
 
-const categories = ['All', 'SEO', 'Performance Marketing', 'Social Media', 'Analytics', 'Strategy'];
+type BlogPost = { _id: string; id?: string; title: string; slug: string; excerpt: string; content: string; category: string; author: string; coverImage?: string; publishedAt: string; status: string; };
+
+const categories = ['All', 'SEO', 'Performance Marketing', 'Social Media', 'Analytics', 'Strategy', 'Web Development', 'Email Marketing', 'Google My Business', 'App Development', 'UI/UX Design', 'Graphic Designing', 'Logo Designing', 'CRM Development', 'API Automations'];
 
 export default function BlogPage() {
     const [posts, setPosts] = useState<BlogPost[]>([]);
     const [filtered, setFiltered] = useState<BlogPost[]>([]);
     const [query, setQuery] = useState('');
     const [category, setCategory] = useState('All');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const all = getAll<BlogPost>(KEYS.BLOG).filter(p => p.status === 'Published');
-        setPosts(all);
-        setFiltered(all);
+        fetch('/api/blog')
+            .then(r => r.json())
+            .then((data: BlogPost[]) => {
+                const published = Array.isArray(data) ? data : [];
+                setPosts(published);
+                setFiltered(published);
+            })
+            .catch(() => { setPosts([]); setFiltered([]); })
+            .finally(() => setLoading(false));
     }, []);
 
     useEffect(() => {
@@ -74,13 +82,15 @@ export default function BlogPage() {
                         ))}
                     </div>
 
-                    {filtered.length === 0 ? (
+                    {loading ? (
+                        <div className="text-center py-20 text-slate-500">Loading articles...</div>
+                    ) : filtered.length === 0 ? (
                         <div className="text-center py-20 text-slate-500">No articles found. Try a different filter.</div>
                     ) : (
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {filtered.map((post, i) => (
                                 <motion.article
-                                    key={post.id}
+                                    key={post._id || post.id}
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
