@@ -36,7 +36,7 @@ export default function DashboardLayout({ navItems, children, title, roleBadge, 
                 {/* Brand + User */}
                 <div className="p-5 border-b border-white/5 shrink-0">
                     <Link href="/" className="flex items-center gap-2.5 mb-4">
-                        <img src="/logo.png" alt="ScalerHouse Logo" className="h-[36px] w-auto object-contain" />
+                        <img src="/logo.png" alt="ScalerHouse Logo" className="h-[42px] w-auto object-contain" />
                     </Link>
                     <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center text-white text-xs font-bold">

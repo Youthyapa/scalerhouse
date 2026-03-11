@@ -9,13 +9,8 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
                     {/* Brand */}
                     <div>
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-xl flex items-center justify-center font-black text-white text-lg">
-                                SH
-                            </div>
-                            <span className="font-syne font-bold text-xl text-white">
-                                Scaler<span className="gradient-text">House</span>
-                            </span>
+                        <div className="flex items-center mb-4">
+                            <img src="/logo.png" alt="ScalerHouse Logo" className="h-[48px] w-auto object-contain" />
                         </div>
                         <p className="text-slate-400 text-sm leading-relaxed mb-5">
                             Engineering Predictable Growth for Ambitious Brands. Performance-driven digital marketing that delivers real results.
