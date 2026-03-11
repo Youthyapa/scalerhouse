@@ -98,108 +98,207 @@ function OfferLetterPage() {
     const totalCTC = ((parseFloat(data.fixedCTC) || 0) + (parseFloat(data.variableCTC) || 0)).toFixed(2);
     const monthlyGross = (parseFloat(totalCTC) / 12).toFixed(2);
 
+    // ── Dedicated A4 print template (separate from the web preview) ──────────
+    const buildPrintHTML = () => {
+        const totalCTCVal = ((parseFloat(data.fixedCTC) || 0) + (parseFloat(data.variableCTC) || 0)).toFixed(2);
+        const hasBenefits = !!data.benefits;
+        const hasCustom = !!data.customClause;
+        let secNum = 2; // starts at 2 (after employment)
 
-    // Capture the FULL preview (clone without height restrictions so html2canvas gets everything)
-    const captureFullCanvas = async () => {
-        const html2canvas = (await import('html2canvas')).default;
-        if (!previewRef.current) throw new Error('Preview not found');
+        const compRows =
+            (data.basicSalary ? `<tr><td>Basic Salary</td><td>₹${data.basicSalary}</td><td>Monthly</td></tr>` : '') +
+            (data.hra ? `<tr><td>HRA</td><td>₹${data.hra}</td><td>Monthly</td></tr>` : '') +
+            (data.specialAllowance ? `<tr><td>Special Allowance</td><td>₹${data.specialAllowance}</td><td>Monthly</td></tr>` : '') +
+            (data.medicalAllowance ? `<tr><td>Medical Allowance</td><td>₹${data.medicalAllowance}</td><td>Monthly</td></tr>` : '') +
+            (data.pf ? `<tr><td>Employer's PF</td><td>₹${data.pf}</td><td>Monthly</td></tr>` : '') +
+            `<tr><td>Fixed CTC</td><td>₹${data.fixedCTC || '—'} LPA</td><td>Annual</td></tr>` +
+            (data.variableCTC ? `<tr><td>Variable / Performance Pay</td><td>₹${data.variableCTC} LPA</td><td>Annual</td></tr>` : '') +
+            `<tr class="total"><td><strong>Total CTC</strong></td><td><strong>₹${totalCTCVal} LPA</strong></td><td>Annual</td></tr>`;
 
-        // Clone without overflow/height restrictions
-        const original = previewRef.current;
-        const clone = original.cloneNode(true) as HTMLElement;
-        clone.style.cssText = `
-            position: fixed; top: -99999px; left: 0;
-            width: ${original.scrollWidth}px;
-            max-height: none; height: auto;
-            overflow: visible; z-index: -1;
-        `;
-        document.body.appendChild(clone);
+        return `<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<title>OfferLetter_${(data.candidateName || 'Candidate').replace(/\s+/g, '_')}</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 10.5pt;
+    color: #1e293b;
+    background: #fff;
+    padding: 14mm 18mm 16mm 18mm;
+  }
+  /* ── Header ── */
+  .hdr { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2.5px solid #0891b2; padding-bottom: 8px; margin-bottom: 14px; }
+  .logo { font-size: 21pt; font-weight: 900; color: #0f172a; letter-spacing: -0.5px; line-height: 1; }
+  .logo span { color: #0891b2; }
+  .tagline { font-size: 6.5pt; color: #94a3b8; letter-spacing: 3.5px; margin-top: 3px; }
+  .contact { text-align: right; font-size: 8pt; color: #64748b; line-height: 1.7; }
+  /* ── Title ── */
+  .doc-title { text-align: center; font-size: 13pt; font-weight: 800; letter-spacing: 3px; color: #0f172a; text-transform: uppercase; margin: 12px 0 2px; }
+  .doc-date { text-align: right; font-size: 8pt; color: #64748b; margin-bottom: 14px; }
+  /* ── Body text ── */
+  .address { font-size: 8.5pt; color: #475569; margin-bottom: 10px; line-height: 1.7; }
+  .salutation { margin-bottom: 12px; }
+  .salutation p { margin: 3px 0; line-height: 1.7; color: #334155; }
+  /* ── Section titles ── */
+  .sec { font-size: 7.5pt; font-weight: 700; color: #0891b2; text-transform: uppercase; letter-spacing: 1.8px; border-bottom: 1.2px solid #bae6fd; padding-bottom: 2px; margin: 13px 0 5px; }
+  /* ── Tables ── */
+  table { width: 100%; border-collapse: collapse; font-size: 9pt; margin-bottom: 2px; }
+  th { background: #f0f9ff; color: #0369a1; font-weight: 700; padding: 4px 8px; border: 1px solid #bae6fd; text-align: left; font-size: 8.5pt; }
+  td { padding: 4px 8px; border: 1px solid #e2e8f0; color: #1e293b; }
+  tr:nth-child(even) td { background: #f8fafc; }
+  .k { color: #475569; font-weight: 600; width: 42%; }
+  tr.total td { background: #eff6ff !important; color: #1d4ed8; font-weight: 700; }
+  /* ── Lists ── */
+  ul { padding-left: 16px; margin: 2px 0; }
+  li { font-size: 9pt; color: #475569; line-height: 1.8; }
+  /* ── Signature ── */
+  .sigs { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 18px; padding-top: 12px; border-top: 1px solid #e2e8f0; }
+  .sig-line { border-bottom: 1.5px solid #94a3b8; height: 28px; margin-bottom: 5px; }
+  .sig-name { font-size: 10pt; font-weight: 700; color: #0f172a; }
+  .sig-role { font-size: 8pt; color: #64748b; margin-top: 1px; }
+  /* ── Footer ── */
+  .ftr { margin-top: 20px; padding-top: 8px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 7.5pt; color: #94a3b8; }
+  /* ── Print ── */
+  @media print {
+    body { padding: 0; }
+    @page { size: A4 portrait; margin: 14mm 18mm 16mm 18mm; }
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; color-adjust: exact; }
+    table { page-break-inside: avoid; }
+    .sec { page-break-after: avoid; }
+  }
+</style>
+</head>
+<body>
 
-        try {
-            const canvas = await html2canvas(clone, {
-                scale: 2,
-                useCORS: true,
-                backgroundColor: '#ffffff',
-                logging: false,
-                width: original.scrollWidth,
-                windowWidth: original.scrollWidth,
-            });
-            return canvas;
-        } finally {
-            document.body.removeChild(clone);
-        }
+<div class="hdr">
+  <div>
+    <div class="logo">SCALER<span>HOUSE</span></div>
+    <div class="tagline">GLOBAL DIGITAL GROWTH PARTNER</div>
+  </div>
+  <div class="contact">scalerhouse.com<br>hr@scalerhouse.com<br>+91 92193 31120</div>
+</div>
+
+<div class="doc-title">Letter of Offer</div>
+<div class="doc-date">Date: ${today}</div>
+
+${data.candidateAddress ? `<div class="address">${data.candidateAddress.replace(/\n/g, '<br>')}</div>` : ''}
+
+<div class="salutation">
+  <p><strong>Dear ${data.candidateName || '[Candidate Name]'},</strong></p>
+  <p style="margin-top:6px">We are pleased to extend this offer of employment to you at <strong>ScalerHouse</strong> as <strong>${data.jobTitle || '[Position]'}</strong>${data.department ? ` in the <strong>${data.department}</strong> department` : ''}. We believe your expertise will be a valuable addition to our growing team.</p>
+</div>
+
+<div class="sec">1. Employment Details</div>
+<table>
+  <tbody>
+    <tr><td class="k">Employee ID</td><td>${data.employeeId || '(To be assigned on joining)'}</td></tr>
+    <tr><td class="k">Designation / Job Title</td><td>${data.jobTitle || '—'}</td></tr>
+    <tr><td class="k">Job Type</td><td>${data.jobType}</td></tr>
+    <tr><td class="k">Grade / Level</td><td>${data.grade}</td></tr>
+    <tr><td class="k">Department</td><td>${data.department || '—'}</td></tr>
+    <tr><td class="k">Reporting To</td><td>${data.reportingManager || '—'}</td></tr>
+    <tr><td class="k">Date of Joining</td><td>${data.joiningDate || '—'}</td></tr>
+    <tr><td class="k">Work Mode</td><td>${data.workMode}</td></tr>
+    <tr><td class="k">Work Location</td><td>${data.location}</td></tr>
+    <tr><td class="k">Working Hours</td><td>${data.workingHours}</td></tr>
+    <tr><td class="k">Probation Period</td><td>${data.probation}</td></tr>
+    <tr><td class="k">Notice Period</td><td>${data.noticePeriod}</td></tr>
+  </tbody>
+</table>
+
+<div class="sec">2. Compensation Package</div>
+<table>
+  <thead><tr><th>Component</th><th>Amount</th><th>Frequency</th></tr></thead>
+  <tbody>${compRows}</tbody>
+</table>
+
+${hasBenefits ? `<div class="sec">${++secNum}. Benefits &amp; Perks</div><p style="font-size:9pt;color:#475569;line-height:1.7">${data.benefits}</p>` : ''}
+
+<div class="sec">${++secNum}. Code of Conduct &amp; Policies</div>
+<ul>
+  <li>Maintain the highest standards of professionalism and integrity at all times.</li>
+  <li>Confidentiality of company data, client information, and proprietary technology must be strictly maintained, even after employment ends.</li>
+  <li>All intellectual property created during employment belongs exclusively to ScalerHouse.</li>
+  <li>Non-solicitation of clients or employees for 12 months post-employment.</li>
+  <li>Compliance with the IT Policy, Data Protection Policy, and Anti-Harassment Policy is mandatory.</li>
+</ul>
+
+<div class="sec">${++secNum}. Non-Disclosure Agreement</div>
+<p style="font-size:9pt;color:#475569;line-height:1.7">By accepting this offer, you agree not to disclose to any third party, directly or indirectly, any confidential or proprietary information acquired during employment. This obligation survives for a period of <strong>two (2) years</strong> post-employment.</p>
+
+${hasCustom ? `<div class="sec">${++secNum}. Additional Terms</div><p style="font-size:9pt;color:#475569;line-height:1.7;white-space:pre-line">${data.customClause}</p>` : ''}
+
+<div class="sec">${++secNum}. Acceptance</div>
+<p style="font-size:9pt;color:#475569;line-height:1.7">This offer expires on <strong>${data.offerValidTill || '[date]'}</strong>. Please sign and return a copy within the stipulated time. Failure to respond will result in this offer being automatically rescinded.</p>
+
+<div class="sigs">
+  <div>
+    <div class="sig-line"></div>
+    <div class="sig-name">Shashank Singh</div>
+    <div class="sig-role">Founder &amp; CEO, ScalerHouse</div>
+    <div class="sig-role">Date: ${today}</div>
+  </div>
+  <div>
+    <div class="sig-line"></div>
+    <div class="sig-name">${data.candidateName || 'Candidate Name'}</div>
+    <div class="sig-role">Candidate Signature &amp; Acceptance</div>
+    <div class="sig-role">Date: _______________</div>
+  </div>
+</div>
+
+<div class="ftr">© 2026 ScalerHouse · B-25, Neemeshwar MahaMandir Society, Ratan Lal Nagar, Gujaini, Kanpur, UP 208022 · scalerhouse.com</div>
+
+</body></html>`;
     };
 
-    // Download PDF using print window — proper margins, full quality, full page
+    // Download: open dedicated print window → browser prints clean A4
     const downloadPDF = () => {
-        if (!previewRef.current) { toast.error('Preview not ready'); return; }
         const filename = `OfferLetter_${(data.candidateName || 'Candidate').replace(/\s+/g, '_')}`;
-        const content = previewRef.current.innerHTML;
-
         const win = window.open('', '_blank', 'width=900,height=700');
-        if (!win) { toast.error('Pop-up blocked. Allow pop-ups to download PDF.'); return; }
-
-        win.document.write(`
-            <!DOCTYPE html>
-            <html><head>
-                <title>${filename}</title>
-                <style>
-                    *, *::before, *::after { box-sizing: border-box; }
-                    html, body { margin: 0; padding: 0; background: #fff; font-family: 'Segoe UI', Arial, sans-serif; }
-                    /* Outer wrapper adds the page breathing room */
-                    .print-wrap { padding: 12mm 18mm 16mm 18mm; }
-                    /* A4 page with proper margins */
-                    @media print {
-                        html, body { margin: 0; padding: 0; }
-                        .print-wrap { padding: 0; }
-                        @page {
-                            size: A4 portrait;
-                            margin: 15mm 18mm 18mm 18mm;
-                        }
-                        body {
-                            -webkit-print-color-adjust: exact;
-                            print-color-adjust: exact;
-                            color-adjust: exact;
-                        }
-                        /* Prevent tables and sections from being cut mid-content */
-                        table { page-break-inside: avoid; }
-                        div { page-break-inside: avoid; }
-                    }
-                </style>
-            </head>
-            <body><div class="print-wrap">${content}</div></body></html>
-        `);
+        if (!win) { toast.error('Pop-up blocked — allow pop-ups and try again.'); return; }
+        win.document.write(buildPrintHTML());
         win.document.close();
-
         setTimeout(() => { win.focus(); win.print(); }, 800);
-
         toast.success(`📄 Save as PDF → name it "${filename}.pdf"`);
     };
 
-
+    // Email: render print template in hidden iframe → html2canvas → jsPDF → base64 attachment
     const sendByEmail = async () => {
         if (!data.candidateEmail) { toast.error('Enter candidate email first'); return; }
         if (!data.candidateName || !data.jobTitle) { toast.error('Fill in candidate name and job title'); return; }
         setSending(true);
         try {
-            // Generate PDF as base64 to attach in email (captures full page, no clipping)
-            const canvas = await captureFullCanvas();
-            const { default: jsPDF } = await import('jspdf');
-            // Use high quality JPEG
-            const imgData = canvas.toDataURL('image/jpeg', 0.98);
-            // Calculate PDF dimensions in mm at A4 width
-            const pdfW = 210;  // A4 width mm
-            const pdfH = Math.round(pdfW * canvas.height / canvas.width);
+            // Render the clean print template in a hidden iframe for capture
+            const iframe = document.createElement('iframe');
+            iframe.style.cssText = 'position:fixed;top:-9999px;left:0;width:794px;height:1123px;border:none;visibility:hidden;';
+            document.body.appendChild(iframe);
 
-            // Use CUSTOM page height = exact content height → zero content cutoff
-            // This is the correct approach for HTML-captured PDFs
-            const doc = new jsPDF({
-                unit: 'mm',
-                format: [pdfW, pdfH],   // custom page exactly fits content
-                orientation: pdfH > pdfW ? 'portrait' : 'landscape',
+            await new Promise<void>((resolve) => {
+                iframe.onload = () => resolve();
+                iframe.srcdoc = buildPrintHTML();
             });
-            doc.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
 
+            // Wait a tick for styles to apply
+            await new Promise(r => setTimeout(r, 400));
+
+            const html2canvas = (await import('html2canvas')).default;
+            const canvas = await html2canvas(iframe.contentDocument!.body, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                logging: false,
+                width: 794,
+                windowWidth: 794,
+            });
+            document.body.removeChild(iframe);
+
+            const { default: jsPDF } = await import('jspdf');
+            const imgData = canvas.toDataURL('image/jpeg', 0.98);
+            const pdfW = 210;
+            const pdfH = Math.round(pdfW * canvas.height / canvas.width);
+            const doc = new jsPDF({ unit: 'mm', format: [pdfW, pdfH], orientation: 'portrait' });
+            doc.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
             const pdfBase64 = doc.output('datauristring').split(',')[1];
 
             const r = await fetch('/api/applications/send-offer-letter', {
@@ -216,6 +315,7 @@ function OfferLetterPage() {
             setSending(false);
         }
     };
+
 
     const Section = ({ id, title, icon, children }: { id: string; title: string; icon: React.ReactNode; children: React.ReactNode }) => (
         <div className="glass-card overflow-hidden">
