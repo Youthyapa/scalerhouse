@@ -1,6 +1,7 @@
 // pages/career.tsx – Enhanced Career Page with Resume Upload
 import Head from 'next/head';
 import { useState, useEffect, useRef } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Briefcase, MapPin, Clock, ArrowRight, Send, Upload, X, CheckCircle, Linkedin, Globe, DollarSign, FileText, ChevronRight } from 'lucide-react';
 import Navbar from '../components/layout/Navbar';
@@ -149,7 +150,21 @@ export default function CareerPage() {
                                                 <span className="flex items-center gap-1"><Clock size={13} />{new Date(job.postedAt).toLocaleDateString('en-IN')}</span>
                                                 {job.salary && <span className="flex items-center gap-1 text-green-400"><DollarSign size={13} />{job.salary}</span>}
                                             </div>
-                                            <p className="text-slate-400 text-sm mt-2">{job.description}</p>
+                                            <div className="prose-career mt-2">
+                                                <ReactMarkdown
+                                                    components={{
+                                                        h3: ({ children }) => <h4 className="text-white font-semibold text-sm mt-3 mb-1">{children}</h4>,
+                                                        p: ({ children }) => <p className="text-slate-400 text-sm mb-1">{children}</p>,
+                                                        ul: ({ children }) => <ul className="list-disc pl-4 text-slate-400 text-sm space-y-0.5 mb-2">{children}</ul>,
+                                                        ol: ({ children }) => <ol className="list-decimal pl-4 text-slate-400 text-sm space-y-0.5 mb-2">{children}</ol>,
+                                                        li: ({ children }) => <li>{children}</li>,
+                                                        strong: ({ children }) => <strong className="text-slate-200">{children}</strong>,
+                                                        hr: () => <hr className="border-white/10 my-2" />,
+                                                    }}
+                                                >
+                                                    {job.description}
+                                                </ReactMarkdown>
+                                            </div>
                                         </div>
                                         <button
                                             onClick={() => { setSelectedJob(job); setSubmitted(false); setForm(defaultForm); setResumeFile(null); }}
