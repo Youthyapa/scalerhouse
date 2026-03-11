@@ -561,22 +561,64 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── OUR CLIENTS ── */}
-      {content.client_logo.length > 0 && (
-        <section className="py-12 bg-[#0a1222] border-b border-white/5 overflow-hidden">
-          <div className="max-w-7xl mx-auto px-6 mb-8 text-center">
-            <p className="text-slate-500 text-sm font-semibold tracking-wider uppercase">Trusted by Industry Leaders</p>
-          </div>
-          {/* Using flex wrap for simplicity, can be animated via CSS later */}
-          <div className="max-w-7xl mx-auto px-6 flex justify-center gap-8 md:gap-16 items-center flex-wrap">
-            {content.client_logo.map((logo, i) => (
-              <div key={`${logo._id}-${i}`} className="w-24 md:w-32 h-12 md:h-16 flex items-center justify-center grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-                <img src={logo.imageUrl} alt={logo.title} className="max-w-full max-h-full object-contain" title={logo.title} />
+      {/* ── OUR CLIENTS – Infinite Marquee Carousel ── */}
+      <section className="py-14 bg-[#0a1222] border-b border-white/5 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 mb-8 text-center">
+          <p className="text-slate-500 text-xs font-bold tracking-[4px] uppercase mb-1">Trusted by Industry Leaders</p>
+          <h2 className="font-syne font-black text-2xl text-white">
+            Brands That <span className="gradient-text">Grow With Us</span>
+          </h2>
+        </div>
+
+        <style>{`
+          @keyframes marquee-left {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          @keyframes marquee-right {
+            0%   { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+          }
+          .marquee-track-left  { animation: marquee-left  28s linear infinite; }
+          .marquee-track-right { animation: marquee-right 32s linear infinite; }
+          .marquee-track-left:hover,
+          .marquee-track-right:hover { animation-play-state: paused; }
+        `}</style>
+
+        {/* Row 1 — scrolls left */}
+        <div className="relative overflow-hidden mb-4">
+          <div className="flex marquee-track-left" style={{ width: 'max-content' }}>
+            {[
+              'CEAT.png','Raymond.png','TATA.png','Royal Enfield.jpg','Jawa.png',
+              'Killer.gif','LeeCooper.png','RedChief.png','adani.png','apollo.png',
+              'CEAT.png','Raymond.png','TATA.png','Royal Enfield.jpg','Jawa.png',
+              'Killer.gif','LeeCooper.png','RedChief.png','adani.png','apollo.png',
+            ].map((logo, i) => (
+              <div key={`r1-${i}`} className="mx-6 flex items-center justify-center w-28 h-14 flex-shrink-0 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                <img src={`/Clients/${logo}`} alt={logo.replace(/\.[^.]+$/, '')} className="max-w-full max-h-full object-contain" />
               </div>
             ))}
           </div>
-        </section>
-      )}
+        </div>
+
+        {/* Row 2 — scrolls right */}
+        <div className="relative overflow-hidden">
+          <div className="flex marquee-track-right" style={{ width: 'max-content' }}>
+            {[
+              'GroceBay.png','KDC.png','SSCable Network.png','Sachan Construction.png','Sachan TechnoFirm.png',
+              'VSS DEVELOPERS.png','VvnEntertainment.jpg','Yash Cable Network.png','Bhola.png','Anirudh Vaidik Parivar.png','Ekta Hi Ek Vikalp.png',
+              'GroceBay.png','KDC.png','SSCable Network.png','Sachan Construction.png','Sachan TechnoFirm.png',
+              'VSS DEVELOPERS.png','VvnEntertainment.jpg','Yash Cable Network.png','Bhola.png','Anirudh Vaidik Parivar.png','Ekta Hi Ek Vikalp.png',
+            ].map((logo, i) => (
+              <div key={`r2-${i}`} className="mx-6 flex items-center justify-center w-28 h-14 flex-shrink-0 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                <img src={`/Clients/${logo}`} alt={logo.replace(/\.[^.]+$/, '')} className="max-w-full max-h-full object-contain" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
 
       {/* ── SERVICES ── */}
       <section className="py-24 bg-[#0a1222]">
