@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Briefcase, MapPin, Clock, ArrowRight, Send, Upload, X, CheckCircle, Linkedin, Globe, DollarSign, FileText, ChevronRight } from 'lucide-react';
+import { Briefcase, MapPin, Clock, ArrowRight, Send, Upload, X, CheckCircle, Linkedin, Globe, FileText, ChevronRight } from 'lucide-react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import WhatsAppFAB from '../components/layout/WhatsAppFAB';
@@ -148,7 +148,7 @@ export default function CareerPage() {
                                                 <span className="flex items-center gap-1"><Briefcase size={13} />{job.department}</span>
                                                 <span className="flex items-center gap-1"><MapPin size={13} />{job.location}</span>
                                                 <span className="flex items-center gap-1"><Clock size={13} />{new Date(job.postedAt).toLocaleDateString('en-IN')}</span>
-                                                {job.salary && <span className="flex items-center gap-1 text-green-400"><DollarSign size={13} />{job.salary}</span>}
+                                                {job.salary && <span className="flex items-center gap-1 text-green-400 font-medium">₹ {job.salary}</span>}
                                             </div>
                                             <div className="prose-career mt-2">
                                                 <ReactMarkdown

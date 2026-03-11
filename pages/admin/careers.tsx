@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useEffect, useState, useRef } from 'react';
 import {
     Plus, Trash2, ToggleLeft, ToggleRight, Users,
-    DollarSign, Pencil, Bold, Italic, List, ListOrdered,
+    Pencil, Bold, Italic, List, ListOrdered,
     Heading3, Minus, AlignLeft
 } from 'lucide-react';
 import Link from 'next/link';
@@ -81,11 +81,12 @@ function MarkdownEditor({ value, onChange }: { value: string; onChange: (v: stri
         // Extract the selected block (from line start to selEnd)
         const selectedBlock = value.slice(lineStart, selEnd);
 
-        // Apply prefix to every line in the selected block
+        // Apply prefix to every non-empty line in the selected block
         let counter = 1;
         const replaced = selectedBlock
             .split('\n')
             .map(line => {
+                if (!line.trim()) return line; // leave blank lines as-is
                 // If prefix is numbered list, auto-increment per line
                 if (/^\d+\. $/.test(prefix)) {
                     return `${counter++}. ${line}`;
@@ -237,7 +238,7 @@ function CareersAdminPage() {
                                         <span className="badge badge-blue text-xs">{job.department}</span>
                                         <span className="badge badge-cyan text-xs">{job.type}</span>
                                         <span className="text-slate-500 text-xs">{job.location}</span>
-                                        {job.salary && <span className="text-green-400 text-xs flex items-center gap-1"><DollarSign size={10} />{job.salary}</span>}
+                                        {job.salary && <span className="text-green-400 text-xs flex items-center gap-1">₹ {job.salary}</span>}
                                         <span className={`badge text-xs ${job.isActive ? 'badge-green' : 'badge-yellow'}`}>{job.isActive ? 'Active' : 'Inactive'}</span>
                                     </div>
                                     <p className="text-slate-400 text-sm line-clamp-2">{job.description.replace(/[#*_\-]/g, '').slice(0, 120)}…</p>
@@ -304,7 +305,7 @@ function CareersAdminPage() {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="form-label flex items-center gap-1"><DollarSign size={12} /> Salary / Range</label>
+                                    <label className="form-label">₹ Salary Range</label>
                                     <input className="form-input !text-sm" value={form.salary} onChange={e => setForm({ ...form, salary: e.target.value })} placeholder="e.g. ₹3–5 LPA" />
                                 </div>
                             </div>
