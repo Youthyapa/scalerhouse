@@ -32,8 +32,9 @@ export default function DashboardLayout({ navItems, children, title, roleBadge, 
     return (
         <div className="flex min-h-screen bg-[#0a1628]">
             {/* Sidebar */}
-            <aside className={`sidebar ${mobileOpen ? 'open' : ''} transition-transform duration-300`}>
-                <div className="p-5 border-b border-white/5">
+            <aside className={`sidebar ${mobileOpen ? 'open' : ''} transition-transform duration-300 flex flex-col`}>
+                {/* Brand + User */}
+                <div className="p-5 border-b border-white/5 shrink-0">
                     <Link href="/" className="flex items-center gap-2.5 mb-4">
                         <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-lg flex items-center justify-center font-black text-white text-sm">SH</div>
                         <span className="font-syne font-bold text-white">ScalerHouse</span>
@@ -48,7 +49,9 @@ export default function DashboardLayout({ navItems, children, title, roleBadge, 
                         </div>
                     </div>
                 </div>
-                <nav className="py-4">
+
+                {/* Scrollable Nav */}
+                <nav className="flex-1 overflow-y-auto py-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
                     {navItems.map((item) => {
                         const active = router.pathname === item.href || router.pathname.startsWith(item.href + '/');
                         return (
@@ -64,7 +67,9 @@ export default function DashboardLayout({ navItems, children, title, roleBadge, 
                         );
                     })}
                 </nav>
-                <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-white/5">
+
+                {/* Logout — pinned at bottom */}
+                <div className="shrink-0 p-4 border-t border-white/5">
                     <button onClick={handleLogout} className="sidebar-link w-full text-red-400 hover:bg-red-900/20 hover:text-red-400 hover:border-red-400">
                         <LogOut size={16} /> <span>Logout</span>
                     </button>
