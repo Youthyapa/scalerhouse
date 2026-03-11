@@ -215,7 +215,7 @@ function AffiliatesPage() {
                             </div>
                             <div>
                                 <label className="form-label">Phone</label>
-                                <input className="form-input" value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} placeholder="+91 98765 43210" />
+                                <input className="form-input" value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} placeholder="+91 92193 31120" />
                             </div>
                             <div>
                                 <label className="form-label">City</label>

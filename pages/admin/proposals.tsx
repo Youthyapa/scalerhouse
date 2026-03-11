@@ -132,7 +132,7 @@ function ProposalsPage() {
         doc.text('This proposal is valid for 15 days from the date of issue.', 20, priceY + 55);
 
         doc.line(20, 275, 190, 275);
-        doc.text('hello@scalerhouse.com  |  +91 98765 43210  |  scalerhouse.com', 20, 282);
+        doc.text('hello@scalerhouse.com  |  +91 92193 31120  |  scalerhouse.com', 20, 282);
         doc.setTextColor(0, 212, 255);
         doc.text('ScalerHouse – Scale Faster. Smarter. Stronger.', 20, 289);
 

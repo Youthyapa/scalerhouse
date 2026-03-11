@@ -43,7 +43,7 @@ export default function SEO({
         "description": defaultSEO.description,
         "contactPoint": {
             "@type": "ContactPoint",
-            "telephone": "+91-9876543210",
+            "telephone": "+91-9219331120",
             "contactType": "customer service",
             "email": "hello@scalerhouse.com"
         },

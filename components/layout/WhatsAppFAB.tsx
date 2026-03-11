@@ -1,6 +1,6 @@
 // components/layout/WhatsAppFAB.tsx
 export default function WhatsAppFAB() {
-    const phone = '919876543210';
+    const phone = '919219331120';
     const message = encodeURIComponent('Hi ScalerHouse! I\'d like to learn more about your digital marketing services.');
     return (
         <a

@@ -64,7 +64,7 @@ export default function ContactPage() {
                         <div className="space-y-4">
                             {[
                                 { icon: Mail, label: 'Email Us', val: 'hello@scalerhouse.com', href: 'mailto:hello@scalerhouse.com' },
-                                { icon: Phone, label: 'Call/WhatsApp', val: '+91 98765 43210', href: 'tel:+919876543210' },
+                                { icon: Phone, label: 'Call/WhatsApp', val: '+91 92193 31120', href: 'tel:+919219331120' },
                                 { icon: MapPin, label: 'Visit Us', val: 'B-25, Neemeshwar MahaMandir Society, Ratan Lal Nagar, Gujaini, Kanpur, Uttar Pradesh 208022', href: '#' },
                             ].map((item) => (
                                 <a key={item.label} href={item.href} className="glass-card-hover p-5 flex gap-4 items-start">

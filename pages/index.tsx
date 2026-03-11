@@ -282,7 +282,7 @@ export default function Home() {
           "name": "ScalerHouse",
           "image": "https://scalerhouse.com/logo.png",
           "url": "https://scalerhouse.com",
-          "telephone": "+919876543210",
+          "telephone": "+919219331120",
           "priceRange": "$$",
           "address": {
             "@type": "PostalAddress",
