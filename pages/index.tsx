@@ -520,6 +520,32 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── FEATURED IN – News & Media Logos ── */}
+      <section className="py-12 bg-[#070f1d] border-b border-white/5 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 mb-8 text-center">
+          <p className="text-slate-500 text-sm font-bold tracking-[4px] uppercase mb-2">As Featured In</p>
+          <h2 className="font-syne font-black text-3xl md:text-4xl text-white">
+            Covered By <span className="gradient-text">Top Media</span>
+          </h2>
+        </div>
+        <div className="relative overflow-hidden">
+          <div className="flex marquee-news" style={{ width: 'max-content' }}>
+            {[
+              'economicstimes.png', 'timesofindia.png', 'forbesindia.png', 'thehindu.png',
+              'republic.png', 'timesnow.png', 'tv9.png', 'punjabkesari.png',
+              '99news.png', 'Insidernews.png', 'newswire.png', 'newstoday.png', 'india.png', 'todaynews.png',
+              'economicstimes.png', 'timesofindia.png', 'forbesindia.png', 'thehindu.png',
+              'republic.png', 'timesnow.png', 'tv9.png', 'punjabkesari.png',
+              '99news.png', 'Insidernews.png', 'newswire.png', 'newstoday.png', 'india.png', 'todaynews.png',
+            ].map((logo, i) => (
+              <div key={`news2-${i}`} className="mx-8 flex items-center justify-center w-36 h-14 flex-shrink-0">
+                <img src={`/News/${encodeURIComponent(logo)}`} alt={logo.replace(/\.[^.]+$/, '')} className="max-w-full max-h-full object-contain news-logo" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── STATS ── */}
       <section className="py-16 border-y border-white/5 bg-[#080f1e]">
         <div className="max-w-7xl mx-auto px-6">
@@ -623,46 +649,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FEATURED IN – News & Media Logos ── */}
-      <section className="py-12 bg-[#070f1d] border-b border-white/5 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 mb-8 text-center">
-          <p className="text-slate-500 text-sm font-bold tracking-[4px] uppercase mb-2">As Featured In</p>
-          <h2 className="font-syne font-black text-3xl md:text-4xl text-white">
-            Covered By <span className="gradient-text">Top Media</span>
-          </h2>
-        </div>
-
-        <style>{`
-          @keyframes marquee-news {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          .marquee-news { animation: marquee-news 30s linear infinite; }
-          .marquee-news:hover { animation-play-state: paused; }
-        `}</style>
-
-        <div className="relative overflow-hidden">
-          <div className="flex marquee-news" style={{ width: 'max-content' }}>
-            {[
-              'economicstimes.png', 'timesofindia.png', 'forbesindia.png', 'thehindu.png',
-              'republic.png', 'timesnow.png', 'tv9.png', 'punjabkesari.png',
-              '99news.png', 'Insidernews.png', 'newswire.png', 'newstoday.png', 'india.png', 'todaynews.png',
-              // Duplicate for seamless loop
-              'economicstimes.png', 'timesofindia.png', 'forbesindia.png', 'thehindu.png',
-              'republic.png', 'timesnow.png', 'tv9.png', 'punjabkesari.png',
-              '99news.png', 'Insidernews.png', 'newswire.png', 'newstoday.png', 'india.png', 'todaynews.png',
-            ].map((logo, i) => (
-              <div key={`news-${i}`} className="mx-8 flex items-center justify-center w-36 h-14 flex-shrink-0 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-                <img src={`/News/${encodeURIComponent(logo)}`} alt={logo.replace(/\.[^.]+$/, '')} className="max-w-full max-h-full object-contain" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
-
-      {/* ── SERVICES ── */}
       <section className="py-24 bg-[#0a1222]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 animate-fade-up">
