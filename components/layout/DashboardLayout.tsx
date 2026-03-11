@@ -35,8 +35,8 @@ export default function DashboardLayout({ navItems, children, title, roleBadge, 
             <aside className={`sidebar ${mobileOpen ? 'open' : ''} transition-transform duration-300 flex flex-col`}>
                 {/* Brand + User */}
                 <div className="p-5 border-b border-white/5 shrink-0">
-                    <Link href="/" className="flex items-center gap-2.5 mb-4 py-2">
-                        <img src="/logo.png" alt="ScalerHouse Logo" className="h-auto w-[180px] object-contain" />
+                    <Link href="/" className="flex items-center gap-2.5 -my-6 relative -left-3">
+                        <img src="/logo.png" alt="ScalerHouse Logo" className="h-auto w-[160px] object-contain" />
                     </Link>
                     <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center text-white text-xs font-bold">
