@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Block internal dashboards and portals from search engine indexing
+Disallow: /admin/
+Disallow: /client/
+Disallow: /employee/
+Disallow: /affiliate/
+Disallow: /onboarding/
+Disallow: /api/
+
+Sitemap: https://scalerhouse.com/sitemap.xml
