@@ -397,6 +397,12 @@ export default function Home() {
                   }
                   .hero-marquee { animation: hero-marquee 22s linear infinite; }
                   .hero-marquee:hover { animation-play-state: paused; }
+                  .news-logo {
+                    filter: brightness(0) invert(1);
+                    opacity: 0.55;
+                    transition: opacity 0.3s;
+                  }
+                  .news-logo:hover { opacity: 1; }
                 `}</style>
                 <div className="flex hero-marquee" style={{ width: 'max-content' }}>
                   {[
@@ -407,11 +413,11 @@ export default function Home() {
                     'republic.png', 'timesnow.png', 'tv9.png', 'punjabkesari.png',
                     '99news.png', 'Insidernews.png', 'newswire.png', 'newstoday.png', 'india.png', 'todaynews.png',
                   ].map((file, i) => (
-                    <div key={`hn-${i}`} className="mr-8 flex-shrink-0 w-24 h-8 flex items-center justify-center">
+                    <div key={`hn-${i}`} className="mr-10 flex-shrink-0 w-28 h-10 flex items-center justify-center">
                       <img
                         src={`/News/${file}`}
                         alt={file.replace(/\.[^.]+$/, '')}
-                        className="max-w-full max-h-full object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                        className="news-logo max-w-full max-h-full object-contain"
                       />
                     </div>
                   ))}
