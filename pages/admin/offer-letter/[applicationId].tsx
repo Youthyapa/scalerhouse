@@ -130,7 +130,7 @@ function OfferLetterPage() {
         }
     };
 
-    // Download PDF using print window — 100% reliable filename, full quality, full page
+    // Download PDF using print window — proper margins, full quality, full page
     const downloadPDF = () => {
         if (!previewRef.current) { toast.error('Preview not ready'); return; }
         const filename = `OfferLetter_${(data.candidateName || 'Candidate').replace(/\s+/g, '_')}`;
@@ -144,25 +144,36 @@ function OfferLetterPage() {
             <html><head>
                 <title>${filename}</title>
                 <style>
-                    * { margin: 0; padding: 0; box-sizing: border-box; }
-                    body { font-family: 'Segoe UI', Arial, sans-serif; background: #fff; }
+                    *, *::before, *::after { box-sizing: border-box; }
+                    html, body { margin: 0; padding: 0; background: #fff; font-family: 'Segoe UI', Arial, sans-serif; }
+                    /* Outer wrapper adds the page breathing room */
+                    .print-wrap { padding: 12mm 18mm 16mm 18mm; }
+                    /* A4 page with proper margins */
                     @media print {
-                        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-                        @page { margin: 0; size: A4; }
+                        html, body { margin: 0; padding: 0; }
+                        .print-wrap { padding: 0; }
+                        @page {
+                            size: A4 portrait;
+                            margin: 15mm 18mm 18mm 18mm;
+                        }
+                        body {
+                            -webkit-print-color-adjust: exact;
+                            print-color-adjust: exact;
+                            color-adjust: exact;
+                        }
+                        /* Prevent tables and sections from being cut mid-content */
+                        table { page-break-inside: avoid; }
+                        div { page-break-inside: avoid; }
                     }
                 </style>
             </head>
-            <body>${content}</body></html>
+            <body><div class="print-wrap">${content}</div></body></html>
         `);
         win.document.close();
 
-        // Give styles time to apply then print
-        setTimeout(() => {
-            win.focus();
-            win.print();
-        }, 600);
+        setTimeout(() => { win.focus(); win.print(); }, 800);
 
-        toast.success(`📄 Print dialog opened — Save as PDF and name it "${filename}.pdf"`);
+        toast.success(`📄 Save as PDF → name it "${filename}.pdf"`);
     };
 
 
@@ -174,30 +185,20 @@ function OfferLetterPage() {
             // Generate PDF as base64 to attach in email (captures full page, no clipping)
             const canvas = await captureFullCanvas();
             const { default: jsPDF } = await import('jspdf');
-            const imgData = canvas.toDataURL('image/jpeg', 0.92);
-            const pdfW = 210;
-            const pdfH = pdfW * (canvas.height / canvas.width);
-            const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+            // Use high quality JPEG
+            const imgData = canvas.toDataURL('image/jpeg', 0.98);
+            // Calculate PDF dimensions in mm at A4 width
+            const pdfW = 210;  // A4 width mm
+            const pdfH = Math.round(pdfW * canvas.height / canvas.width);
 
-            const pageH = 297;
-            if (pdfH <= pageH) {
-                doc.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
-            } else {
-                let yOffset = 0;
-                const pagePixelH = Math.floor(canvas.width * (pageH / pdfW));
-                while (yOffset < canvas.height) {
-                    const sliceH = Math.min(pagePixelH, canvas.height - yOffset);
-                    const sliceCanvas = document.createElement('canvas');
-                    sliceCanvas.width = canvas.width;
-                    sliceCanvas.height = sliceH;
-                    const ctx = sliceCanvas.getContext('2d')!;
-                    ctx.drawImage(canvas, 0, -yOffset);
-                    const sliceImg = sliceCanvas.toDataURL('image/jpeg', 0.92);
-                    if (yOffset > 0) doc.addPage();
-                    doc.addImage(sliceImg, 'JPEG', 0, 0, pdfW, sliceH * pdfW / canvas.width);
-                    yOffset += sliceH;
-                }
-            }
+            // Use CUSTOM page height = exact content height → zero content cutoff
+            // This is the correct approach for HTML-captured PDFs
+            const doc = new jsPDF({
+                unit: 'mm',
+                format: [pdfW, pdfH],   // custom page exactly fits content
+                orientation: pdfH > pdfW ? 'portrait' : 'landscape',
+            });
+            doc.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
 
             const pdfBase64 = doc.output('datauristring').split(',')[1];
 
