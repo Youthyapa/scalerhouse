@@ -145,7 +145,17 @@ function OfferLetterPage() {
                 }
             }
 
-            doc.save(`OfferLetter_${(data.candidateName || 'Candidate').replace(/\s+/g, '_')}.pdf`);
+            // Force correct filename using anchor download attribute
+            const filename = `OfferLetter_${(data.candidateName || 'Candidate').replace(/\s+/g, '_')}.pdf`;
+            const blob = doc.output('blob');
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 2000);
             toast.success('✅ Offer letter PDF downloaded!');
         } catch (e: any) {
             toast.error('PDF generation failed: ' + e.message);
