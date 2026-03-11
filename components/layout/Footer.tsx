@@ -102,9 +102,9 @@ export default function Footer() {
                         © 2026 ScalerHouse. All rights reserved.
                     </p>
                     <div className="flex gap-4">
-                        <Link href="#" className="text-slate-500 hover:text-slate-300 text-xs transition-colors">Privacy Policy</Link>
-                        <Link href="#" className="text-slate-500 hover:text-slate-300 text-xs transition-colors">Terms of Service</Link>
-                        <Link href="#" className="text-slate-500 hover:text-slate-300 text-xs transition-colors">Cookie Policy</Link>
+                        <Link href="/privacy-policy" className="text-slate-500 hover:text-slate-300 text-xs transition-colors">Privacy Policy</Link>
+                        <Link href="/terms-of-service" className="text-slate-500 hover:text-slate-300 text-xs transition-colors">Terms of Service</Link>
+                        <Link href="/cookie-policy" className="text-slate-500 hover:text-slate-300 text-xs transition-colors">Cookie Policy</Link>
                     </div>
                 </div>
             </div>
