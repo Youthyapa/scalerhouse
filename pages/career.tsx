@@ -14,6 +14,7 @@ interface Career {
     department: string;
     location: string;
     type: string;
+    salary?: string;
     description: string;
     requirements: string[];
     isActive: boolean;
@@ -146,6 +147,7 @@ export default function CareerPage() {
                                                 <span className="flex items-center gap-1"><Briefcase size={13} />{job.department}</span>
                                                 <span className="flex items-center gap-1"><MapPin size={13} />{job.location}</span>
                                                 <span className="flex items-center gap-1"><Clock size={13} />{new Date(job.postedAt).toLocaleDateString('en-IN')}</span>
+                                                {job.salary && <span className="flex items-center gap-1 text-green-400"><DollarSign size={13} />{job.salary}</span>}
                                             </div>
                                             <p className="text-slate-400 text-sm mt-2">{job.description}</p>
                                         </div>

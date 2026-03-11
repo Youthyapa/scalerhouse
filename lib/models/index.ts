@@ -204,6 +204,7 @@ const CareerSchema = new Schema({
     department: String,
     location: String,
     type: { type: String, enum: ['Full-time', 'Part-time', 'Remote', 'Internship'], default: 'Full-time' },
+    salary: String,
     description: String,
     requirements: [String],
     isActive: { type: Boolean, default: true },
