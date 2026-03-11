@@ -59,12 +59,7 @@ export default function LoginPage() {
                     {/* Logo */}
                     <div className="text-center mb-8">
                         <Link href="/" className="inline-flex items-center gap-3">
-                            <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-2xl flex items-center justify-center font-black text-white text-xl shadow-lg shadow-blue-500/30">
-                                SH
-                            </div>
-                            <span className="font-syne font-bold text-2xl text-white">
-                                Scaler<span className="gradient-text">House</span>
-                            </span>
+                            <img src="/logo.png" alt="ScalerHouse Logo" className="h-[48px] w-auto object-contain mx-auto" />
                         </Link>
                         <p className="text-slate-400 mt-3 text-sm">Sign in to your portal</p>
                     </div>
