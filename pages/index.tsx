@@ -286,10 +286,10 @@ export default function Home() {
           "priceRange": "$$",
           "address": {
             "@type": "PostalAddress",
-            "streetAddress": "Kanpur",
+            "streetAddress": "B-25, Neemeshwar MahaMandir Society, Ratan Lal Nagar, Gujaini",
             "addressLocality": "Kanpur",
-            "addressRegion": "UP",
-            "postalCode": "208001",
+            "addressRegion": "Uttar Pradesh",
+            "postalCode": "208022",
             "addressCountry": "IN"
           }
         }}

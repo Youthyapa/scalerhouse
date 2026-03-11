@@ -85,8 +85,8 @@ export default function Footer() {
                                 </a>
                             </li>
                             <li className="flex gap-3 text-sm text-slate-400">
-                                <MapPin size={16} className="text-cyan-400 shrink-0 mt-0.5" />
-                                <span>Kanpur, Uttar Pradesh, India</span>
+                                <MapPin size={24} className="text-cyan-400 shrink-0 mt-0.5" />
+                                <span>B-25, Neemeshwar MahaMandir Society, Ratan Lal Nagar, Gujaini, Kanpur, Uttar Pradesh 208022</span>
                             </li>
                         </ul>
                         <div className="mt-5">
