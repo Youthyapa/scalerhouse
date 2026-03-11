@@ -98,79 +98,81 @@ function OfferLetterPage() {
     const totalCTC = ((parseFloat(data.fixedCTC) || 0) + (parseFloat(data.variableCTC) || 0)).toFixed(2);
     const monthlyGross = (parseFloat(totalCTC) / 12).toFixed(2);
 
-    // Capture the preview div as a canvas and return it
-    const captureCanvas = async () => {
+
+    // Capture the FULL preview (clone without height restrictions so html2canvas gets everything)
+    const captureFullCanvas = async () => {
         const html2canvas = (await import('html2canvas')).default;
         if (!previewRef.current) throw new Error('Preview not found');
-        const canvas = await html2canvas(previewRef.current, {
-            scale: 2,
-            useCORS: true,
-            backgroundColor: '#ffffff',
-            logging: false,
-        });
-        return canvas;
-    };
 
-    const downloadPDF = async () => {
-        setDownloading(true);
+        // Clone without overflow/height restrictions
+        const original = previewRef.current;
+        const clone = original.cloneNode(true) as HTMLElement;
+        clone.style.cssText = `
+            position: fixed; top: -99999px; left: 0;
+            width: ${original.scrollWidth}px;
+            max-height: none; height: auto;
+            overflow: visible; z-index: -1;
+        `;
+        document.body.appendChild(clone);
+
         try {
-            const canvas = await captureCanvas();
-            const { default: jsPDF } = await import('jspdf');
-            const imgData = canvas.toDataURL('image/jpeg', 0.95);
-            const pdfW = 210; // A4 mm
-            const ratio = canvas.height / canvas.width;
-            const pdfH = pdfW * ratio;
-
-            // If content is taller than one A4 page, split into multiple pages
-            const pageH = 297; // A4 height in mm
-            const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
-
-            if (pdfH <= pageH) {
-                doc.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
-            } else {
-                // Multi-page: slice the canvas
-                let yOffset = 0;
-                const pagePixelH = Math.floor(canvas.width * (pageH / pdfW));
-                while (yOffset < canvas.height) {
-                    const sliceH = Math.min(pagePixelH, canvas.height - yOffset);
-                    const sliceCanvas = document.createElement('canvas');
-                    sliceCanvas.width = canvas.width;
-                    sliceCanvas.height = sliceH;
-                    const ctx = sliceCanvas.getContext('2d')!;
-                    ctx.drawImage(canvas, 0, -yOffset);
-                    const sliceImg = sliceCanvas.toDataURL('image/jpeg', 0.95);
-                    if (yOffset > 0) doc.addPage();
-                    doc.addImage(sliceImg, 'JPEG', 0, 0, pdfW, sliceH * pdfW / canvas.width);
-                    yOffset += sliceH;
-                }
-            }
-
-            // Force correct filename using anchor download attribute
-            const filename = `OfferLetter_${(data.candidateName || 'Candidate').replace(/\s+/g, '_')}.pdf`;
-            const blob = doc.output('blob');
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            setTimeout(() => URL.revokeObjectURL(url), 2000);
-            toast.success('✅ Offer letter PDF downloaded!');
-        } catch (e: any) {
-            toast.error('PDF generation failed: ' + e.message);
+            const canvas = await html2canvas(clone, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                logging: false,
+                width: original.scrollWidth,
+                windowWidth: original.scrollWidth,
+            });
+            return canvas;
         } finally {
-            setDownloading(false);
+            document.body.removeChild(clone);
         }
     };
+
+    // Download PDF using print window — 100% reliable filename, full quality, full page
+    const downloadPDF = () => {
+        if (!previewRef.current) { toast.error('Preview not ready'); return; }
+        const filename = `OfferLetter_${(data.candidateName || 'Candidate').replace(/\s+/g, '_')}`;
+        const content = previewRef.current.innerHTML;
+
+        const win = window.open('', '_blank', 'width=900,height=700');
+        if (!win) { toast.error('Pop-up blocked. Allow pop-ups to download PDF.'); return; }
+
+        win.document.write(`
+            <!DOCTYPE html>
+            <html><head>
+                <title>${filename}</title>
+                <style>
+                    * { margin: 0; padding: 0; box-sizing: border-box; }
+                    body { font-family: 'Segoe UI', Arial, sans-serif; background: #fff; }
+                    @media print {
+                        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                        @page { margin: 0; size: A4; }
+                    }
+                </style>
+            </head>
+            <body>${content}</body></html>
+        `);
+        win.document.close();
+
+        // Give styles time to apply then print
+        setTimeout(() => {
+            win.focus();
+            win.print();
+        }, 600);
+
+        toast.success(`📄 Print dialog opened — Save as PDF and name it "${filename}.pdf"`);
+    };
+
 
     const sendByEmail = async () => {
         if (!data.candidateEmail) { toast.error('Enter candidate email first'); return; }
         if (!data.candidateName || !data.jobTitle) { toast.error('Fill in candidate name and job title'); return; }
         setSending(true);
         try {
-            // Generate PDF as base64 to attach in email
-            const canvas = await captureCanvas();
+            // Generate PDF as base64 to attach in email (captures full page, no clipping)
+            const canvas = await captureFullCanvas();
             const { default: jsPDF } = await import('jspdf');
             const imgData = canvas.toDataURL('image/jpeg', 0.92);
             const pdfW = 210;
