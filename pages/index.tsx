@@ -653,19 +653,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── ACHIEVEMENTS ── */}
-      {content.achievement.length > 0 && (
-        <section className="py-24 bg-[#0a1222] border-t border-white/5">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-16 animate-fade-up">
-              <span className="badge badge-yellow mb-4">Recognitions</span>
-              <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
-                Our <span className="gradient-text">Achievements</span>
-              </h2>
-              <p className="text-slate-400 max-w-xl mx-auto">
-                Recognized globally for delivering outstanding digital growth and performance marketing results.
-              </p>
-            </div>
+      {/* ── PARTNERS & ACHIEVEMENTS ── */}
+      <section className="py-24 bg-[#0a1222] border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="badge badge-yellow mb-4">Our Partners</span>
+            <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
+              Our <span className="gradient-text">Partners &amp; Achievements</span>
+            </h2>
+            <p className="text-slate-400 max-w-xl mx-auto">
+              Proud partners of industry leaders and recognized globally for delivering outstanding digital growth results.
+            </p>
+          </div>
+          {content.achievement.length > 0 ? (
             <div className="grid md:grid-cols-3 gap-6">
               {content.achievement.map((ach, i) => (
                 <motion.div
@@ -686,9 +686,34 @@ export default function Home() {
                 </motion.div>
               ))}
             </div>
-          </div>
-        </section>
-      )}
+          ) : (
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                { title: "Google Premier Partner", desc: "Recognized as a top 3% agency globally for Google Ads performance", badge: "GP" },
+                { title: "Meta Business Partner", desc: "Certified experts in advanced Meta advertising and tracking", badge: "MB" },
+                { title: "Top B2B Company", desc: "Rated 4.9/5 on Clutch for digital strategy and execution", badge: "B2" },
+              ].map((item, i) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  className="glass-card flex items-center gap-6 p-6 border border-white/10 hover:border-cyan-400/30 transition-all group"
+                >
+                  <div className="w-16 h-16 shrink-0 flex items-center justify-center bg-gradient-to-br from-blue-600/20 to-cyan-600/20 border border-cyan-400/20 rounded-xl font-syne font-black text-xl gradient-text group-hover:scale-110 transition-all">
+                    {item.badge}
+                  </div>
+                  <div>
+                    <h3 className="font-syne font-bold text-lg text-white mb-1.5">{item.title}</h3>
+                    <p className="text-slate-400 text-sm leading-relaxed">{item.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* ── WHY SCALERHOUSE ── */}
       <section className="py-24 bg-[#0a1222]">
@@ -871,32 +896,38 @@ export default function Home() {
       </section>
 
       {/* ── FAQs ── */}
-      {content.faq.length > 0 && (
-        <section className="py-24 bg-[#080f1e] border-t border-white/5">
-          <div className="max-w-4xl mx-auto px-6">
-            <div className="text-center mb-16 animate-fade-up">
-              <span className="badge badge-purple mb-4">FAQ</span>
-              <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
-                Frequently Asked <span className="gradient-text">Questions</span>
-              </h2>
-              <p className="text-slate-400 max-w-2xl mx-auto">
-                Everything you need to know about partnering with ScalerHouse. Can&apos;t find an answer? Feel free to reach out to us.
-              </p>
-            </div>
-            <div className="space-y-4">
-              {content.faq.map((faq, i) => (
-                <details key={faq._id} className="glass-card p-6 group cursor-pointer marker:content-[''] transition-all hover:bg-white/5">
-                  <summary className="font-syne font-bold text-lg text-white flex justify-between items-center outline-none select-none">
-                    {faq.title}
-                    <span className="text-cyan-400 group-open:rotate-45 transition-transform text-2xl leading-none flex items-center justify-center w-8 h-8 rounded-full bg-cyan-400/10 shrink-0 ml-4">+</span>
-                  </summary>
-                  <p className="text-slate-400 mt-4 leading-relaxed pr-8 border-t border-white/10 pt-4">{faq.description}</p>
-                </details>
-              ))}
-            </div>
+      <section className="py-24 bg-[#080f1e] border-t border-white/5">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="badge badge-purple mb-4">FAQ</span>
+            <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
+              Frequently Asked <span className="gradient-text">Questions</span>
+            </h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              Everything you need to know about partnering with ScalerHouse. Can&apos;t find an answer?{" "}
+              <Link href="/contact" className="text-cyan-400 hover:underline">Feel free to reach out.</Link>
+            </p>
           </div>
-        </section>
-      )}
+          <div className="space-y-4">
+            {(content.faq.length > 0 ? content.faq : [
+              { _id: 'faq1', title: 'What services does ScalerHouse offer?', description: 'ScalerHouse offers a comprehensive suite of digital marketing services including SEO & Content Marketing, Performance Ads (Google & Meta), Social Media Management, Email Marketing, Analytics & CRO, and Brand Strategy — all engineered to drive measurable revenue growth.' },
+              { _id: 'faq2', title: 'How long does it take to see results?', description: 'Most clients start seeing meaningful improvements within 45–60 days. SEO typically takes 3–6 months for significant ranking changes, while paid ads can generate leads within the first week. We set clear KPI benchmarks during onboarding so you always know what to expect.' },
+              { _id: 'faq3', title: 'Do you guarantee results?', description: 'We guarantee our process and commitment — not vanity metrics. We set data-backed growth benchmarks, and if we miss agreed-upon KPIs, you get a partial refund or credit. Our 99% client retention speaks for itself.' },
+              { _id: 'faq4', title: 'Are there any long-term lock-ins?', description: 'No lock-in contracts. We offer flexible monthly retainers with a 30-day cancellation notice. We believe in earning your business every month through results, not contracts.' },
+              { _id: 'faq5', title: 'Who creates the content?', description: 'Everything is created by our 100% in-house team — no outsourcing, ever. We have dedicated content writers, designers, strategists, and media buyers who work exclusively on your account.' },
+              { _id: 'faq6', title: 'What makes ScalerHouse different from other agencies?', description: 'We operate as a growth engineering firm, not a traditional agency. Every campaign is tied to your revenue goals, you get real-time reporting access, a dedicated growth strategist, and weekly strategy calls. We are a Google Premier Partner and Meta Business Partner — top 3% globally.' },
+            ]).map((faq) => (
+              <details key={faq._id} className="glass-card p-6 group cursor-pointer marker:content-[''] transition-all hover:bg-white/5">
+                <summary className="font-syne font-bold text-lg text-white flex justify-between items-center outline-none select-none">
+                  {faq.title}
+                  <span className="text-cyan-400 group-open:rotate-45 transition-transform text-2xl leading-none flex items-center justify-center w-8 h-8 rounded-full bg-cyan-400/10 shrink-0 ml-4">+</span>
+                </summary>
+                <p className="text-slate-400 mt-4 leading-relaxed pr-8 border-t border-white/10 pt-4">{faq.description}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ── TESTIMONIALS ── */}
       <section className="py-24 bg-[#080f1e]">
