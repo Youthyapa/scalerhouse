@@ -36,7 +36,7 @@ export default function Navbar() {
             <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
                 {/* Logo */}
                 <Link href="/" className="flex items-center">
-                    <img src="/logo.png" alt="ScalerHouse Logo" className="h-[64px] w-auto object-contain" />
+                    <img src="/logo.png" alt="ScalerHouse Logo" className="h-auto w-[200px] lg:w-[240px] object-contain" />
                 </Link>
 
                 {/* Desktop Nav */}

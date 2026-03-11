@@ -59,7 +59,7 @@ export default function LoginPage() {
                     {/* Logo */}
                     <div className="text-center mb-8">
                         <Link href="/" className="inline-flex items-center gap-3">
-                            <img src="/logo.png" alt="ScalerHouse Logo" className="h-[80px] w-auto object-contain mx-auto" />
+                            <img src="/logo.png" alt="ScalerHouse Logo" className="h-auto w-[260px] object-contain mx-auto" />
                         </Link>
                         <p className="text-slate-400 mt-3 text-sm">Sign in to your portal</p>
                     </div>

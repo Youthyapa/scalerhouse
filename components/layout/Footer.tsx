@@ -9,8 +9,8 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
                     {/* Brand */}
                     <div>
-                        <div className="flex items-center mb-6 mt-2">
-                            <img src="/logo.png" alt="ScalerHouse Logo" className="h-[64px] w-auto object-contain" />
+                        <div className="flex items-center mb-6">
+                            <img src="/logo.png" alt="ScalerHouse Logo" className="h-auto w-[220px] object-contain" />
                         </div>
                         <p className="text-slate-400 text-sm leading-relaxed mb-5">
                             Engineering Predictable Growth for Ambitious Brands. Performance-driven digital marketing that delivers real results.
