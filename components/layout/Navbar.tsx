@@ -35,15 +35,8 @@ export default function Navbar() {
         >
             <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
                 {/* Logo */}
-                <Link href="/" className="flex items-center gap-3">
-                    <div className="relative">
-                        <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-xl flex items-center justify-center font-syne font-black text-white text-lg shadow-lg shadow-blue-500/30">
-                            SH
-                        </div>
-                    </div>
-                    <span className="font-syne font-bold text-xl text-white">
-                        Scaler<span className="gradient-text">House</span>
-                    </span>
+                <Link href="/" className="flex items-center">
+                    <img src="/logo.png" alt="ScalerHouse Logo" className="h-[42px] w-auto object-contain" />
                 </Link>
 
                 {/* Desktop Nav */}
