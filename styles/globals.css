@@ -250,6 +250,11 @@ body {
   flex-direction: column;
 }
 
+/* Hide scrollbar in sidebar nav (still scrollable) */
+.sidebar nav::-webkit-scrollbar {
+  display: none;
+}
+
 .sidebar-link {
   display: flex;
   align-items: center;

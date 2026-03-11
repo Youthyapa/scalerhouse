@@ -5,19 +5,9 @@ import { Plus, Trash2, Edit2, Link as LinkIcon, Image as ImageIcon, Check, X } f
 import { withAuth } from '../../lib/auth';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import toast from 'react-hot-toast';
+import { adminNav } from '../../lib/adminNav';
 
-const adminNav = [
-    { href: '/admin', label: 'Dashboard', icon: '📊' },
-    { href: '/admin/leads', label: 'CRM / Leads', icon: '🎯' },
-    { href: '/admin/clients', label: 'Clients', icon: '🏢' },
-    { href: '/admin/affiliates', label: 'Affiliates', icon: '🤝' },
-    { href: '/admin/services', label: 'Services & Pricing', icon: '⚙️' },
-    { href: '/admin/content', label: 'Homepage Content', icon: '📝' },
-    { href: '/admin/blog', label: 'Blog', icon: '✍️' },
-    { href: '/admin/offers', label: 'Offers & Popups', icon: '🎁' },
-    { href: '/admin/careers', label: 'Careers', icon: '💼' },
-    { href: '/admin/activity', label: 'Activity Log', icon: '📋' },
-];
+
 
 type ContentType = 'client_logo' | 'achievement' | 'news_link' | 'faq';
 

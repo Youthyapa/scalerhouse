@@ -50,10 +50,12 @@ export default function DashboardLayout({ navItems, children, title, roleBadge, 
                     </div>
                 </div>
 
-                {/* Scrollable Nav */}
-                <nav className="flex-1 overflow-y-auto py-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                {/* Scrollable Nav – scrollbar hidden */}
+                <nav className="flex-1 overflow-y-auto py-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                     {navItems.map((item) => {
-                        const active = router.pathname === item.href || router.pathname.startsWith(item.href + '/');
+                        const active = item.href === '/admin'
+                            ? router.pathname === '/admin'
+                            : router.pathname === item.href || router.pathname.startsWith(item.href + '/');
                         return (
                             <Link
                                 key={item.href}

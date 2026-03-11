@@ -7,23 +7,10 @@ import Link from 'next/link';
 import { withAuth } from '../../lib/auth';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import { getAll, KEYS, Lead, Client, Affiliate, Employee, ActivityLog } from '../../lib/store';
+import { adminNav } from '../../lib/adminNav';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
-const adminNav = [
-    { href: '/admin', label: 'Dashboard', icon: '📊' },
-    { href: '/admin/leads', label: 'CRM / Leads', icon: '🎯' },
-    { href: '/admin/clients', label: 'Clients', icon: '🏢' },
-    { href: '/admin/affiliates', label: 'Affiliates', icon: '🤝' },
-    { href: '/admin/employees', label: 'Employees', icon: '👥' },
-    { href: '/admin/proposals', label: 'Proposals', icon: '📄' },
-    { href: '/admin/blog', label: 'Blog', icon: '✍️' },
-    { href: '/admin/content', label: 'Homepage Content', icon: '🌐' },
-    { href: '/admin/services', label: 'Services & Pricing', icon: '⚙️' },
-    { href: '/admin/offers', label: 'Offers & Popups', icon: '🎁' },
-    { href: '/admin/careers', label: 'Careers', icon: '💼' },
-    { href: '/admin/tickets', label: 'Tickets', icon: '🎫' },
-    { href: '/admin/activity', label: 'Activity Log', icon: '📋' },
-];
+
 
 const chartData = [
     { month: 'Sep', revenue: 180000, leads: 22 },

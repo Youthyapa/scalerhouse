@@ -6,21 +6,9 @@ import { withAuth } from '../../lib/auth';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import { getAll, addItem, KEYS, Employee, genId, logActivity } from '../../lib/store';
 import toast from 'react-hot-toast';
+import { adminNav } from '../../lib/adminNav';
 
-const adminNav = [
-    { href: '/admin', label: 'Dashboard', icon: '📊' },
-    { href: '/admin/leads', label: 'CRM / Leads', icon: '🎯' },
-    { href: '/admin/clients', label: 'Clients', icon: '🏢' },
-    { href: '/admin/affiliates', label: 'Affiliates', icon: '🤝' },
-    { href: '/admin/employees', label: 'Employees', icon: '👥' },
-    { href: '/admin/proposals', label: 'Proposals', icon: '📄' },
-    { href: '/admin/blog', label: 'Blog', icon: '✍️' },
-    { href: '/admin/services', label: 'Services & Pricing', icon: '⚙️' },
-    { href: '/admin/offers', label: 'Offers & Popups', icon: '🎁' },
-    { href: '/admin/careers', label: 'Careers', icon: '💼' },
-    { href: '/admin/tickets', label: 'Tickets', icon: '🎫' },
-    { href: '/admin/activity', label: 'Activity Log', icon: '📋' },
-];
+
 
 const roles: Employee['role'][] = ['Sales Executive', 'Digital Marketing Executive', 'SEO Specialist', 'Ads Manager', 'HR Manager', 'Accounts Manager'];
 const emptyEmp = { name: '', email: '', phone: '', role: 'Sales Executive' as Employee['role'], department: 'Sales' };

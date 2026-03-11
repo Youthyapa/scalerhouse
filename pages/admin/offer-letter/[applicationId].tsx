@@ -9,14 +9,9 @@ import { withAuth } from '../../../lib/auth';
 import DashboardLayout from '../../../components/layout/DashboardLayout';
 import toast from 'react-hot-toast';
 import jsPDF from 'jspdf';
+import { adminNav } from '../../../lib/adminNav';
 
-const adminNav = [
-    { href: '/admin', label: 'Dashboard', icon: '📊' },
-    { href: '/admin/leads', label: 'CRM / Leads', icon: '🎯' },
-    { href: '/admin/employees', label: 'Employees', icon: '👥' },
-    { href: '/admin/applications', label: 'Applications', icon: '📝' },
-    { href: '/admin/careers', label: 'Careers', icon: '💼' },
-];
+
 
 interface OfferData {
     candidateName: string;
