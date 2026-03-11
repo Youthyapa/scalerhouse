@@ -9,7 +9,7 @@ import Footer from '../components/layout/Footer';
 import WhatsAppFAB from '../components/layout/WhatsAppFAB';
 
 const team = [
-    { name: 'Rahul Sharma', role: 'Founder & CEO', initials: 'RS', color: 'from-blue-600 to-cyan-500' },
+    { name: 'Shashank Singh', role: 'Founder & CEO', initials: 'SS', color: 'from-blue-600 to-cyan-500' },
     { name: 'Priya Nair', role: 'Head of Growth', initials: 'PN', color: 'from-purple-600 to-pink-500' },
     { name: 'Amit Verma', role: 'SEO Lead', initials: 'AV', color: 'from-green-600 to-emerald-500' },
     { name: 'Kiran Mehta', role: 'Performance Ads Manager', initials: 'KM', color: 'from-orange-600 to-yellow-500' },
