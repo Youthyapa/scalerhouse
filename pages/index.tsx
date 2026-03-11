@@ -910,71 +910,9 @@ export default function Home() {
           </div>
           <div className="space-y-4">
             {(content.faq.length > 0 ? content.faq : [
-              {
-                _id: 'faq1',
-                title: 'What services does ScalerHouse offer?',
-                description: 'ScalerHouse is a full-service digital marketing company offering SEO & Content Marketing, Google Ads & Meta Performance Advertising, Social Media Management (Instagram, LinkedIn, YouTube), Email Marketing Automation, Conversion Rate Optimization (CRO), Web Analytics, and Brand Strategy. Every service is tied to measurable revenue outcomes — no vanity metrics, only real growth.',
-              },
-              {
-                _id: 'faq2',
-                title: 'Why is ScalerHouse the best digital marketing company in Kanpur?',
-                description: 'ScalerHouse is Kanpur\'s most results-driven digital marketing agency, recognized as a Google Premier Partner (top 3% globally) and Meta Business Partner. We have helped 150+ brands across Kanpur, Lucknow, and pan-India scale revenue through data-backed strategies. Our 100% in-house team, transparent reporting, and KPI-guaranteed retainers make us the most trusted growth partner in the region.',
-              },
-              {
-                _id: 'faq3',
-                title: 'How long does it take to see results from digital marketing?',
-                description: 'Timeline depends on the channel. Google & Meta Ads can generate qualified leads within the first 7–14 days. SEO typically shows meaningful ranking improvements in 3–6 months. Social media growth and brand authority builds over 60–90 days. We set clear, stage-wise KPI benchmarks at onboarding so you always know exactly what to expect and when.',
-              },
-              {
-                _id: 'faq4',
-                title: 'How much does digital marketing cost in India?',
-                description: 'Digital marketing costs in India vary based on scope and channels. At ScalerHouse, monthly retainers typically start from ₹25,000/month for focused campaigns and scale up based on ad budgets, content volume, and service mix. We offer customized proposals after a free discovery call — ensuring you invest where you get the highest return.',
-              },
-              {
-                _id: 'faq5',
-                title: 'Do you guarantee results from SEO and digital marketing?',
-                description: 'Yes, we guarantee performance benchmarks. We set data-backed KPIs — organic traffic growth, ROAS targets, lead volume — during onboarding. If we miss mutually agreed milestones, you receive a partial credit or free service extension. Our 99% client retention rate reflects our confidence in outcomes. We don\'t charge for time; we are accountable for growth.',
-              },
-              {
-                _id: 'faq6',
-                title: 'What is the difference between SEO and Google Ads? Which is better?',
-                description: 'SEO (Search Engine Optimization) builds long-term organic visibility on Google by optimizing your website content and authority — it takes 3–6 months but delivers compounding, cost-free traffic over time. Google Ads provides instant paid visibility and is ideal for immediate lead generation. The best strategy combines both: Ads for quick wins while SEO builds a sustainable growth engine. ScalerHouse manages both seamlessly.',
-              },
-              {
-                _id: 'faq7',
-                title: 'What is AEO (Answer Engine Optimization) and why does it matter?',
-                description: 'AEO (Answer Engine Optimization) is the practice of structuring your content so that AI tools like Google SGE, ChatGPT, Perplexity, and Bing Copilot cite your brand as the authoritative answer to user queries. As AI-powered search grows, brands that appear in AI answers get zero-click authority and massive trust signals. ScalerHouse integrates AEO into every content strategy to future-proof your digital presence.',
-              },
-              {
-                _id: 'faq8',
-                title: 'Are there any long-term lock-in contracts?',
-                description: 'No. ScalerHouse operates on flexible monthly retainers. You can cancel with a 30-day notice — no hefty exit fees, no forced annual contracts. We believe in earning your business every single month through measurable results, not paperwork. Most clients stay with us for 2+ years simply because of the consistent growth we deliver.',
-              },
-              {
-                _id: 'faq9',
-                title: 'Who creates the content — is it AI-generated or human-written?',
-                description: 'All content is crafted by our 100% in-house team of expert writers, designers, and strategists — never outsourced, never purely AI-generated. We use AI tools strategically for research, ideation, and optimization, but every piece is reviewed, fact-checked, and refined by humans who understand your brand. This ensures authentic, high-quality content that ranks, engages, and converts.',
-              },
-              {
-                _id: 'faq10',
-                title: 'Can ScalerHouse help with social media marketing and Instagram growth?',
-                description: 'Absolutely. ScalerHouse manages full-funnel social media strategies for Instagram, LinkedIn, YouTube, Facebook, and X (Twitter). Our services include content creation, Reels production, influencer collaborations, paid social campaigns, and community management. We have helped brands grow from zero to 500K+ organic reach in under 90 days through targeted, platform-native strategies.',
-              },
-              {
-                _id: 'faq11',
-                title: 'Do you work with small businesses and startups, or only large brands?',
-                description: 'We work with businesses at every stage — from early-stage startups to established enterprises. Our strategies are scaled to match your current growth stage and budget. Many of our 150+ clients started as small businesses in Kanpur and UP and have grown into pan-India brands with our support. We offer scalable retainer packages to fit different investment levels.',
-              },
-              {
-                _id: 'faq12',
-                title: 'Is ScalerHouse a local Kanpur agency or do you serve clients nationally?',
-                description: 'ScalerHouse is headquartered in Kanpur, Uttar Pradesh, but we serve clients across India and internationally. Our client base spans Kanpur, Lucknow, Delhi-NCR, Mumbai, Bangalore, and global markets including the USA and UAE. Being a Kanpur-based agency gives us deep local market expertise, while our global partnerships (Google Premier, Meta) ensure world-class execution.',
-              },
-              {
-                _id: 'faq13',
-                title: 'How do I get started with ScalerHouse?',
-                description: 'Getting started is simple. Click "Get Free Proposal" on our website, fill in your business details, and our growth team will schedule a free 30-minute strategy call within 24 hours. We\'ll audit your current digital presence, identify growth opportunities, and present a custom roadmap — completely free, with no obligation to proceed. Most clients see their onboarding completed and campaigns live within 7–10 days.',
-              },
+              { _id: 'faq_1', title: 'Do you guarantee results?', description: 'While we cannot guarantee arbitrary numbers, we do guarantee execution against KPI-driven benchmarks established during our strategy phase.' },
+              { _id: 'faq_2', title: 'Are there any long-term lock-ins?', description: 'No. All our retainers run on a month-to-month basis. We rely on performance to keep you with us, not legally binding annual contracts.' },
+              { _id: 'faq_3', title: 'Who creates the content?', description: 'Everything is managed by our in-house team of expert copywriters, designers, and strategists. We never outsource your brand\'s voice.' },
             ]).map((faq) => (
               <details key={faq._id} className="glass-card p-6 group cursor-pointer marker:content-[''] transition-all hover:bg-white/5">
                 <summary className="font-syne font-bold text-lg text-white flex justify-between items-center outline-none select-none">

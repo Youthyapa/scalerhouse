@@ -17,6 +17,7 @@ const adminNav = [
     { href: '/admin/employees', label: 'Employees', icon: '👥' },
     { href: '/admin/proposals', label: 'Proposals', icon: '📄' },
     { href: '/admin/blog', label: 'Blog', icon: '✍️' },
+    { href: '/admin/content', label: 'Homepage Content', icon: '🌐' },
     { href: '/admin/services', label: 'Services & Pricing', icon: '⚙️' },
     { href: '/admin/offers', label: 'Offers & Popups', icon: '🎁' },
     { href: '/admin/careers', label: 'Careers', icon: '💼' },
