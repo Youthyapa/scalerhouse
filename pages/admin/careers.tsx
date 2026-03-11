@@ -71,13 +71,37 @@ function MarkdownEditor({ value, onChange }: { value: string; onChange: (v: stri
     const insertLine = (prefix: string) => {
         const el = ref.current;
         if (!el) return;
-        const start = el.selectionStart;
-        // go to beginning of current line
-        const before = value.slice(0, start);
+        const selStart = el.selectionStart;
+        const selEnd = el.selectionEnd;
+
+        // Find the start of the first selected line
+        const before = value.slice(0, selStart);
         const lineStart = before.lastIndexOf('\n') + 1;
-        const newVal = value.slice(0, lineStart) + prefix + value.slice(lineStart);
+
+        // Extract the selected block (from line start to selEnd)
+        const selectedBlock = value.slice(lineStart, selEnd);
+
+        // Apply prefix to every line in the selected block
+        let counter = 1;
+        const replaced = selectedBlock
+            .split('\n')
+            .map(line => {
+                // If prefix is numbered list, auto-increment per line
+                if (/^\d+\. $/.test(prefix)) {
+                    return `${counter++}. ${line}`;
+                }
+                return prefix + line;
+            })
+            .join('\n');
+
+        const newVal = value.slice(0, lineStart) + replaced + value.slice(selEnd);
         onChange(newVal);
-        setTimeout(() => { el.focus(); el.setSelectionRange(lineStart + prefix.length, lineStart + prefix.length); }, 0);
+
+        // Restore selection over the newly modified block
+        setTimeout(() => {
+            el.focus();
+            el.setSelectionRange(lineStart, lineStart + replaced.length);
+        }, 0);
     };
 
     const addSeparator = () => {
