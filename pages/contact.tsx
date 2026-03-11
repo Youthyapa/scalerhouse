@@ -167,7 +167,7 @@ export default function ContactPage() {
                     <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/40" style={{ height: '420px' }}>
                         <iframe
                             title="ScalerHouse Office Location"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3572.8847894417965!2d80.28716!3d26.44907!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399c47b2588c6c4b%3A0x7f7f7f7f7f7f7f7f!2sRatan%20Lal%20Nagar%2C%20Gujaini%2C%20Kanpur%2C%20Uttar%20Pradesh%20208022!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin"
+                            src="https://maps.google.com/maps?q=B-25+Neemeshwar+MahaMandir+Society+Ratan+Lal+Nagar+Gujaini+Kanpur+Uttar+Pradesh+208022&output=embed&z=17"
                             width="100%"
                             height="100%"
                             style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) brightness(0.9) contrast(0.9)' }}
