@@ -1,5 +1,6 @@
 // pages/about.tsx
 import Head from 'next/head';
+import SEO from '../components/seo/SEO';
 import { motion } from 'framer-motion';
 import { Users, Target, Award, Rocket, Heart, CheckCircle, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
@@ -24,9 +25,10 @@ const values = [
 export default function AboutPage() {
     return (
         <>
-            <Head>
-                <title>About ScalerHouse – Performance-Driven Digital Marketing Agency</title>
-            </Head>
+            <SEO 
+                title="About Us – ScalerHouse"
+                description="ScalerHouse is a leading performance marketing agency built for ambitious brands. Discover our story, our team, and our commitment to predictable growth."
+            />
             <Navbar />
             <WhatsAppFAB />
 

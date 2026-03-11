@@ -1,5 +1,6 @@
 // pages/blog.tsx
 import Head from 'next/head';
+import SEO from '../components/seo/SEO';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Calendar, ArrowRight, Tag } from 'lucide-react';
@@ -40,10 +41,10 @@ export default function BlogPage() {
 
     return (
         <>
-            <Head>
-                <title>Blog – Digital Marketing Insights | ScalerHouse</title>
-                <meta name="description" content="Expert insights on SEO, performance marketing, social media, and digital growth from the ScalerHouse team." />
-            </Head>
+            <SEO 
+                title="Blog – Digital Marketing Insights | ScalerHouse"
+                description="Expert insights on SEO, performance marketing, social media, and digital growth from the ScalerHouse team."
+            />
             <Navbar />
             <WhatsAppFAB />
 

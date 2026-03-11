@@ -1,5 +1,6 @@
 // pages/contact.tsx
 import Head from 'next/head';
+import SEO from '../components/seo/SEO';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle, ArrowRight } from 'lucide-react';
@@ -40,10 +41,10 @@ export default function ContactPage() {
 
     return (
         <>
-            <Head>
-                <title>Get Free Proposal – ScalerHouse</title>
-                <meta name="description" content="Get your free custom digital marketing proposal from ScalerHouse. Fill the form or WhatsApp us directly." />
-            </Head>
+            <SEO 
+                title="Get Free Proposal – ScalerHouse"
+                description="Get your free custom digital marketing proposal from ScalerHouse. Fill the form or WhatsApp us directly."
+            />
             <Navbar />
             <WhatsAppFAB />
 

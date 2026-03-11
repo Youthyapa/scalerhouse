@@ -1,5 +1,6 @@
 // pages/index.tsx
 import Head from "next/head";
+import SEO from "../components/seo/SEO";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
@@ -242,15 +243,27 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>
-          ScalerHouse – Engineering Predictable Growth for Ambitious Brands
-        </title>
-        <meta
-          name="description"
-          content="ScalerHouse is a performance-driven digital marketing agency. SEO, Ads, Social Media, CRO. Scale Faster. Smarter. Stronger."
-        />
-      </Head>
+      <SEO 
+        title="ScalerHouse – Engineering Predictable Growth for Ambitious Brands"
+        description="ScalerHouse is a performance-driven digital marketing agency in Kanpur. SEO, Ads, Social Media, CRO. Scale Faster. Smarter. Stronger."
+        schemaData={{
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "ScalerHouse",
+          "image": "https://scalerhouse.com/logo.png",
+          "url": "https://scalerhouse.com",
+          "telephone": "+919876543210",
+          "priceRange": "$$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Kanpur",
+            "addressLocality": "Kanpur",
+            "addressRegion": "UP",
+            "postalCode": "208001",
+            "addressCountry": "IN"
+          }
+        }}
+      />
 
       <Navbar />
       <WhatsAppFAB />

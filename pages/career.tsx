@@ -1,5 +1,6 @@
 // pages/career.tsx – Enhanced Career Page with Resume Upload
 import Head from 'next/head';
+import SEO from '../components/seo/SEO';
 import { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -96,10 +97,10 @@ export default function CareerPage() {
 
     return (
         <>
-            <Head>
-                <title>Careers at ScalerHouse – Join Our Growth Team</title>
-                <meta name="description" content="Join ScalerHouse and help ambitious brands scale. Explore open positions in SEO, Performance Marketing, Social Media, and more." />
-            </Head>
+            <SEO 
+                title="Careers at ScalerHouse – Join Our Growth Team"
+                description="Join ScalerHouse and help ambitious brands scale. Explore open positions in SEO, Performance Marketing, Social Media, and more."
+            />
             <Navbar />
             <WhatsAppFAB />
 

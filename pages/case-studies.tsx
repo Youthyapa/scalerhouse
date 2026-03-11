@@ -1,5 +1,6 @@
 // pages/case-studies.tsx
 import Head from 'next/head';
+import SEO from '../components/seo/SEO';
 import { motion } from 'framer-motion';
 import { ArrowRight, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
@@ -61,10 +62,10 @@ const cases = [
 export default function CaseStudiesPage() {
     return (
         <>
-            <Head>
-                <title>Case Studies – ScalerHouse Growth Results</title>
-                <meta name="description" content="Real results from real brands. See how ScalerHouse helped brands achieve 8x ROAS, 340% traffic growth, and 500K+ social reach." />
-            </Head>
+            <SEO 
+                title="Case Studies – ScalerHouse Growth Results"
+                description="Real results from real brands. See how ScalerHouse helped brands achieve 8x ROAS, 340% traffic growth, and 500K+ social reach."
+            />
             <Navbar />
             <WhatsAppFAB />
 

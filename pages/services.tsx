@@ -1,5 +1,6 @@
 // pages/services.tsx
 import Head from 'next/head';
+import SEO from '../components/seo/SEO';
 import { motion } from 'framer-motion';
 import {
     Search, Megaphone, Globe, BarChart2, Mail, TrendingUp, Code, ArrowRight, CheckCircle,
@@ -64,11 +65,11 @@ export default function ServicesPage() {
 
     return (
         <>
-            <Head>
-                <title>Services – ScalerHouse | Digital Marketing, Web & App Development, Design & Automation</title>
-                <meta name="description" content="Full-stack digital growth services: SEO, Performance Ads, Social Media, Web Design, App Development, UI/UX, Graphic & Logo Design, GMB, CRM Development, API Automations. Trusted by 150+ brands." />
-                <meta name="keywords" content="digital marketing agency, SEO services, Google Ads, social media management, web development, app development, UI UX design, graphic design, logo design, Google My Business, CRM development, API automation, ScalerHouse" />
-            </Head>
+            <SEO 
+                title="Services – ScalerHouse | Digital Marketing, Web & App Development, Design & Automation"
+                description="Full-stack digital growth services: SEO, Performance Ads, Social Media, Web Design, App Development, UI/UX, Graphic & Logo Design, GMB, CRM Development, API Automations. Trusted by 150+ brands."
+                keywords="digital marketing agency, SEO services, Google Ads, social media management, web development, app development, UI UX design, graphic design, logo design, Google My Business, CRM development, API automation, ScalerHouse"
+            />
             <Navbar />
             <WhatsAppFAB />
 
