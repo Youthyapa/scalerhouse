@@ -647,8 +647,8 @@ export default function Home() {
               'republic.png', 'timesnow.png', 'tv9.png', 'punjabkesari.png',
               '99news.png', 'Insidernews.png', 'newswire.png', 'newstoday.png', 'india.png', 'todaynews.png',
             ].map((logo, i) => (
-              <div key={`news-${i}`} className="mx-8 flex items-center justify-center w-36 h-14 flex-shrink-0 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
-                <img src={`/News/${logo}`} alt={logo.replace(/\.[^.]+$/, '').replace(/([A-Z])/g, ' $1').trim()} className="max-w-full max-h-full object-contain" />
+              <div key={`news-${i}`} className="mx-8 flex items-center justify-center w-36 h-14 flex-shrink-0 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                <img src={`/News/${encodeURIComponent(logo)}`} alt={logo.replace(/\.[^.]+$/, '')} className="max-w-full max-h-full object-contain" />
               </div>
             ))}
           </div>
