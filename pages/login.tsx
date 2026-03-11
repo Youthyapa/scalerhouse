@@ -6,12 +6,6 @@ import { LogIn, Eye, EyeOff, Lock, Mail, ArrowRight } from 'lucide-react';
 import { useAuth } from '../lib/auth';
 import Link from 'next/link';
 
-const demoAccounts = [
-    { role: 'Admin', email: 'admin@scalerhouse.com', password: 'admin123', color: 'badge-red' },
-    { role: 'Employee', email: 'priya@scalerhouse.com', password: 'scaler123', color: 'badge-blue' },
-    { role: 'Client', email: 'client@scalerhouse.com', password: 'client123', color: 'badge-green' },
-    { role: 'Affiliate', email: 'affiliate@scalerhouse.com', password: 'affiliate123', color: 'badge-purple' },
-];
 
 const roleRoutes: Record<string, string> = {
     admin: '/admin',
@@ -42,10 +36,6 @@ export default function LoginPage() {
         setLoading(false);
     };
 
-    const quickLogin = (acc: typeof demoAccounts[0]) => {
-        setEmail(acc.email);
-        setPassword(acc.password);
-    };
 
     return (
         <>
@@ -117,21 +107,6 @@ export default function LoginPage() {
                             </button>
                         </form>
 
-                        <div className="mt-6 pt-6 border-t border-white/5">
-                            <p className="text-xs text-slate-500 mb-3 text-center">Quick Demo Access</p>
-                            <div className="grid grid-cols-2 gap-2">
-                                {demoAccounts.map((acc) => (
-                                    <button
-                                        key={acc.role}
-                                        onClick={() => quickLogin(acc)}
-                                        className="glass-card p-2.5 text-center cursor-pointer hover:border-cyan-400/20 transition-all"
-                                    >
-                                        <span className={`badge ${acc.color} text-xs`}>{acc.role}</span>
-                                        <p className="text-slate-500 text-xs mt-1 truncate">{acc.email}</p>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
                     </motion.div>
 
                     <p className="text-center text-slate-500 text-sm mt-5">
