@@ -161,7 +161,7 @@ export default function BlogPostPage() {
                     {/* CTA */}
                     <div className="mt-10 glass-card p-8 text-center">
                         <h3 className="font-syne font-bold text-2xl text-white mb-3">Ready to Scale Your Business?</h3>
-                        <p className="text-slate-400 mb-6">Get a free strategy consultation from our team located at B-25, Neemeshwar MahaMandir Society, Kanpur.</p>
+                        <p className="text-slate-400 mb-6">Get a free strategy consultation from Kanpur&apos;s top digital marketing team.</p>
                         <Link href="/#contact" className="btn-glow inline-flex">Get a Free Consultation →</Link>
                     </div>
 

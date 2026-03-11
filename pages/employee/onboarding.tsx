@@ -244,7 +244,7 @@ function OnboardingPage() {
                                         </div>
                                         <div>
                                             <label className="form-label">Bank Name & Branch</label>
-                                            <input className="form-input" value={data.bankName} onChange={e => set('bankName', e.target.value)} placeholder="e.g. SBI - B-25 Neemeshwar Branch" />
+                                            <input className="form-input" value={data.bankName} onChange={e => set('bankName', e.target.value)} placeholder="e.g. SBI - Kanpur Main Branch" />
                                         </div>
                                         <div>
                                             <label className="form-label">PAN Number</label>

@@ -171,7 +171,7 @@ function OfferLetterPage() {
         doc.rect(0, 800, pageW, 42, 'F');
         doc.setTextColor(...light);
         doc.setFontSize(8);
-        doc.text('© 2026 ScalerHouse · B-25, Neemeshwar MahaMandir Society, Ratan Lal Nagar, Gujaini, Kanpur, UP 208022', pageW / 2, 825, { align: 'center' });
+        doc.text('© 2026 ScalerHouse · Kanpur, Uttar Pradesh, India · scalerhouse.com', pageW / 2, 825, { align: 'center' });
 
         doc.save(`OfferLetter_${(data.candidateName || 'Candidate').replace(/\s+/g, '_')}.pdf`);
         toast.success('Offer letter downloaded!');

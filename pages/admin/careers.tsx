@@ -31,7 +31,7 @@ type FormState = {
 };
 
 const emptyForm: FormState = {
-    title: '', department: '', location: 'Remote / B-25, Neemeshwar MahaMandir Society, Kanpur',
+    title: '', department: '', location: 'Remote / Kanpur',
     type: 'Full-time', salary: '', description: '', requirements: [],
 };
 
@@ -292,7 +292,7 @@ function CareersAdminPage() {
                                 </div>
                                 <div>
                                     <label className="form-label">Location</label>
-                                    <input className="form-input !text-sm" value={form.location} onChange={e => setForm({ ...form, location: e.target.value })} placeholder="Remote / B-25, Neemeshwar MahaMandir Society, Kanpur" />
+                                    <input className="form-input !text-sm" value={form.location} onChange={e => setForm({ ...form, location: e.target.value })} placeholder="Remote / Kanpur" />
                                 </div>
                             </div>
 
