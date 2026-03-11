@@ -76,6 +76,7 @@ const services = [
     desc: "Dominate search rankings with data-driven SEO strategies and compelling content.",
     color: "from-blue-600/20 to-blue-900/10",
     border: "border-blue-500/20",
+    slug: "seo-content-marketing"
   },
   {
     icon: Megaphone,
@@ -83,6 +84,7 @@ const services = [
     desc: "Google & Meta campaigns engineered for maximum ROAS and scalable growth.",
     color: "from-cyan-600/20 to-cyan-900/10",
     border: "border-cyan-500/20",
+    slug: "performance-ads"
   },
   {
     icon: Globe,
@@ -90,6 +92,7 @@ const services = [
     desc: "Build authority and community across Instagram, LinkedIn, YouTube & more.",
     color: "from-purple-600/20 to-purple-900/10",
     border: "border-purple-500/20",
+    slug: "social-media-management"
   },
   {
     icon: BarChart2,
@@ -97,6 +100,7 @@ const services = [
     desc: "Turn data into decisions. Conversion rate optimization that multiplies revenue.",
     color: "from-green-600/20 to-green-900/10",
     border: "border-green-500/20",
+    slug: "analytics-cro"
   },
   {
     icon: Mail,
@@ -104,6 +108,7 @@ const services = [
     desc: "Automated drip campaigns that nurture leads and drive repeat revenue.",
     color: "from-orange-600/20 to-orange-900/10",
     border: "border-orange-500/20",
+    slug: "email-marketing-automation"
   },
   {
     icon: TrendingUp,
@@ -111,6 +116,31 @@ const services = [
     desc: "Position your brand as a market leader with our strategic growth framework.",
     color: "from-pink-600/20 to-pink-900/10",
     border: "border-pink-500/20",
+    slug: "brand-strategy"
+  },
+  {
+    icon: Globe,
+    title: "Web Design & Development",
+    desc: "Get a stunning, conversion-optimized website built on modern technology.",
+    color: "from-blue-600/20 to-indigo-900/10",
+    border: "border-blue-500/20",
+    slug: "web-design-development"
+  },
+  {
+    icon: TrendingUp,
+    title: "App Development",
+    desc: "Custom iOS and Android applications that engage users and drive revenue.",
+    color: "from-emerald-600/20 to-teal-900/10",
+    border: "border-emerald-500/20",
+    slug: "app-development"
+  },
+  {
+    icon: Search,
+    title: "Graphic Designing",
+    desc: "Eye-catching visuals, brand identities, and social media creatives that pop.",
+    color: "from-fuchsia-600/20 to-pink-900/10",
+    border: "border-fuchsia-500/20",
+    slug: "graphic-designing"
   },
 ];
 
@@ -583,10 +613,10 @@ export default function Home() {
                   {svc.desc}
                 </p>
                 <Link
-                  href="/services"
-                  className="inline-flex items-center gap-1 text-cyan-400 text-sm mt-4 hover:gap-2 transition-all"
+                  href={svc.slug ? `/services/${svc.slug}` : "/services"}
+                  className="inline-flex items-center gap-2 px-4 py-2 mt-4 rounded-lg text-sm font-semibold text-cyan-400 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 group-hover:gap-3"
                 >
-                  Learn more <ArrowRight size={14} />
+                  View Details <ArrowRight size={14} />
                 </Link>
               </motion.div>
             ))}
