@@ -564,8 +564,8 @@ export default function Home() {
       {/* ── OUR CLIENTS – Infinite Marquee Carousel ── */}
       <section className="py-14 bg-[#0a1222] border-b border-white/5 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 mb-8 text-center">
-          <p className="text-slate-500 text-xs font-bold tracking-[4px] uppercase mb-1">Trusted by Industry Leaders</p>
-          <h2 className="font-syne font-black text-2xl text-white">
+          <p className="text-slate-500 text-sm font-bold tracking-[4px] uppercase mb-2">Trusted by Industry Leaders</p>
+          <h2 className="font-syne font-black text-3xl md:text-4xl text-white">
             Brands That <span className="gradient-text">Grow With Us</span>
           </h2>
         </div>
