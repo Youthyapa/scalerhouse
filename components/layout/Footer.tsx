@@ -17,7 +17,7 @@ export default function Footer() {
                         </p>
                         <div className="flex gap-3">
                             {[
-                                { Icon: Linkedin, href: '#' },
+                                { Icon: Linkedin, href: 'https://www.linkedin.com/company/scalerhouse' },
                                 { Icon: Instagram, href: '#' },
                                 { Icon: Youtube, href: '#' },
                                 { Icon: Twitter, href: '#' },
