@@ -388,6 +388,16 @@ function ApplicationsAdminPage() {
                                 </button>
                             )}
 
+                            {/* Generate Offer Letter — only when Selected */}
+                            {selected.status === 'Selected' && (
+                                <a
+                                    href={`/admin/offer-letter/${selected._id}?name=${encodeURIComponent(selected.name)}&email=${encodeURIComponent(selected.email)}&job=${encodeURIComponent(selected.jobTitle)}`}
+                                    className="flex items-center justify-center gap-2 text-sm font-semibold bg-blue-500/10 border border-blue-400/30 text-blue-300 rounded-lg py-2.5 hover:bg-blue-500/20 transition-all"
+                                >
+                                    <FileText size={14} /> Generate Offer Letter
+                                </a>
+                            )}
+
                             {/* Hire button — always show if not Rejected */}
                             {selected.status !== 'Rejected' && selected.status !== 'New' && (
                                 <button onClick={() => { setHireModal(selected); setHireForm({ joiningDate: '', role: selected.jobTitle, department: '' }); }}

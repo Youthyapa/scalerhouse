@@ -3,7 +3,7 @@
 
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Download, Send, ArrowLeft, Building2, Calendar, DollarSign, User, Briefcase, Clock } from 'lucide-react';
 import { withAuth } from '../../../lib/auth';
 import DashboardLayout from '../../../components/layout/DashboardLayout';
@@ -41,10 +41,22 @@ function OfferLetterPage() {
         fixedCTC: '',
         variableCTC: '',
         probation: '3 months',
-        reportingManager: '',
+        reportingManager: 'Shashank Singh (Founder & CEO)',
         workingHours: '9:30 AM – 6:30 PM, Monday to Friday',
         location: 'Remote / Kanpur, Uttar Pradesh',
     });
+
+    // Pre-fill from URL query params passed from Applications panel
+    useEffect(() => {
+        if (!router.isReady) return;
+        const { name, email, job } = router.query;
+        setData(prev => ({
+            ...prev,
+            ...(name ? { candidateName: String(name) } : {}),
+            ...(email ? { candidateEmail: String(email) } : {}),
+            ...(job ? { jobTitle: String(job) } : {}),
+        }));
+    }, [router.isReady, router.query]);
 
     const set = (k: keyof OfferData, v: string) => setData(prev => ({ ...prev, [k]: v }));
 
@@ -179,12 +191,19 @@ function OfferLetterPage() {
 
     const sendByEmail = async () => {
         if (!data.candidateEmail) { toast.error('Enter candidate email first'); return; }
+        if (!data.candidateName || !data.jobTitle) { toast.error('Fill in candidate name and job title'); return; }
         setSending(true);
         try {
-            // In production: call an API to generate and email the PDF
-            // For now, show a success demo toast
-            await new Promise(r => setTimeout(r, 1200));
-            toast.success(`Offer letter sent to ${data.candidateEmail}`);
+            const r = await fetch('/api/applications/send-offer-letter', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            const res = await r.json();
+            if (!r.ok) throw new Error(res.error);
+            toast.success(`✅ Offer letter sent to ${data.candidateEmail}`);
+        } catch (e: any) {
+            toast.error(e.message || 'Failed to send offer letter');
         } finally {
             setSending(false);
         }
