@@ -3,7 +3,7 @@
 
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import {
     Download, Send, ArrowLeft, Building2, Calendar, DollarSign,
     User, Briefcase, Clock, FileText, ChevronDown, ChevronUp, Shield, Heart
@@ -11,26 +11,21 @@ import {
 import { withAuth } from '../../../lib/auth';
 import DashboardLayout from '../../../components/layout/DashboardLayout';
 import toast from 'react-hot-toast';
-import jsPDF from 'jspdf';
 import { adminNav } from '../../../lib/adminNav';
 
 interface OfferData {
-    // Candidate
     candidateName: string;
     candidateEmail: string;
     candidateAddress: string;
-    // Role
     jobTitle: string;
     employeeId: string;
     department: string;
     grade: string;
     jobType: string;
-    // Dates
     joiningDate: string;
     offerValidTill: string;
     probation: string;
     noticePeriod: string;
-    // Compensation
     fixedCTC: string;
     variableCTC: string;
     basicSalary: string;
@@ -38,16 +33,12 @@ interface OfferData {
     specialAllowance: string;
     pf: string;
     medicalAllowance: string;
-    // People
     reportingManager: string;
     hrContact: string;
-    // Work
     workingHours: string;
     location: string;
     workMode: string;
-    // Benefits
     benefits: string;
-    // Custom clauses
     customClause: string;
 }
 
@@ -83,10 +74,11 @@ const defaultData: OfferData = {
 function OfferLetterPage() {
     const router = useRouter();
     const [sending, setSending] = useState(false);
+    const [downloading, setDownloading] = useState(false);
     const [data, setData] = useState<OfferData>(defaultData);
     const [openSection, setOpenSection] = useState<string>('candidate');
+    const previewRef = useRef<HTMLDivElement>(null);
 
-    // Pre-fill from URL query params
     useEffect(() => {
         if (!router.isReady) return;
         const { name, email, job } = router.query;
@@ -106,189 +98,60 @@ function OfferLetterPage() {
     const totalCTC = ((parseFloat(data.fixedCTC) || 0) + (parseFloat(data.variableCTC) || 0)).toFixed(2);
     const monthlyGross = (parseFloat(totalCTC) / 12).toFixed(2);
 
-    const downloadPDF = () => {
-        const doc = new jsPDF({ unit: 'pt', format: 'a4' });
-        const margin = 50;
-        const pageW = 595;
-        const w = pageW - margin * 2;
-        const darkBg: [number, number, number] = [5, 13, 26];
-        const accent: [number, number, number] = [0, 212, 255];
-        const white: [number, number, number] = [255, 255, 255];
-        const light: [number, number, number] = [148, 163, 184];
-        const body: [number, number, number] = [30, 41, 59];
-        const sub: [number, number, number] = [100, 116, 139];
-
-        // ── Header ──────────────────────────────────────────────────────────
-        doc.setFillColor(...darkBg);
-        doc.rect(0, 0, pageW, 120, 'F');
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(22);
-        doc.setTextColor(...white);
-        doc.text('SCALER', margin, 52);
-        doc.setTextColor(...accent);
-        doc.text('HOUSE', margin + 82, 52);
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(7);
-        doc.setTextColor(...light);
-        doc.text('GLOBAL DIGITAL GROWTH PARTNER', margin, 64);
-        doc.text('scalerhouse.com | hr@scalerhouse.com | +91 92193 31120', pageW - margin, 64, { align: 'right' });
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(16);
-        doc.setTextColor(...white);
-        doc.text('LETTER OF OFFER', pageW / 2, 98, { align: 'center' });
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        doc.setTextColor(...light);
-        doc.text(`Date: ${today}`, pageW - margin, 112, { align: 'right' });
-
-        let y = 140;
-        const line = (text: string, bold = false, size = 9.5, color: [number, number, number] = body) => {
-            doc.setFont('helvetica', bold ? 'bold' : 'normal');
-            doc.setFontSize(size);
-            doc.setTextColor(...color);
-            const lines = doc.splitTextToSize(text, w);
-            doc.text(lines, margin, y);
-            y += lines.length * (size * 1.5);
-        };
-
-        const sectionTitle = (title: string) => {
-            y += 8;
-            doc.setFillColor(0, 212, 255);
-            doc.rect(margin, y, w, 1, 'F');
-            y += 10;
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(9);
-            doc.setTextColor(0, 150, 200);
-            doc.text(title.toUpperCase(), margin, y);
-            y += 14;
-            doc.setTextColor(...body);
-        };
-
-        const tableRow = (key: string, val: string, highlight = false) => {
-            if (highlight) doc.setFillColor(240, 249, 255);
-            else doc.setFillColor(248, 250, 252);
-            doc.rect(margin, y - 9, w, 18, 'F');
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8.5);
-            doc.setTextColor(sub[0], sub[1], sub[2]);
-            doc.text(key, margin + 6, y);
-            doc.setFont('helvetica', highlight ? 'bold' : 'normal');
-            if (highlight) doc.setTextColor(0, 130, 200);
-            else doc.setTextColor(body[0], body[1], body[2]);
-            doc.text(val, margin + 230, y);
-            y += 19;
-        };
-
-        // ── Salutation ──────────────────────────────────────────────────────
-        if (data.candidateAddress) {
-            line(data.candidateAddress, false, 8.5, sub);
-            y += 4;
-        }
-        y += 4;
-        line(`Dear ${data.candidateName || '[Candidate Name]'},`, true);
-        y += 6;
-        line(`We are pleased to extend this offer of employment to you at ScalerHouse as ${data.jobTitle || '[Position]'} in the ${data.department || '[Department]'} department. We believe your skills and experience will be a valuable addition to our growing team.`);
-        y += 6;
-
-        // ── Employment Details ───────────────────────────────────────────────
-        sectionTitle('1. Employment Details');
-        tableRow('Employee ID', data.employeeId || '(Will be assigned on joining)');
-        tableRow('Designation / Job Title', data.jobTitle || '—');
-        tableRow('Job Type', data.jobType);
-        tableRow('Grade / Level', data.grade);
-        tableRow('Department', data.department || '—');
-        tableRow('Reporting To', data.reportingManager || '—');
-        tableRow('Date of Joining', data.joiningDate || '—');
-        tableRow('Work Mode', data.workMode);
-        tableRow('Work Location', data.location);
-        tableRow('Working Hours', data.workingHours);
-        tableRow('Probation Period', data.probation);
-        tableRow('Notice Period', data.noticePeriod);
-
-        // ── Compensation ─────────────────────────────────────────────────────
-        sectionTitle('2. Compensation & Benefits');
-        if (data.basicSalary) tableRow('Basic Salary (Monthly)', `₹${data.basicSalary}`);
-        if (data.hra) tableRow('HRA (Monthly)', `₹${data.hra}`);
-        if (data.specialAllowance) tableRow('Special Allowance (Monthly)', `₹${data.specialAllowance}`);
-        if (data.medicalAllowance) tableRow('Medical Allowance (Monthly)', `₹${data.medicalAllowance}`);
-        if (data.pf) tableRow("Employer's PF Contribution (Monthly)", `₹${data.pf}`);
-        tableRow('Fixed CTC (Per Annum)', `₹${data.fixedCTC || '—'} LPA`);
-        if (data.variableCTC) tableRow('Variable / Performance Pay (Per Annum)', `₹${data.variableCTC} LPA`);
-        tableRow('Total CTC (Per Annum)', `₹${totalCTC} LPA`, true);
-        tableRow('Monthly Gross (Approx.)', `₹${monthlyGross} LPA`);
-
-        // ── Benefits ─────────────────────────────────────────────────────────
-        if (data.benefits) {
-            y += 4;
-            line('Employee Benefits:', true, 9);
-            y += 2;
-            line(data.benefits, false, 8.5, sub);
-            y += 4;
-        }
-
-        // Check if we need a new page
-        if (y > 680) {
-            doc.addPage();
-            y = 60;
-        }
-
-        // ── Code of Conduct ───────────────────────────────────────────────────
-        sectionTitle('3. Code of Conduct & Policies');
-        const coc = [
-            'You are expected to maintain the highest standards of professionalism, integrity, and ethical conduct.',
-            'Confidentiality of company data, client information, and proprietary technology must be strictly maintained at all times, even after the employment period.',
-            'Any invention, intellectual property, or work product created during employment shall be the exclusive property of ScalerHouse.',
-            'Employees must comply with all company policies including the IT Policy, Data Protection Policy, and Anti-Harassment Policy.',
-            'Soliciting clients, employees, or business partners of ScalerHouse for personal gain or for a competing entity during and for a period of 12 months after employment is strictly prohibited.',
-        ];
-        coc.forEach(c => {
-            line(`• ${c}`, false, 8, sub);
-            y += 2;
+    // Capture the preview div as a canvas and return it
+    const captureCanvas = async () => {
+        const html2canvas = (await import('html2canvas')).default;
+        if (!previewRef.current) throw new Error('Preview not found');
+        const canvas = await html2canvas(previewRef.current, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#ffffff',
+            logging: false,
         });
+        return canvas;
+    };
 
-        // ── NDA & Confidentiality ─────────────────────────────────────────────
-        sectionTitle('4. Non-Disclosure Agreement');
-        line('By accepting this offer, you agree not to disclose to any third party, directly or indirectly, any confidential or proprietary information acquired during the course of your employment. This obligation survives the termination of your employment for a period of two (2) years.', false, 8.5, sub);
-        y += 4;
+    const downloadPDF = async () => {
+        setDownloading(true);
+        try {
+            const canvas = await captureCanvas();
+            const { default: jsPDF } = await import('jspdf');
+            const imgData = canvas.toDataURL('image/jpeg', 0.95);
+            const pdfW = 210; // A4 mm
+            const ratio = canvas.height / canvas.width;
+            const pdfH = pdfW * ratio;
 
-        if (y > 680) { doc.addPage(); y = 60; }
+            // If content is taller than one A4 page, split into multiple pages
+            const pageH = 297; // A4 height in mm
+            const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
 
-        // ── Custom Clause ─────────────────────────────────────────────────────
-        if (data.customClause) {
-            sectionTitle('5. Additional Terms');
-            line(data.customClause, false, 8.5, sub);
-            y += 4;
+            if (pdfH <= pageH) {
+                doc.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
+            } else {
+                // Multi-page: slice the canvas
+                let yOffset = 0;
+                const pagePixelH = Math.floor(canvas.width * (pageH / pdfW));
+                while (yOffset < canvas.height) {
+                    const sliceH = Math.min(pagePixelH, canvas.height - yOffset);
+                    const sliceCanvas = document.createElement('canvas');
+                    sliceCanvas.width = canvas.width;
+                    sliceCanvas.height = sliceH;
+                    const ctx = sliceCanvas.getContext('2d')!;
+                    ctx.drawImage(canvas, 0, -yOffset);
+                    const sliceImg = sliceCanvas.toDataURL('image/jpeg', 0.95);
+                    if (yOffset > 0) doc.addPage();
+                    doc.addImage(sliceImg, 'JPEG', 0, 0, pdfW, sliceH * pdfW / canvas.width);
+                    yOffset += sliceH;
+                }
+            }
+
+            doc.save(`OfferLetter_${(data.candidateName || 'Candidate').replace(/\s+/g, '_')}.pdf`);
+            toast.success('✅ Offer letter PDF downloaded!');
+        } catch (e: any) {
+            toast.error('PDF generation failed: ' + e.message);
+        } finally {
+            setDownloading(false);
         }
-
-        // ── Acceptance ───────────────────────────────────────────────────────
-        sectionTitle(`${data.customClause ? '6' : '5'}. Acceptance`);
-        line('This offer expires on ' + (data.offerValidTill || '[date]') + '. Please sign and return a copy of this letter to confirm your acceptance. Failure to respond by the above date will result in this offer being automatically rescinded.', false, 8.5, sub);
-        y += 14;
-
-        // Signature block
-        doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(...body);
-        doc.text('For ScalerHouse:', margin, y);
-        doc.text('Accepted by Candidate:', margin + 270, y);
-        y += 40;
-        doc.setDrawColor(200, 212, 224);
-        doc.line(margin, y, margin + 160, y);
-        doc.line(margin + 270, y, margin + 430, y);
-        y += 12;
-        doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(...sub);
-        doc.text('Shashank Singh', margin, y);
-        doc.text(`${data.candidateName || 'Candidate Name'}`, margin + 270, y);
-        y += 12;
-        doc.text('Founder & CEO', margin, y);
-        doc.text('Date: _______________', margin + 270, y);
-
-        // Footer
-        doc.setFillColor(...darkBg);
-        doc.rect(0, 820, pageW, 22, 'F');
-        doc.setFontSize(7); doc.setTextColor(...light);
-        doc.text('© 2026 ScalerHouse · B-25, Neemeshwar MahaMandir Society, Ratan Lal Nagar, Gujaini, Kanpur, UP 208022 · scalerhouse.com', pageW / 2, 833, { align: 'center' });
-
-        doc.save(`OfferLetter_${(data.candidateName || 'Candidate').replace(/\s+/g, '_')}.pdf`);
-        toast.success('Offer letter PDF downloaded!');
     };
 
     const sendByEmail = async () => {
@@ -296,14 +159,44 @@ function OfferLetterPage() {
         if (!data.candidateName || !data.jobTitle) { toast.error('Fill in candidate name and job title'); return; }
         setSending(true);
         try {
+            // Generate PDF as base64 to attach in email
+            const canvas = await captureCanvas();
+            const { default: jsPDF } = await import('jspdf');
+            const imgData = canvas.toDataURL('image/jpeg', 0.92);
+            const pdfW = 210;
+            const pdfH = pdfW * (canvas.height / canvas.width);
+            const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+
+            const pageH = 297;
+            if (pdfH <= pageH) {
+                doc.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
+            } else {
+                let yOffset = 0;
+                const pagePixelH = Math.floor(canvas.width * (pageH / pdfW));
+                while (yOffset < canvas.height) {
+                    const sliceH = Math.min(pagePixelH, canvas.height - yOffset);
+                    const sliceCanvas = document.createElement('canvas');
+                    sliceCanvas.width = canvas.width;
+                    sliceCanvas.height = sliceH;
+                    const ctx = sliceCanvas.getContext('2d')!;
+                    ctx.drawImage(canvas, 0, -yOffset);
+                    const sliceImg = sliceCanvas.toDataURL('image/jpeg', 0.92);
+                    if (yOffset > 0) doc.addPage();
+                    doc.addImage(sliceImg, 'JPEG', 0, 0, pdfW, sliceH * pdfW / canvas.width);
+                    yOffset += sliceH;
+                }
+            }
+
+            const pdfBase64 = doc.output('datauristring').split(',')[1];
+
             const r = await fetch('/api/applications/send-offer-letter', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
+                body: JSON.stringify({ ...data, pdfBase64 }),
             });
             const res = await r.json();
             if (!r.ok) throw new Error(res.error);
-            toast.success(`✅ Offer letter sent to ${data.candidateEmail}`);
+            toast.success(`✅ Offer letter + PDF sent to ${data.candidateEmail}`);
         } catch (e: any) {
             toast.error(e.message || 'Failed to send offer letter');
         } finally {
@@ -321,7 +214,7 @@ function OfferLetterPage() {
                 <div className="flex items-center gap-2 font-syne font-bold text-white text-sm">{icon}{title}</div>
                 {openSection === id ? <ChevronUp size={16} className="text-slate-400" /> : <ChevronDown size={16} className="text-slate-400" />}
             </button>
-            {openSection === id && <div className="px-5 pb-5 space-y-4 border-t border-white/5 pt-4">{children}</div>}
+            {openSection === id && <div className="px-5 pb-5 space-y-3 border-t border-white/5 pt-4">{children}</div>}
         </div>
     );
 
@@ -353,6 +246,17 @@ function OfferLetterPage() {
         </div>
     );
 
+    const compRows = [
+        ...(data.basicSalary ? [['Basic Salary', `₹${data.basicSalary}`, 'Monthly']] : []),
+        ...(data.hra ? [['HRA', `₹${data.hra}`, 'Monthly']] : []),
+        ...(data.specialAllowance ? [['Special Allowance', `₹${data.specialAllowance}`, 'Monthly']] : []),
+        ...(data.medicalAllowance ? [['Medical Allowance', `₹${data.medicalAllowance}`, 'Monthly']] : []),
+        ...(data.pf ? [["Employer's PF", `₹${data.pf}`, 'Monthly']] : []),
+        ['Fixed CTC', `₹${data.fixedCTC || '—'} LPA`, 'Annual'],
+        ...(data.variableCTC ? [['Variable / Performance Pay', `₹${data.variableCTC} LPA`, 'Annual']] : []),
+        ['Total CTC', `₹${totalCTC} LPA`, 'Annual'],
+    ];
+
     return (
         <DashboardLayout navItems={adminNav} title="Offer Letter Builder" roleBadge="Super Admin" roleBadgeClass="badge-red">
             <Head><title>Offer Letter Builder – Admin | ScalerHouse</title></Head>
@@ -363,7 +267,7 @@ function OfferLetterPage() {
 
             <div className="grid xl:grid-cols-[480px_1fr] gap-6 items-start">
 
-                {/* ── LEFT: Form ───────────────────────────────────────────── */}
+                {/* ── LEFT: Form ── */}
                 <div className="space-y-3">
 
                     <Section id="candidate" title="Candidate Details" icon={<User size={14} />}>
@@ -379,7 +283,7 @@ function OfferLetterPage() {
                             <F label="Job Title *" field="jobTitle" placeholder="e.g. SEO Specialist" />
                             <F label="Department *" field="department" placeholder="e.g. Digital Marketing" />
                             <F label="Employee ID" field="employeeId" placeholder="EMP-001 (or leave blank)" />
-                            <F label="Grade / Level" field="grade" placeholder="e.g. L2, L3" />
+                            <F label="Grade / Level" field="grade" placeholder="L2, L3…" />
                             <div>
                                 <label className="form-label text-xs">Job Type</label>
                                 <select className="form-input !text-sm" defaultValue={data.jobType} onBlur={e => set('jobType', e.target.value)}>
@@ -401,22 +305,24 @@ function OfferLetterPage() {
                         <div className="grid grid-cols-2 gap-3">
                             <F label="Date of Joining" field="joiningDate" type="date" />
                             <F label="Offer Valid Till" field="offerValidTill" type="date" />
-                            <F label="Probation Period" field="probation" placeholder="e.g. 3 months" />
-                            <F label="Notice Period" field="noticePeriod" placeholder="e.g. 30 days" />
+                            <F label="Probation Period" field="probation" placeholder="3 months" />
+                            <F label="Notice Period" field="noticePeriod" placeholder="30 days" />
                             <F label="Working Hours" field="workingHours" placeholder="9:30 AM – 6:30 PM" span />
-                            <TA label="Work Location / Address" field="location" rows={2} placeholder="Office street address" />
+                            <TA label="Work Location / Address" field="location" rows={2} placeholder="Office address" />
                         </div>
                     </Section>
 
                     <Section id="ctc" title="Compensation (CTC)" icon={<DollarSign size={14} />}>
-                        <p className="text-slate-500 text-xs mb-1">Enter LPA values for CTC, and monthly amounts for salary breakup.</p>
+                        <p className="text-slate-500 text-xs">Enter LPA for CTC fields, and monthly amounts (₹) for salary breakup.</p>
                         <div className="grid grid-cols-2 gap-3">
                             <F label="Fixed CTC (LPA)" field="fixedCTC" placeholder="e.g. 5.5" />
-                            <F label="Variable / Performance Pay (LPA)" field="variableCTC" placeholder="e.g. 0.5" />
+                            <F label="Variable Pay (LPA)" field="variableCTC" placeholder="e.g. 0.5" />
                         </div>
-                        <div className="text-xs text-slate-400 font-medium mt-1">Total CTC: <span className="text-cyan-400 font-bold">₹{totalCTC} LPA</span> / Monthly Gross: <span className="text-cyan-400">₹{monthlyGross}L</span></div>
-                        <div className="border-t border-white/5 pt-3 mt-1">
-                            <p className="text-slate-400 text-xs mb-3">Monthly Salary Breakup (optional but recommended)</p>
+                        <div className="text-xs text-slate-400 font-medium bg-slate-800/50 rounded-lg px-3 py-2">
+                            Total CTC: <span className="text-cyan-400 font-bold">₹{totalCTC} LPA</span> &nbsp;|&nbsp; Monthly Gross ≈ <span className="text-cyan-400">₹{monthlyGross}L</span>
+                        </div>
+                        <div className="border-t border-white/5 pt-3">
+                            <p className="text-slate-400 text-xs mb-3 font-medium">Monthly Salary Breakup (optional)</p>
                             <div className="grid grid-cols-2 gap-3">
                                 <F label="Basic Salary (₹/month)" field="basicSalary" placeholder="e.g. 25000" />
                                 <F label="HRA (₹/month)" field="hra" placeholder="e.g. 10000" />
@@ -428,162 +334,199 @@ function OfferLetterPage() {
                     </Section>
 
                     <Section id="benefits" title="Benefits & Perks" icon={<Heart size={14} />}>
-                        <div className="grid grid-cols-1 gap-3">
-                            <TA label="Benefits (one per line or comma separated)" field="benefits" rows={4} placeholder="Health Insurance, 18 Paid Leaves, Bonus..." />
-                        </div>
+                        <TA label="Benefits" field="benefits" rows={4} placeholder="Health Insurance, 18 Paid Leaves, Bonus..." />
                     </Section>
 
                     <Section id="conduct" title="Custom Terms / Special Clauses" icon={<Shield size={14} />}>
-                        <TA label="Additional Terms or Special Clauses (optional)" field="customClause" rows={5} placeholder="Any special terms specific to this hire, e.g. sign-on bonus, equipment provision, relocation allowance..." />
+                        <TA label="Additional Terms (optional)" field="customClause" rows={5} placeholder="Sign-on bonus, relocation allowance, equipment, etc." />
                     </Section>
 
-                    {/* Actions */}
+                    {/* Action Buttons */}
                     <div className="flex gap-3 pt-1">
-                        <button onClick={downloadPDF} className="btn-glow flex-1 justify-center !py-3.5">
-                            <Download size={15} /> Download PDF
+                        <button onClick={downloadPDF} disabled={downloading} className="btn-glow flex-1 justify-center !py-3.5 disabled:opacity-60">
+                            <Download size={15} /> {downloading ? 'Generating...' : 'Download PDF'}
                         </button>
                         <button onClick={sendByEmail} disabled={sending} className="btn-outline flex-1 !py-3.5 justify-center disabled:opacity-60">
-                            <Send size={15} /> {sending ? 'Sending...' : 'Email to Candidate'}
+                            <Send size={15} /> {sending ? 'Sending...' : 'Email + PDF'}
                         </button>
                     </div>
-                    <p className="text-slate-500 text-xs text-center">PDF includes all sections. Email sends a branded HTML version.</p>
+                    <p className="text-slate-500 text-xs text-center">Email sends both a branded HTML version + PDF attached.</p>
                 </div>
 
-                {/* ── RIGHT: Live Preview ──────────────────────────────────── */}
+                {/* ── RIGHT: Live Preview ── */}
                 <div className="sticky top-4">
-                    <h3 className="font-syne font-bold text-white text-sm mb-3 flex items-center gap-2"><FileText size={14} /> Live Preview</h3>
-                    <div className="bg-white rounded-xl overflow-hidden text-[#1e293b] shadow-2xl text-[11px] leading-relaxed max-h-[85vh] overflow-y-auto">
+                    <h3 className="font-syne font-bold text-white text-sm mb-3 flex items-center gap-2"><FileText size={14} /> Live Preview <span className="text-slate-500 font-normal text-xs">(PDF will look exactly like this)</span></h3>
+                    <div ref={previewRef} className="bg-white rounded-xl overflow-hidden text-[#1e293b] shadow-2xl max-h-[85vh] overflow-y-auto">
 
                         {/* Header */}
-                        <div className="bg-[#050d1a] px-7 py-5">
+                        <div style={{ background: '#050d1a' }} className="px-8 py-6">
                             <div className="flex items-end justify-between">
                                 <div>
-                                    <div className="text-lg font-black text-white tracking-tight">SCALER<span className="text-[#00d4ff]">HOUSE</span></div>
-                                    <div className="text-[8px] text-slate-400 tracking-widest mt-0.5">GLOBAL DIGITAL GROWTH PARTNER</div>
+                                    <div style={{ fontSize: 22, fontWeight: 900, color: '#fff', letterSpacing: -0.5 }}>
+                                        SCALER<span style={{ color: '#00d4ff' }}>HOUSE</span>
+                                    </div>
+                                    <div style={{ fontSize: 9, color: '#94a3b8', letterSpacing: 4, marginTop: 2 }}>GLOBAL DIGITAL GROWTH PARTNER</div>
                                 </div>
-                                <div className="text-right text-slate-400 text-[8px]">
+                                <div style={{ textAlign: 'right', color: '#94a3b8', fontSize: 9 }}>
                                     <div>scalerhouse.com</div>
                                     <div>hr@scalerhouse.com</div>
                                     <div>+91 92193 31120</div>
                                 </div>
                             </div>
-                            <div className="mt-4 text-center text-white font-bold text-sm tracking-widest">LETTER OF OFFER</div>
-                            <div className="text-center text-slate-400 text-[8px] mt-0.5">Date: {today}</div>
+                            <div style={{ textAlign: 'center', color: '#fff', fontWeight: 700, fontSize: 14, letterSpacing: 3, marginTop: 16 }}>LETTER OF OFFER</div>
+                            <div style={{ textAlign: 'center', color: '#94a3b8', fontSize: 9, marginTop: 2 }}>Date: {today}</div>
                         </div>
 
                         {/* Body */}
-                        <div className="px-7 py-5 space-y-4">
-                            {data.candidateAddress && <p className="text-[#64748b] text-[9px] whitespace-pre-line">{data.candidateAddress}</p>}
+                        <div className="px-8 py-6 space-y-5 text-xs">
+                            {data.candidateAddress && (
+                                <p style={{ color: '#64748b', whiteSpace: 'pre-line', fontSize: 10 }}>{data.candidateAddress}</p>
+                            )}
+
                             <div>
-                                <p className="font-semibold text-slate-800">Dear <span className="text-blue-700">{data.candidateName || '[Candidate Name]'}</span>,</p>
-                                <p className="text-slate-500 mt-1">We are pleased to extend this offer of employment to you at <strong className="text-slate-700">ScalerHouse</strong> as <strong className="text-blue-700">{data.jobTitle || '[Position]'}</strong>{data.department ? ` in the ${data.department} department` : ''}.</p>
+                                <p style={{ fontWeight: 600, color: '#1e293b', fontSize: 12 }}>
+                                    Dear <span style={{ color: '#1e40af' }}>{data.candidateName || '[Candidate Name]'}</span>,
+                                </p>
+                                <p style={{ color: '#64748b', marginTop: 6, lineHeight: 1.7, fontSize: 11 }}>
+                                    We are pleased to extend this offer of employment to you at <strong style={{ color: '#1e293b' }}>ScalerHouse</strong> as{' '}
+                                    <strong style={{ color: '#1e40af' }}>{data.jobTitle || '[Position]'}</strong>
+                                    {data.department ? ` in the ${data.department} department` : ''}.
+                                    We believe your expertise will be a valuable addition to our growing team.
+                                </p>
                             </div>
 
-                            {/* Employment Details */}
+                            {/* 1. Employment Details */}
                             <div>
-                                <div className="text-[8px] font-bold text-cyan-600 uppercase tracking-widest mb-1 border-b border-cyan-100 pb-1">1. Employment Details</div>
-                                <table className="w-full text-[9px]">
-                                    {[
-                                        ['Employee ID', data.employeeId || '(To be assigned)'],
-                                        ['Designation', data.jobTitle || '—'],
-                                        ['Job Type', data.jobType],
-                                        ['Grade', data.grade],
-                                        ['Department', data.department || '—'],
-                                        ['Reporting To', data.reportingManager || '—'],
-                                        ['Date of Joining', data.joiningDate || '—'],
-                                        ['Work Mode', data.workMode],
-                                        ['Work Location', data.location],
-                                        ['Working Hours', data.workingHours],
-                                        ['Probation Period', data.probation],
-                                        ['Notice Period', data.noticePeriod],
-                                    ].map(([k, v], i) => (
-                                        <tr key={k} className={i % 2 === 0 ? 'bg-slate-50' : 'bg-white'}>
-                                            <td className="px-2 py-1 text-slate-500 font-medium w-1/2 border-r border-slate-100">{k}</td>
-                                            <td className="px-2 py-1 font-semibold text-slate-800">{v}</td>
-                                        </tr>
-                                    ))}
+                                <div style={{ fontSize: 9, fontWeight: 700, color: '#0891b2', textTransform: 'uppercase', letterSpacing: 2, borderBottom: '1px solid #e0f2fe', paddingBottom: 4, marginBottom: 6 }}>
+                                    1. Employment Details
+                                </div>
+                                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 10 }}>
+                                    <tbody>
+                                        {[
+                                            ['Employee ID', data.employeeId || '(To be assigned on joining)'],
+                                            ['Designation / Job Title', data.jobTitle || '—'],
+                                            ['Job Type', data.jobType],
+                                            ['Grade / Level', data.grade],
+                                            ['Department', data.department || '—'],
+                                            ['Reporting To', data.reportingManager || '—'],
+                                            ['Date of Joining', data.joiningDate || '—'],
+                                            ['Work Mode', data.workMode],
+                                            ['Work Location', data.location],
+                                            ['Working Hours', data.workingHours],
+                                            ['Probation Period', data.probation],
+                                            ['Notice Period', data.noticePeriod],
+                                        ].map(([k, v], i) => (
+                                            <tr key={k} style={{ background: i % 2 === 0 ? '#f8fafc' : '#ffffff' }}>
+                                                <td style={{ padding: '5px 10px', color: '#64748b', fontWeight: 600, width: '42%', borderRight: '1px solid #e2e8f0', borderBottom: '1px solid #f1f5f9' }}>{k}</td>
+                                                <td style={{ padding: '5px 10px', color: '#1e293b', borderBottom: '1px solid #f1f5f9' }}>{v}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
                                 </table>
                             </div>
 
-                            {/* Compensation */}
+                            {/* 2. Compensation */}
                             <div>
-                                <div className="text-[8px] font-bold text-cyan-600 uppercase tracking-widest mb-1 border-b border-cyan-100 pb-1">2. Compensation</div>
-                                <table className="w-full text-[9px]">
-                                    {[
-                                        ...(data.basicSalary ? [['Basic Salary (Monthly)', `₹${data.basicSalary}`]] : []),
-                                        ...(data.hra ? [['HRA (Monthly)', `₹${data.hra}`]] : []),
-                                        ...(data.specialAllowance ? [['Special Allowance (Monthly)', `₹${data.specialAllowance}`]] : []),
-                                        ...(data.medicalAllowance ? [['Medical Allowance (Monthly)', `₹${data.medicalAllowance}`]] : []),
-                                        ...(data.pf ? [["Employer PF (Monthly)", `₹${data.pf}`]] : []),
-                                        ['Fixed CTC (Annual)', `₹${data.fixedCTC || '—'} LPA`],
-                                        ...(data.variableCTC ? [['Variable Pay (Annual)', `₹${data.variableCTC} LPA`]] : []),
-                                        ['Total CTC (Annual)', `₹${totalCTC} LPA`],
-                                    ].map(([k, v], i) => (
-                                        <tr key={k} className={k === 'Total CTC (Annual)' ? 'bg-blue-50' : i % 2 === 0 ? 'bg-slate-50' : 'bg-white'}>
-                                            <td className="px-2 py-1 text-slate-500 font-medium w-1/2 border-r border-slate-100">{k}</td>
-                                            <td className={`px-2 py-1 font-${k === 'Total CTC (Annual)' ? 'bold text-blue-700' : 'semibold text-slate-800'}`}>{v}</td>
+                                <div style={{ fontSize: 9, fontWeight: 700, color: '#0891b2', textTransform: 'uppercase', letterSpacing: 2, borderBottom: '1px solid #e0f2fe', paddingBottom: 4, marginBottom: 6 }}>
+                                    2. Compensation Package
+                                </div>
+                                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 10 }}>
+                                    <thead>
+                                        <tr style={{ background: '#f0f9ff' }}>
+                                            <th style={{ padding: '5px 10px', color: '#0369a1', textAlign: 'left', fontWeight: 700, width: '42%', borderBottom: '1px solid #bae6fd', borderRight: '1px solid #bae6fd' }}>Component</th>
+                                            <th style={{ padding: '5px 10px', color: '#0369a1', textAlign: 'left', fontWeight: 700, borderBottom: '1px solid #bae6fd', borderRight: '1px solid #bae6fd' }}>Amount</th>
+                                            <th style={{ padding: '5px 10px', color: '#0369a1', textAlign: 'left', fontWeight: 700, borderBottom: '1px solid #bae6fd' }}>Frequency</th>
                                         </tr>
-                                    ))}
+                                    </thead>
+                                    <tbody>
+                                        {compRows.map(([k, v, freq], i) => (
+                                            <tr key={k} style={{ background: k === 'Total CTC' ? '#eff6ff' : i % 2 === 0 ? '#f8fafc' : '#ffffff' }}>
+                                                <td style={{ padding: '5px 10px', color: '#64748b', fontWeight: k === 'Total CTC' ? 700 : 500, borderRight: '1px solid #e2e8f0', borderBottom: '1px solid #f1f5f9' }}>{k}</td>
+                                                <td style={{ padding: '5px 10px', color: k === 'Total CTC' ? '#1d4ed8' : '#1e293b', fontWeight: k === 'Total CTC' ? 800 : 500, borderRight: '1px solid #e2e8f0', borderBottom: '1px solid #f1f5f9' }}>{v}</td>
+                                                <td style={{ padding: '5px 10px', color: '#94a3b8', fontSize: 9, borderBottom: '1px solid #f1f5f9' }}>{freq}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
                                 </table>
                             </div>
 
-                            {/* Benefits */}
+                            {/* 3. Benefits */}
                             {data.benefits && (
                                 <div>
-                                    <div className="text-[8px] font-bold text-cyan-600 uppercase tracking-widest mb-1 border-b border-cyan-100 pb-1">3. Benefits & Perks</div>
-                                    <p className="text-slate-500 text-[9px]">{data.benefits}</p>
+                                    <div style={{ fontSize: 9, fontWeight: 700, color: '#0891b2', textTransform: 'uppercase', letterSpacing: 2, borderBottom: '1px solid #e0f2fe', paddingBottom: 4, marginBottom: 6 }}>
+                                        3. Benefits & Perks
+                                    </div>
+                                    <p style={{ color: '#64748b', lineHeight: 1.7, fontSize: 10 }}>{data.benefits}</p>
                                 </div>
                             )}
 
-                            {/* Code of Conduct */}
+                            {/* 4. Code of Conduct */}
                             <div>
-                                <div className="text-[8px] font-bold text-cyan-600 uppercase tracking-widest mb-1 border-b border-cyan-100 pb-1">4. Code of Conduct & Policies</div>
-                                <ul className="text-[9px] text-slate-500 space-y-0.5 list-disc list-inside">
-                                    <li>Maintain highest standards of professionalism and integrity at all times.</li>
-                                    <li>Confidentiality of company data and client information must be strictly maintained.</li>
-                                    <li>All intellectual property created during employment belongs to ScalerHouse.</li>
-                                    <li>Non-solicitation of clients/employees for 12 months after employment.</li>
-                                    <li>Compliance with IT, Data Protection, and Anti-Harassment policies is mandatory.</li>
+                                <div style={{ fontSize: 9, fontWeight: 700, color: '#0891b2', textTransform: 'uppercase', letterSpacing: 2, borderBottom: '1px solid #e0f2fe', paddingBottom: 4, marginBottom: 6 }}>
+                                    4. Code of Conduct & Policies
+                                </div>
+                                <ul style={{ color: '#64748b', fontSize: 10, lineHeight: 1.8, paddingLeft: 16 }}>
+                                    <li>Maintain the highest standards of professionalism and integrity at all times.</li>
+                                    <li>Confidentiality of company data, client information, and proprietary technology must be maintained strictly.</li>
+                                    <li>All intellectual property created during the employment period belongs exclusively to ScalerHouse.</li>
+                                    <li>Non-solicitation of clients or employees for 12 months post-employment.</li>
+                                    <li>Compliance with IT Policy, Data Protection Policy, and Anti-Harassment Policy is mandatory.</li>
                                 </ul>
                             </div>
 
-                            {/* NDA */}
+                            {/* 5. NDA */}
                             <div>
-                                <div className="text-[8px] font-bold text-cyan-600 uppercase tracking-widest mb-1 border-b border-cyan-100 pb-1">5. Non-Disclosure Agreement</div>
-                                <p className="text-slate-500 text-[9px]">By accepting this offer, you agree not to disclose any confidential or proprietary information for a period of 2 years post-employment.</p>
+                                <div style={{ fontSize: 9, fontWeight: 700, color: '#0891b2', textTransform: 'uppercase', letterSpacing: 2, borderBottom: '1px solid #e0f2fe', paddingBottom: 4, marginBottom: 6 }}>
+                                    5. Non-Disclosure Agreement
+                                </div>
+                                <p style={{ color: '#64748b', lineHeight: 1.7, fontSize: 10 }}>
+                                    By accepting this offer, you agree not to disclose to any third party, directly or indirectly, any confidential or proprietary
+                                    information acquired during the course of your employment. This obligation survives the termination of your employment for a
+                                    period of <strong style={{ color: '#1e293b' }}>two (2) years</strong>.
+                                </p>
                             </div>
 
-                            {/* Custom Clause */}
+                            {/* 6. Custom Clause */}
                             {data.customClause && (
                                 <div>
-                                    <div className="text-[8px] font-bold text-cyan-600 uppercase tracking-widest mb-1 border-b border-cyan-100 pb-1">6. Additional Terms</div>
-                                    <p className="text-slate-500 text-[9px] whitespace-pre-line">{data.customClause}</p>
+                                    <div style={{ fontSize: 9, fontWeight: 700, color: '#0891b2', textTransform: 'uppercase', letterSpacing: 2, borderBottom: '1px solid #e0f2fe', paddingBottom: 4, marginBottom: 6 }}>
+                                        6. Additional Terms
+                                    </div>
+                                    <p style={{ color: '#64748b', lineHeight: 1.7, fontSize: 10, whiteSpace: 'pre-line' }}>{data.customClause}</p>
                                 </div>
                             )}
 
-                            {/* Acceptance */}
+                            {/* 7. Acceptance */}
                             <div>
-                                <div className="text-[8px] font-bold text-cyan-600 uppercase tracking-widest mb-1 border-b border-cyan-100 pb-1">{data.customClause ? '7' : '6'}. Acceptance</div>
-                                <p className="text-slate-500 text-[9px]">This offer expires on <strong>{data.offerValidTill || '[date]'}</strong>. Please sign and return a copy to confirm acceptance.</p>
+                                <div style={{ fontSize: 9, fontWeight: 700, color: '#0891b2', textTransform: 'uppercase', letterSpacing: 2, borderBottom: '1px solid #e0f2fe', paddingBottom: 4, marginBottom: 6 }}>
+                                    {data.customClause ? '7' : '6'}. Acceptance
+                                </div>
+                                <p style={{ color: '#64748b', lineHeight: 1.7, fontSize: 10 }}>
+                                    This offer expires on <strong style={{ color: '#1e293b' }}>{data.offerValidTill || '[date]'}</strong>. Please sign and return
+                                    a copy of this letter within the stipulated time to confirm your acceptance. Failure to respond will result in this offer
+                                    being automatically rescinded.
+                                </p>
                             </div>
 
-                            {/* Signature */}
-                            <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-slate-200">
+                            {/* Signature block */}
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginTop: 20, paddingTop: 16, borderTop: '1px solid #e2e8f0' }}>
                                 <div>
-                                    <div className="border-b border-slate-400 mb-1 h-6" />
-                                    <p className="text-slate-700 font-semibold text-[9px]">Shashank Singh</p>
-                                    <p className="text-slate-400 text-[8px]">Founder & CEO, ScalerHouse</p>
+                                    <div style={{ borderBottom: '1px solid #94a3b8', height: 32, marginBottom: 6 }} />
+                                    <p style={{ fontWeight: 700, color: '#1e293b', fontSize: 10 }}>Shashank Singh</p>
+                                    <p style={{ color: '#94a3b8', fontSize: 9 }}>Founder & CEO, ScalerHouse</p>
+                                    <p style={{ color: '#94a3b8', fontSize: 9 }}>Date: {today}</p>
                                 </div>
                                 <div>
-                                    <div className="border-b border-slate-400 mb-1 h-6" />
-                                    <p className="text-slate-700 font-semibold text-[9px]">{data.candidateName || 'Candidate Name'}</p>
-                                    <p className="text-slate-400 text-[8px]">Date: _______________</p>
+                                    <div style={{ borderBottom: '1px solid #94a3b8', height: 32, marginBottom: 6 }} />
+                                    <p style={{ fontWeight: 700, color: '#1e293b', fontSize: 10 }}>{data.candidateName || 'Candidate Name'}</p>
+                                    <p style={{ color: '#94a3b8', fontSize: 9 }}>Candidate Signature & Acceptance</p>
+                                    <p style={{ color: '#94a3b8', fontSize: 9 }}>Date: _______________</p>
                                 </div>
                             </div>
                         </div>
 
                         {/* Footer */}
-                        <div className="bg-[#050d1a] px-7 py-3 text-center text-[#475569] text-[8px]">
+                        <div style={{ background: '#050d1a', padding: '12px 32px', textAlign: 'center', color: '#475569', fontSize: 9 }}>
                             © 2026 ScalerHouse · B-25, Neemeshwar MahaMandir Society, Ratan Lal Nagar, Gujaini, Kanpur, UP 208022 · scalerhouse.com
                         </div>
                     </div>
