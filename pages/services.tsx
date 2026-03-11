@@ -142,7 +142,7 @@ export default function ServicesPage() {
                                         )}
                                         <Link
                                             href={`/services/${svc.slug}`}
-                                            className={`ml-auto inline-flex items-center gap-1.5 text-sm font-semibold ${c.icon} group-hover:gap-2.5 transition-all duration-200`}
+                                            className={`ml-auto inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold ${c.icon} bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 group-hover:gap-3`}
                                         >
                                             View Details <ArrowRight size={14} />
                                         </Link>
