@@ -380,46 +380,36 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* Featured In Logos (News) */}
-              {content.news_link.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
-                  className="mt-10"
-                >
-                  <p className="text-slate-500 text-xs font-semibold tracking-wider uppercase mb-3">
-                    Featured In
-                  </p>
-                  <div className="flex gap-6 items-center flex-wrap opacity-50 grayscale hover:grayscale-0 transition-all hover:opacity-100 duration-500">
-                    {content.news_link.map((news) =>
-                      news.linkUrl ? (
-                        <a
-                          key={news._id}
-                          href={news.linkUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          title={news.title}
-                        >
-                          <img
-                            src={news.imageUrl}
-                            alt={news.title}
-                            className="h-6 w-auto object-contain"
-                          />
-                        </a>
-                      ) : (
-                        <img
-                          key={news._id}
-                          src={news.imageUrl}
-                          alt={news.title}
-                          className="h-6 w-auto object-contain"
-                          title={news.title}
-                        />
-                      ),
-                    )}
-                  </div>
-                </motion.div>
-              )}
+              {/* Featured In Logos – hardcoded from public/News/ */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="mt-10"
+              >
+                <p className="text-slate-500 text-xs font-semibold tracking-wider uppercase mb-3">
+                  Featured In
+                </p>
+                <div className="flex gap-5 items-center flex-wrap">
+                  {[
+                    { file: 'economicstimes.png', label: 'Economic Times' },
+                    { file: 'timesofindia.png',   label: 'Times of India' },
+                    { file: 'forbesindia.png',    label: 'Forbes India' },
+                    { file: 'thehindu.png',       label: 'The Hindu' },
+                    { file: 'republic.png',       label: 'Republic' },
+                    { file: 'timesnow.png',       label: 'Times Now' },
+                  ].map(({ file, label }) => (
+                    <img
+                      key={file}
+                      src={`/News/${file}`}
+                      alt={label}
+                      title={label}
+                      className="h-7 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 cursor-default"
+                    />
+                  ))}
+                </div>
+              </motion.div>
+
             </div>
 
             {/* Hero Right – Floating Dashboard Card */}
