@@ -380,35 +380,44 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* Featured In Logos – hardcoded from public/News/ */}
+              {/* Featured In – infinite marquee carousel, uniform logo sizes */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="mt-10"
+                className="mt-10 overflow-hidden"
               >
                 <p className="text-slate-500 text-xs font-semibold tracking-wider uppercase mb-3">
                   Featured In
                 </p>
-                <div className="flex gap-5 items-center flex-wrap">
+                <style>{`
+                  @keyframes hero-marquee {
+                    0%   { transform: translateX(0); }
+                    100% { transform: translateX(-50%); }
+                  }
+                  .hero-marquee { animation: hero-marquee 22s linear infinite; }
+                  .hero-marquee:hover { animation-play-state: paused; }
+                `}</style>
+                <div className="flex hero-marquee" style={{ width: 'max-content' }}>
                   {[
-                    { file: 'economicstimes.png', label: 'Economic Times' },
-                    { file: 'timesofindia.png',   label: 'Times of India' },
-                    { file: 'forbesindia.png',    label: 'Forbes India' },
-                    { file: 'thehindu.png',       label: 'The Hindu' },
-                    { file: 'republic.png',       label: 'Republic' },
-                    { file: 'timesnow.png',       label: 'Times Now' },
-                  ].map(({ file, label }) => (
-                    <img
-                      key={file}
-                      src={`/News/${file}`}
-                      alt={label}
-                      title={label}
-                      className="h-7 w-auto object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 cursor-default"
-                    />
+                    'economicstimes.png', 'timesofindia.png', 'forbesindia.png', 'thehindu.png',
+                    'republic.png', 'timesnow.png', 'tv9.png', 'punjabkesari.png',
+                    '99news.png', 'Insidernews.png', 'newswire.png', 'newstoday.png', 'india.png', 'todaynews.png',
+                    'economicstimes.png', 'timesofindia.png', 'forbesindia.png', 'thehindu.png',
+                    'republic.png', 'timesnow.png', 'tv9.png', 'punjabkesari.png',
+                    '99news.png', 'Insidernews.png', 'newswire.png', 'newstoday.png', 'india.png', 'todaynews.png',
+                  ].map((file, i) => (
+                    <div key={`hn-${i}`} className="mr-8 flex-shrink-0 w-24 h-8 flex items-center justify-center">
+                      <img
+                        src={`/News/${file}`}
+                        alt={file.replace(/\.[^.]+$/, '')}
+                        className="max-w-full max-h-full object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                      />
+                    </div>
                   ))}
                 </div>
               </motion.div>
+
 
             </div>
 
