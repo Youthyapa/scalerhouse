@@ -124,7 +124,7 @@ export default function CaseStudiesPage() {
                 </div>
                 <div className="mt-14 text-center">
                     <p className="text-slate-400 mb-5">Ready to become our next success story?</p>
-                    <Link href="/contact" className="btn-glow !py-4 !px-8 text-base">
+                    <Link href="/contact" className="btn-glow flex justify-center w-full sm:w-auto !py-4 !px-8 text-base">
                         Get Free Proposal <ArrowRight size={18} />
                     </Link>
                 </div>

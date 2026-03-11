@@ -98,11 +98,11 @@ export default function Navbar() {
                                     {link.label}
                                 </Link>
                             ))}
-                            <div className="pt-3 space-y-2">
-                                <Link href="/affiliate/register" onClick={() => setOpen(false)} className="block btn-outline text-center !py-2.5">
+                            <div className="pt-3 space-y-3 pb-2">
+                                <Link href="/affiliate/register" onClick={() => setOpen(false)} className="w-full flex items-center justify-center btn-outline !py-2.5">
                                     Become Affiliate
                                 </Link>
-                                <Link href="/login" onClick={() => setOpen(false)} className="block btn-glow justify-center !py-2.5">
+                                <Link href="/login" onClick={() => setOpen(false)} className="w-full flex items-center justify-center gap-2 btn-glow !py-2.5">
                                     <LogIn size={15} /> Login
                                 </Link>
                             </div>

@@ -467,6 +467,18 @@ select.form-input {
   .dash-content {
     margin-left: 0;
   }
+
+  /* Make data tables swipable on mobile */
+  .glass-card:has(> .data-table) {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .data-table th, 
+  .data-table td {
+    white-space: nowrap;
+  }
 }
 
 /* Animate on scroll */

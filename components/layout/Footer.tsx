@@ -39,7 +39,7 @@ export default function Footer() {
                         <ul className="space-y-2">
                             {['SEO & Content Marketing', 'Performance Ads', 'Social Media Management', 'Web Design & Development', 'Email Marketing', 'Brand Strategy'].map((s) => (
                                 <li key={s}>
-                                    <Link href="/services" className="text-slate-400 hover:text-cyan-400 text-sm transition-colors">
+                                    <Link href="/services" className="inline-block py-1.5 text-slate-400 hover:text-cyan-400 text-sm transition-colors">
                                         {s}
                                     </Link>
                                 </li>
@@ -60,7 +60,7 @@ export default function Footer() {
                                 { label: 'Client Portal', href: '/login' },
                             ].map(({ label, href }) => (
                                 <li key={label}>
-                                    <Link href={href} className="text-slate-400 hover:text-cyan-400 text-sm transition-colors">
+                                    <Link href={href} className="inline-block py-1.5 text-slate-400 hover:text-cyan-400 text-sm transition-colors">
                                         {label}
                                     </Link>
                                 </li>

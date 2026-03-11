@@ -159,7 +159,7 @@ export default function ServicesPage() {
                 <div className="max-w-3xl mx-auto px-6 text-center">
                     <h2 className="font-syne font-black text-3xl text-white mb-4">Ready to Start Growing?</h2>
                     <p className="text-slate-400 mb-6">Book a free strategy call and get a custom proposal tailored to your brand and your goals.</p>
-                    <Link href="/contact" className="btn-glow !py-4 !px-8 text-base">
+                    <Link href="/contact" className="btn-glow flex justify-center w-full sm:w-auto !py-4 !px-8 text-base">
                         Get Free Proposal <ArrowRight size={18} />
                     </Link>
                 </div>
