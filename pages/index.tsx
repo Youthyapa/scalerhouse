@@ -586,7 +586,7 @@ export default function Home() {
         `}</style>
 
         {/* Row 1 — scrolls left */}
-        <div className="relative overflow-hidden mb-4">
+        <div className="relative overflow-hidden mb-8">
           <div className="flex marquee-track-left" style={{ width: 'max-content' }}>
             {[
               'CEAT.png','Raymond.png','TATA.png','Royal Enfield.jpg','Jawa.png',
@@ -594,7 +594,7 @@ export default function Home() {
               'CEAT.png','Raymond.png','TATA.png','Royal Enfield.jpg','Jawa.png',
               'Killer.gif','LeeCooper.png','RedChief.png','adani.png','apollo.png',
             ].map((logo, i) => (
-              <div key={`r1-${i}`} className="mx-6 flex items-center justify-center w-28 h-14 flex-shrink-0 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+              <div key={`r1-${i}`} className="mx-8 flex items-center justify-center w-36 h-16 flex-shrink-0 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
                 <img src={`/Clients/${logo}`} alt={logo.replace(/\.[^.]+$/, '')} className="max-w-full max-h-full object-contain" />
               </div>
             ))}
@@ -606,11 +606,11 @@ export default function Home() {
           <div className="flex marquee-track-right" style={{ width: 'max-content' }}>
             {[
               'GroceBay.png','KDC.png','SSCable Network.png','Sachan Construction.png','Sachan TechnoFirm.png',
-              'VSS DEVELOPERS.png','VvnEntertainment.jpg','Yash Cable Network.png','Bhola.png','Anirudh Vaidik Parivar.png','Ekta Hi Ek Vikalp.png',
+              'VSS DEVELOPERS.png','Yash Cable Network.png','Bhola.png','Anirudh Vaidik Parivar.png','Ekta Hi Ek Vikalp.png',
               'GroceBay.png','KDC.png','SSCable Network.png','Sachan Construction.png','Sachan TechnoFirm.png',
-              'VSS DEVELOPERS.png','VvnEntertainment.jpg','Yash Cable Network.png','Bhola.png','Anirudh Vaidik Parivar.png','Ekta Hi Ek Vikalp.png',
+              'VSS DEVELOPERS.png','Yash Cable Network.png','Bhola.png','Anirudh Vaidik Parivar.png','Ekta Hi Ek Vikalp.png',
             ].map((logo, i) => (
-              <div key={`r2-${i}`} className="mx-6 flex items-center justify-center w-28 h-14 flex-shrink-0 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+              <div key={`r2-${i}`} className="mx-8 flex items-center justify-center w-36 h-16 flex-shrink-0 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
                 <img src={`/Clients/${logo}`} alt={logo.replace(/\.[^.]+$/, '')} className="max-w-full max-h-full object-contain" />
               </div>
             ))}
