@@ -825,14 +825,14 @@ export default function Home() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="glass-card flex items-center gap-6 p-6 border border-white/10 hover:border-cyan-400/30 transition-all group"
+                className="glass-card flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 p-6 sm:p-8 border border-white/10 hover:border-cyan-400/30 transition-all group text-center sm:text-left"
               >
-                <div className="w-16 h-16 shrink-0 flex items-center justify-center p-2 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 border border-cyan-400/20 rounded-xl group-hover:scale-110 transition-transform">
-                  <img src={`/partners/${item.img}`} alt={item.title} className="max-w-full max-h-full object-contain" />
+                <div className="w-24 h-24 sm:w-32 sm:h-32 shrink-0 flex items-center justify-center p-3 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 border border-cyan-400/20 rounded-2xl group-hover:scale-105 transition-transform shadow-lg shadow-cyan-500/5">
+                  <img src={`/partners/${item.img}`} alt={item.title} className="max-w-full max-h-full object-contain drop-shadow-md" />
                 </div>
-                <div>
-                  <h3 className="font-syne font-bold text-lg text-white mb-1.5">{item.title}</h3>
-                  <p className="text-slate-400 text-sm leading-relaxed">{item.desc}</p>
+                <div className="flex flex-col justify-center sm:mt-2">
+                  <h3 className="font-syne font-bold text-lg sm:text-xl text-white mb-2">{item.title}</h3>
+                  <p className="text-slate-400 text-sm sm:text-base leading-relaxed">{item.desc}</p>
                 </div>
               </motion.div>
             ))}
