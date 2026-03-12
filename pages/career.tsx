@@ -4,7 +4,7 @@ import SEO from '../components/seo/SEO';
 import { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Briefcase, MapPin, Clock, ArrowRight, Send, Upload, X, CheckCircle, Linkedin, Globe, FileText, ChevronRight } from 'lucide-react';
+import { Briefcase, MapPin, Clock, ArrowRight, Send, Upload, X, CheckCircle, Linkedin, Globe, FileText, ChevronRight, DollarSign } from 'lucide-react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import WhatsAppFAB from '../components/layout/WhatsAppFAB';
