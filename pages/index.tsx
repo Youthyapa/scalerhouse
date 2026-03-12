@@ -299,12 +299,12 @@ export default function Home() {
       <WhatsAppFAB />
 
       {/* ── HERO ── */}
-      <section className="hero-bg grid-bg min-h-screen flex items-center relative pt-20 lg:pt-32">
+      <section className="hero-bg grid-bg min-h-screen flex items-center relative pt-20 lg:pt-32 overflow-hidden">
         <div className="orb orb-1" />
         <div className="orb orb-2" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-24 relative z-10 w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-24 relative z-10 w-full max-w-[100vw] box-border">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <div className="text-center lg:text-left">
+            <div className="text-center lg:text-left flex flex-col items-center lg:items-start w-full">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -318,9 +318,9 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="font-syne font-bold text-3xl sm:text-4xl lg:text-6xl text-white leading-tight mb-4 lg:mb-6"
+                className="font-syne font-bold text-3xl sm:text-4xl lg:text-6xl text-white leading-tight mb-4 lg:mb-6 w-full"
               >
-                Engineering <span className="gradient-text">Predictable</span>{" "}
+                Engineering <br className="hidden lg:block"/><span className="gradient-text">Predictable</span>{" "}
                 Growth.
               </motion.h1>
               <motion.p
@@ -356,25 +356,25 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
-                className="flex items-center justify-center lg:justify-start gap-4 mt-8 lg:mt-10"
+                className="flex items-center justify-center lg:justify-start gap-3 lg:gap-4 mt-8 lg:mt-10 w-full"
               >
                 <div className="flex -space-x-3">
                   {["RK", "SG", "VS", "AK", "PM"].map((i) => (
                     <div
                       key={i}
-                      className="w-8 h-8 lg:w-9 lg:h-9 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 border-2 border-[#0f172a] flex items-center justify-center text-[10px] lg:text-xs font-bold text-white"
+                      className="w-8 h-8 lg:w-9 lg:h-9 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 border-2 border-[#0f172a] flex items-center justify-center text-[10px] lg:text-xs font-bold text-white shrink-0"
                     >
                       {i}
                     </div>
                   ))}
                 </div>
-                <div className="text-left">
+                <div className="text-left shrink-0">
                   <div className="flex text-yellow-400">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} size={12} className="lg:w-[14px] lg:h-[14px]" fill="currentColor" />
                     ))}
                   </div>
-                  <p className="text-slate-400 text-xs lg:text-sm mt-0.5">
+                  <p className="text-slate-400 text-xs lg:text-sm mt-0.5 whitespace-nowrap">
                     Trusted by 150+ brands
                   </p>
                 </div>
@@ -385,7 +385,7 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="mt-10 overflow-hidden text-center lg:text-left"
+                className="mt-10 overflow-hidden text-center lg:text-left w-full max-w-[100vw]"
               >
                 <p className="text-slate-500 text-[10px] lg:text-xs font-semibold tracking-wider uppercase mb-2 lg:mb-3">
                   Featured In
@@ -417,7 +417,7 @@ export default function Home() {
                       <img
                         src={`/News/${file}`}
                         alt={file.replace(/\.[^.]+$/, '')}
-                        className="news-logo max-w-full max-h-full object-contain"
+                        className="news-logo max-w-[80px] lg:max-w-full max-h-full object-contain"
                       />
                     </div>
                   ))}
