@@ -20,6 +20,15 @@ import {
   Zap,
   CheckCircle,
   Play,
+  Compass,
+  Target,
+  Rocket,
+  Activity,
+  Maximize,
+  Code,
+  Smartphone,
+  PenTool,
+  Database,
 } from "lucide-react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
@@ -907,102 +916,182 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── WHY SCALERHOUSE (Animated Features) ── */}
+      {/* ── THE SCALERHOUSE GROWTH FRAMEWORK ── */}
       <section className="py-24 bg-[#050b14] border-t border-white/5 relative overflow-hidden">
-        {/* Abstract Background Elements */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-blue-600/10 blur-[120px]" />
-          <div className="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-cyan-600/10 blur-[120px]" />
-        </div>
-
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="text-center mb-20 animate-fade-up">
-            <span className="badge badge-purple mb-4">Why ScalerHouse</span>
+          <div className="text-center mb-16 animate-fade-up">
+            <span className="badge badge-cyan mb-4">Our Growth Framework</span>
             <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-6">
-              Why Brands Choose <span className="gradient-text">Us</span>
+              The Engine Behind <span className="gradient-text">Predictable Growth</span>
             </h2>
             <p className="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
-              We don&apos;t just run campaigns. We build predictable, scalable, and data-driven growth engines for ambitious brands.
+              We don&apos;t guess. We follow a proven, 5-step strategic framework designed to scale your revenue aggressively and sustainably.
             </p>
           </div>
-
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            {/* Left side metrics */}
-            <div className="grid grid-cols-2 gap-4 lg:gap-6 order-2 lg:order-1">
+          <div className="relative">
+            {/* Connecting line for desktop */}
+            <div className="hidden lg:block absolute top-[40px] left-[10%] w-[80%] h-[2px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent z-0 border-t border-dashed border-cyan-500/50" />
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-4 relative z-10">
               {[
-                { number: "150+", label: "Brands Scaled", desc: "Across 15+ industries", delay: 0.1 },
-                { number: "₹500Cr+", label: "Revenue Driven", desc: "For our clients", delay: 0.2 },
-                { number: "45 Days", label: "First Results", desc: "Average time to ROI", delay: 0.3 },
-                { number: "100%", label: "In-House Team", desc: "No outsourcing, ever", delay: 0.4 },
-              ].map((item, idx) => (
+                { icon: Compass, title: "1. Discovery & Audit", desc: "Deep analysis of your business, competitors, and growth opportunities." },
+                { icon: Target, title: "2. Growth Strategy", desc: "Custom digital roadmap designed to scale revenue rapidly." },
+                { icon: Rocket, title: "3. Execution", desc: "Performance campaigns, SEO, and content deployment." },
+                { icon: Activity, title: "4. Optimization", desc: "Data-driven testing and continuous performance improvements." },
+                { icon: Maximize, title: "5. Scaling", desc: "Automation and aggressive growth scaling to dominate your market." },
+              ].map((step, i) => (
                 <motion.div
-                  key={item.label}
-                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.5, delay: item.delay }}
-                  className={`glass-card p-6 lg:p-8 ${idx === 1 || idx === 3 ? 'lg:translate-y-12' : ''} border border-white/5 hover:border-cyan-400/20 transition-all`}
+                  key={step.title}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="glass-card p-6 text-center hover:-translate-y-2 transition-transform duration-300 relative group flex flex-col items-center"
                 >
-                  <div className="font-syne font-black text-4xl lg:text-5xl gradient-text mb-2">
-                    {item.number}
+                  <div className="w-20 h-20 rounded-2xl bg-[#0a1222] border border-cyan-500/30 shadow-[0_0_15px_rgba(34,211,238,0.15)] flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-cyan-900/40 group-hover:border-cyan-400/50 transition-all duration-300 relative z-10">
+                    <step.icon size={32} className="text-cyan-400" />
+                    {/* Glow effect */}
+                    <div className="absolute inset-0 bg-cyan-400/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
-                  <div className="font-bold text-white text-lg mb-1">
-                    {item.label}
-                  </div>
-                  <div className="text-slate-500 text-sm">{item.desc}</div>
+                  <h3 className="font-syne font-bold text-lg text-white mb-3">{step.title}</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed">{step.desc}</p>
                 </motion.div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Right side features */}
-            <div className="order-1 lg:order-2">
+      {/* ── TECHNOLOGY & TOOLS ── */}
+      <section className="py-24 bg-[#0a1222] border-t border-white/5 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
+          <span className="badge badge-purple mb-4">Tech Stack</span>
+          <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-6">
+            Powered By The Best <span className="gradient-text">Marketing Technology</span>
+          </h2>
+          <p className="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed mb-16 animate-fade-up">
+            We leverage industry-leading platforms across performance marketing, web/app development, and design to deliver world-class execution.
+          </p>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
+            {[
+              { name: "Google Ads", icon: Target, tag: "PPC" },
+              { name: "Meta Ads", icon: Megaphone, tag: "Social Ads" },
+              { name: "HubSpot", icon: Users, tag: "CRM" },
+              { name: "Ahrefs", icon: Search, tag: "SEO Data" },
+              { name: "SEMrush", icon: BarChart2, tag: "Organic Strategy" },
+              { name: "GA4", icon: Activity, tag: "Analytics" },
+              { name: "React Native", icon: Smartphone, tag: "App Dev" },
+              { name: "Flutter", icon: Code, tag: "App Dev" },
+              { name: "Next.js", icon: Code, tag: "Web Dev" },
+              { name: "WordPress", icon: Globe, tag: "CMS" },
+              { name: "Shopify", icon: Globe, tag: "E-Commerce" },
+              { name: "Figma", icon: PenTool, tag: "UI/UX Design" },
+              { name: "Adobe CC", icon: PenTool, tag: "Graphic Design" },
+              { name: "MongoDB", icon: Database, tag: "Database" },
+              { name: "Mailchimp", icon: Mail, tag: "Email" },
+              { name: "Klaviyo", icon: Mail, tag: "Automation" },
+            ].map((tech, i) => (
               <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                key={tech.name}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="space-y-8"
+                transition={{ duration: 0.4, delay: (i % 6) * 0.05 }}
+                className="glass-card flex flex-col items-center justify-center p-5 border border-white/5 hover:border-purple-500/30 hover:bg-white/5 transition-all group"
               >
-                {[
-                  {
-                    title: "Data-Driven Decisions",
-                    desc: "No guesswork. Every strategy is backed by deep analytics, market research, and continuous A/B testing to ensure maximum ROI.",
-                    icon: <BarChart2 size={24} className="text-blue-400" />
-                  },
-                  {
-                    title: "Dedicated Growth Experts",
-                    desc: "You get a dedicated pod of specialists—strategists, media buyers, and copywriters—working relentlessly on your account.",
-                    icon: <Users size={24} className="text-purple-400" />
-                  },
-                  {
-                    title: "Transparent Reporting",
-                    desc: "Real-time dashboards and weekly strategy calls. You always know exactly where your budget is going and what it's generating.",
-                    icon: <TrendingUp size={24} className="text-emerald-400" />
-                  }
-                ].map((feature, i) => (
-                  <div key={i} className="flex gap-5 group">
-                    <div className="w-14 h-14 shrink-0 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 group-hover:scale-110 transition-all duration-300">
-                      {feature.icon}
+                <tech.icon size={24} className="text-slate-500 group-hover:text-purple-400 transition-colors mb-3" />
+                <div className="font-syne font-bold text-white group-hover:text-purple-300 transition-colors text-sm sm:text-base mb-1.5 text-center">{tech.name}</div>
+                <div className="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-500 font-semibold">{tech.tag}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FREE GROWTH AUDIT ── */}
+      <section className="py-24 bg-[#080f1e] border-t border-white/5 relative overflow-hidden">
+        {/* Background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] sm:w-[80%] max-w-4xl h-[80%] bg-blue-600/10 blur-[120px] pointer-events-none rounded-full" />
+        
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="glass-card p-6 sm:p-8 lg:p-12 border border-blue-500/20 bg-gradient-to-br from-[#0a1222]/95 to-[#050b14]/95 backdrop-blur-md rounded-3xl overflow-hidden relative shadow-[0_0_50px_rgba(37,99,235,0.1)]"
+          >
+            <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px]" />
+            <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center relative z-10">
+              <div>
+                <span className="badge badge-green mb-4">100% Free · No Obligation</span>
+                <h2 className="font-syne font-black text-3xl sm:text-4xl lg:text-5xl text-white mb-6">
+                  Get Your Free <br className="hidden lg:block"/> <span className="gradient-text">Growth Audit</span>
+                </h2>
+                <p className="text-slate-300 text-base sm:text-lg leading-relaxed mb-8">
+                  Stop guessing what&apos;s holding your brand back. Let our expert growth team analyze your marketing setup, find revenue leaks, and build a custom scaling roadmap tailored for your business.
+                </p>
+                <div className="space-y-4 mb-8 hidden sm:block">
+                  {[
+                    "Deep-Dive Competitor & SEO Analysis",
+                    "Ad Campaign Waste Identification",
+                    "Conversion Rate & UI/UX Teardown",
+                    "Custom 90-Day Scaling Blueprint"
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <CheckCircle size={20} className="text-cyan-400 shrink-0 mt-0.5" />
+                      <span className="text-slate-300 font-medium text-sm sm:text-base">{item}</span>
                     </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-white mb-2 font-syne group-hover:text-cyan-400 transition-colors">
-                        {feature.title}
-                      </h3>
-                      <p className="text-slate-400 leading-relaxed text-sm lg:text-base">
-                        {feature.desc}
-                      </p>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="bg-[#0f172a]/80 p-6 sm:p-8 rounded-2xl border border-white/10 shadow-xl">
+                <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert("Form submitted! (Demo)"); }}>
+                  <div className="space-y-1.5 text-left">
+                    <label className="text-xs sm:text-sm font-medium text-slate-300">Name</label>
+                    <input type="text" placeholder="Your Full Name" className="w-full bg-[#050b14]/80 border border-white/10 rounded-xl px-4 py-3 sm:py-3.5 text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm" required />
+                  </div>
+                  <div className="space-y-1.5 text-left">
+                    <label className="text-xs sm:text-sm font-medium text-slate-300">Business Website</label>
+                    <input type="url" placeholder="https://yourwebsite.com" className="w-full bg-[#050b14]/80 border border-white/10 rounded-xl px-4 py-3 sm:py-3.5 text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm" required />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5 text-left relative">
+                      <label className="text-xs sm:text-sm font-medium text-slate-300">Business Type</label>
+                      <select className="w-full bg-[#050b14]/80 border border-white/10 rounded-xl px-4 py-3 sm:py-3.5 text-slate-300 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all appearance-none cursor-pointer text-sm font-medium">
+                        <option value="" disabled selected className="text-slate-600">Select Industry</option>
+                        <option value="ecommerce">E-Commerce</option>
+                        <option value="b2b">B2B / SaaS</option>
+                        <option value="local">Local Business</option>
+                        <option value="realestate">Real Estate</option>
+                        <option value="education">Education</option>
+                        <option value="other">Other</option>
+                      </select>
+                      <div className="absolute right-4 top-[38px] text-slate-500 pointer-events-none">▼</div>
+                    </div>
+                    <div className="space-y-1.5 text-left relative">
+                      <label className="text-xs sm:text-sm font-medium text-slate-300">Monthly Revenue</label>
+                      <select className="w-full bg-[#050b14]/80 border border-white/10 rounded-xl px-4 py-3 sm:py-3.5 text-slate-300 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all appearance-none cursor-pointer text-sm font-medium">
+                        <option value="" disabled selected>Revenue Range</option>
+                        <option value="startup">Starting Up</option>
+                        <option value="0-1M">₹0 - ₹10 Lakhs</option>
+                        <option value="1M-5M">₹10L - ₹50 Lakhs</option>
+                        <option value="5M+">₹50L+ / Month</option>
+                      </select>
+                      <div className="absolute right-4 top-[38px] text-slate-500 pointer-events-none">▼</div>
                     </div>
                   </div>
-                ))}
-
-                <div className="pt-6">
-                  <Link href="/about" className="btn-glow inline-flex items-center gap-2">
-                    Learn More About Us <ArrowRight size={18} />
-                  </Link>
-                </div>
-              </motion.div>
+                  <button type="submit" className="w-full btn-glow text-base lg:text-lg font-bold !py-4 mt-2 sm:mt-4 flex items-center justify-center gap-2 group shadow-lg shadow-blue-500/20">
+                    Get My Free Audit <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  </button>
+                  <p className="text-center text-slate-500 text-[11px] mt-4 flex items-center justify-center gap-1.5">
+                    <Zap size={10} className="text-yellow-400" /> Fast turnaround. Strictly confidential.
+                  </p>
+                </form>
+              </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
