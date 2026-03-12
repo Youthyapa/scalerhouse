@@ -299,12 +299,12 @@ export default function Home() {
       <WhatsAppFAB />
 
       {/* ── HERO ── */}
-      <section className="hero-bg grid-bg lg:min-h-screen lg:flex lg:items-center relative pt-28 pb-16 lg:pt-32 lg:pb-0 overflow-hidden">
+      <section className="hero-bg grid-bg lg:min-h-screen lg:flex lg:items-center relative pt-28 pb-16 lg:pt-32 lg:pb-0 overflow-hidden w-full max-w-full">
         <div className="orb orb-1" />
         <div className="orb orb-2" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-24 relative z-10 w-full mb-10">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <div className="text-center lg:text-left mx-auto max-w-[95%] sm:max-w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-24 relative z-10 w-full mb-10 min-w-0 overflow-hidden lg:overflow-visible">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center w-full min-w-0">
+            <div className="flex flex-col items-center lg:items-start text-center lg:text-left w-full min-w-0 max-w-full">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -337,19 +337,19 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="flex flex-col sm:flex-row gap-3 lg:gap-4 w-full justify-center lg:justify-start"
+                className="flex flex-col sm:flex-row gap-3 lg:gap-4 w-full justify-center lg:justify-start mt-4"
               >
                 <Link
                   href="/contact"
-                  className="btn-glow flex justify-center text-sm lg:text-base !py-3 lg:!py-4 !px-6 w-full sm:w-auto mt-2"
+                  className="btn-glow flex justify-center items-center text-sm lg:text-base !py-3 lg:!py-4 !px-6 w-full sm:w-auto whitespace-nowrap"
                 >
-                  Get Free Proposal <ArrowRight size={18} />
+                  Get Free Proposal <ArrowRight size={18} className="ml-2" />
                 </Link>
                 <Link
                   href="/case-studies"
-                  className="btn-outline flex justify-center text-sm lg:text-base !py-3 lg:!py-4 !px-6 w-full sm:w-auto"
+                  className="btn-outline flex justify-center items-center text-sm lg:text-base !py-3 lg:!py-4 !px-6 w-full sm:w-auto whitespace-nowrap mt-2 sm:mt-0"
                 >
-                  <Play size={16} /> See Results
+                  <Play size={16} className="mr-2" /> See Results
                 </Link>
               </motion.div>
               <motion.div
@@ -385,7 +385,7 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="mt-8 lg:mt-10 overflow-hidden text-center lg:text-left mx-auto max-w-[95%] sm:max-w-full"
+                className="mt-8 lg:mt-10 overflow-hidden text-center lg:text-left w-full min-w-0"
               >
                 <p className="text-slate-500 text-[10px] lg:text-xs font-semibold tracking-wider uppercase mb-2 lg:mb-3">
                   Featured In
