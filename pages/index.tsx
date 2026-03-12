@@ -610,11 +610,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── OUR CLIENTS – Infinite Marquee Carousel ── */}
+      {/* ── OUR CLIENTS & PARTNERS – Infinite Marquee Carousel ── */}
       <section className="py-14 bg-[#0a1222] border-b border-white/5 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 mb-8 text-center">
-          <p className="text-slate-500 text-sm font-bold tracking-[4px] uppercase mb-2">Trusted by Industry Leaders</p>
-          <h2 className="font-syne font-black text-3xl md:text-4xl text-white">
+        <div className="max-w-7xl mx-auto px-6 mb-12 text-center">
+          <p className="text-slate-500 text-sm font-bold tracking-[4px] uppercase mb-4">Official Agency Partners</p>
+          
+          {/* Partner Badges */}
+          <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-10 md:gap-16 mb-12">
+            <div className="relative group">
+              <div className="absolute inset-0 bg-blue-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity rounded-full"></div>
+              <img src="/partners/metapartner.png" alt="Meta Business Partner" className="h-10 sm:h-12 md:h-14 lg:h-16 object-contain relative z-10 hover:scale-105 transition-transform" />
+            </div>
+            <div className="relative group">
+              <div className="absolute inset-0 bg-yellow-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity rounded-full"></div>
+              <img src="/partners/GooglePartnerBadge.png" alt="Google Partner" className="h-12 sm:h-14 md:h-16 lg:h-20 object-contain relative z-10 hover:scale-105 transition-transform" />
+            </div>
+            <div className="relative group">
+              <div className="absolute inset-0 bg-cyan-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity rounded-full"></div>
+              <img src="/partners/B2B partner.png" alt="B2B Partner" className="h-10 sm:h-12 md:h-14 lg:h-16 object-contain relative z-10 hover:scale-105 transition-transform" />
+            </div>
+          </div>
+
+          <h2 className="font-syne font-black text-3xl md:text-4xl text-white mt-12 mb-2">
             Brands That <span className="gradient-text">Grow With Us</span>
           </h2>
         </div>
