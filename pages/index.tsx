@@ -565,7 +565,7 @@ export default function Home() {
       </section>
 
       {/* ── STATS ── */}
-      <section className="py-16 border-y border-white/5 bg-[#080f1e]">
+      <section className="hidden sm:block py-16 border-y border-white/5 bg-[#080f1e]">
         <div className="max-w-7xl mx-auto px-6">
           <div
             ref={clients100.ref}
