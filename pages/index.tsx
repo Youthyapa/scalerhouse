@@ -256,7 +256,7 @@ export default function Home() {
   });
 
   const clients100 = useCounter(150);
-  const revenue500 = useCounter(500);
+  const revenue500 = useCounter(100);
   const roas8 = useCounter(8);
   const happy99 = useCounter(99);
 
