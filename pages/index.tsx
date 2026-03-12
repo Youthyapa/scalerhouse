@@ -299,17 +299,17 @@ export default function Home() {
       <WhatsAppFAB />
 
       {/* ── HERO ── */}
-      <section className="hero-bg grid-bg min-h-screen flex items-center relative pt-20">
+      <section className="hero-bg grid-bg min-h-screen flex items-center relative pt-20 lg:pt-32">
         <div className="orb orb-1" />
         <div className="orb orb-2" />
-        <div className="max-w-7xl mx-auto px-6 py-24 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-24 relative z-10 w-full">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <div className="text-center lg:text-left">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-400/30 bg-cyan-400/5 text-cyan-400 text-sm font-medium mb-6"
+                className="inline-flex items-center gap-2 px-3 lg:px-4 py-1.5 lg:py-2 rounded-full border border-cyan-400/30 bg-cyan-400/5 text-cyan-400 text-xs lg:text-sm font-medium mb-4 lg:mb-6"
               >
                 <Zap size={14} className="animate-pulse" />
                 Growth Is Not Luck. It&apos;s Strategy.
@@ -318,7 +318,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="font-syne font-bold text-4xl lg:text-6xl text-white leading-tight mb-6"
+                className="font-syne font-bold text-3xl sm:text-4xl lg:text-6xl text-white leading-tight mb-4 lg:mb-6"
               >
                 Engineering <span className="gradient-text">Predictable</span>{" "}
                 Growth.
@@ -327,7 +327,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-slate-300 text-lg leading-relaxed mb-8 max-w-xl"
+                className="text-slate-300 text-base lg:text-lg leading-relaxed mb-6 lg:mb-8 max-w-xl mx-auto lg:mx-0"
               >
                 We don&apos;t run campaigns. We build growth systems.
                 ScalerHouse delivers measurable, predictable digital growth for
@@ -337,17 +337,17 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="flex flex-col sm:flex-row gap-4 w-full"
+                className="flex flex-col sm:flex-row gap-3 lg:gap-4 w-full justify-center lg:justify-start"
               >
                 <Link
                   href="/contact"
-                  className="btn-glow flex justify-center text-base !py-4 !px-8 w-full sm:w-auto"
+                  className="btn-glow flex justify-center text-sm lg:text-base !py-3 lg:!py-4 !px-6 w-full sm:w-auto"
                 >
                   Get Free Proposal <ArrowRight size={18} />
                 </Link>
                 <Link
                   href="/case-studies"
-                  className="btn-outline flex justify-center text-base !py-4 !px-8 w-full sm:w-auto"
+                  className="btn-outline flex justify-center text-sm lg:text-base !py-3 lg:!py-4 !px-6 w-full sm:w-auto"
                 >
                   <Play size={16} /> See Results
                 </Link>
@@ -356,25 +356,25 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
-                className="flex items-center gap-4 mt-10"
+                className="flex items-center justify-center lg:justify-start gap-4 mt-8 lg:mt-10"
               >
                 <div className="flex -space-x-3">
                   {["RK", "SG", "VS", "AK", "PM"].map((i) => (
                     <div
                       key={i}
-                      className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 border-2 border-[#0f172a] flex items-center justify-center text-xs font-bold text-white"
+                      className="w-8 h-8 lg:w-9 lg:h-9 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 border-2 border-[#0f172a] flex items-center justify-center text-[10px] lg:text-xs font-bold text-white"
                     >
                       {i}
                     </div>
                   ))}
                 </div>
-                <div>
+                <div className="text-left">
                   <div className="flex text-yellow-400">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={14} fill="currentColor" />
+                      <Star key={i} size={12} className="lg:w-[14px] lg:h-[14px]" fill="currentColor" />
                     ))}
                   </div>
-                  <p className="text-slate-400 text-sm">
+                  <p className="text-slate-400 text-xs lg:text-sm mt-0.5">
                     Trusted by 150+ brands
                   </p>
                 </div>
@@ -385,9 +385,9 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="mt-10 overflow-hidden"
+                className="mt-10 overflow-hidden text-center lg:text-left"
               >
-                <p className="text-slate-500 text-xs font-semibold tracking-wider uppercase mb-3">
+                <p className="text-slate-500 text-[10px] lg:text-xs font-semibold tracking-wider uppercase mb-2 lg:mb-3">
                   Featured In
                 </p>
                 <style>{`
@@ -404,7 +404,7 @@ export default function Home() {
                   }
                   .news-logo:hover { opacity: 1; }
                 `}</style>
-                <div className="flex hero-marquee" style={{ width: 'max-content' }}>
+                <div className="flex hero-marquee items-center" style={{ width: 'max-content' }}>
                   {[
                     'economicstimes.png', 'timesofindia.png', 'forbesindia.png', 'thehindu.png',
                     'republic.png', 'timesnow.png', 'tv9.png', 'punjabkesari.png',
@@ -413,7 +413,7 @@ export default function Home() {
                     'republic.png', 'timesnow.png', 'tv9.png', 'punjabkesari.png',
                     '99news.png', 'Insidernews.png', 'newswire.png', 'newstoday.png', 'india.png', 'todaynews.png',
                   ].map((file, i) => (
-                    <div key={`hn-${i}`} className="mr-10 flex-shrink-0 w-28 h-10 flex items-center justify-center">
+                    <div key={`hn-${i}`} className="mr-6 lg:mr-10 flex-shrink-0 w-20 lg:w-28 h-8 lg:h-10 flex items-center justify-center">
                       <img
                         src={`/News/${file}`}
                         alt={file.replace(/\.[^.]+$/, '')}
@@ -423,8 +423,6 @@ export default function Home() {
                   ))}
                 </div>
               </motion.div>
-
-
             </div>
 
             {/* Hero Right – Floating Dashboard Card */}
