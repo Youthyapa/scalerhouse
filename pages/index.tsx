@@ -567,41 +567,17 @@ export default function Home() {
       {/* ── STATS ── */}
       <section className="hidden sm:block py-16 border-y border-white/5 bg-[#080f1e]">
         <div className="max-w-7xl mx-auto px-6">
-          <div
-            ref={clients100.ref}
-            className="grid grid-cols-2 lg:grid-cols-4 gap-6"
-          >
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              {
-                value: clients100.count,
-                suffix: "+",
-                label: "Brands Scaled",
-                icon: Users,
-              },
-              {
-                value: revenue500.count,
-                suffix: "Cr+",
-                label: "Revenue Generated",
-                icon: TrendingUp,
-              },
-              {
-                value: roas8.count,
-                suffix: ".2x",
-                label: "Average ROAS",
-                icon: BarChart2,
-              },
-              {
-                value: happy99.count,
-                suffix: "%",
-                label: "Client Retention",
-                icon: Star,
-              },
+              { value: "150", suffix: "+",    label: "Brands Scaled",     icon: Users },
+              { value: "100", suffix: "Cr+",  label: "Revenue Generated", icon: TrendingUp },
+              { value: "8",   suffix: ".2x",  label: "Average ROAS",      icon: BarChart2 },
+              { value: "95",  suffix: "%",    label: "Client Retention",  icon: Star },
             ].map((stat) => (
               <div key={stat.label} className="stat-card text-center">
                 <stat.icon size={24} className="text-cyan-400 mx-auto mb-3" />
                 <div className="font-syne font-black text-4xl text-white">
-                  {stat.value}
-                  {stat.suffix}
+                  {stat.value}{stat.suffix}
                 </div>
                 <div className="text-slate-400 text-sm mt-1">{stat.label}</div>
               </div>
