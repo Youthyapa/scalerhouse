@@ -258,7 +258,7 @@ export default function Home() {
   const clients100 = useCounter(150);
   const revenue500 = useCounter(100);
   const roas8 = useCounter(8);
-  const happy99 = useCounter(99);
+  const happy99 = useCounter(95);
 
   // Animate on scroll
   useEffect(() => {
@@ -568,20 +568,26 @@ export default function Home() {
       <section className="hidden sm:block py-16 border-y border-white/5 bg-[#080f1e]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { value: "150", suffix: "+",    label: "Brands Scaled",     icon: Users },
-              { value: "100", suffix: "Cr+",  label: "Revenue Generated", icon: TrendingUp },
-              { value: "8",   suffix: ".2x",  label: "Average ROAS",      icon: BarChart2 },
-              { value: "95",  suffix: "%",    label: "Client Retention",  icon: Star },
-            ].map((stat) => (
-              <div key={stat.label} className="stat-card text-center">
-                <stat.icon size={24} className="text-cyan-400 mx-auto mb-3" />
-                <div className="font-syne font-black text-4xl text-white">
-                  {stat.value}{stat.suffix}
-                </div>
-                <div className="text-slate-400 text-sm mt-1">{stat.label}</div>
-              </div>
-            ))}
+            <div ref={clients100.ref} className="stat-card text-center">
+              <Users size={24} className="text-cyan-400 mx-auto mb-3" />
+              <div className="font-syne font-black text-4xl text-white">{clients100.count}+</div>
+              <div className="text-slate-400 text-sm mt-1">Brands Scaled</div>
+            </div>
+            <div ref={revenue500.ref} className="stat-card text-center">
+              <TrendingUp size={24} className="text-cyan-400 mx-auto mb-3" />
+              <div className="font-syne font-black text-4xl text-white">{revenue500.count}Cr+</div>
+              <div className="text-slate-400 text-sm mt-1">Revenue Generated</div>
+            </div>
+            <div ref={roas8.ref} className="stat-card text-center">
+              <BarChart2 size={24} className="text-cyan-400 mx-auto mb-3" />
+              <div className="font-syne font-black text-4xl text-white">{roas8.count}.2x</div>
+              <div className="text-slate-400 text-sm mt-1">Average ROAS</div>
+            </div>
+            <div ref={happy99.ref} className="stat-card text-center">
+              <Star size={24} className="text-cyan-400 mx-auto mb-3" />
+              <div className="font-syne font-black text-4xl text-white">{happy99.count}%</div>
+              <div className="text-slate-400 text-sm mt-1">Client Retention</div>
+            </div>
           </div>
         </div>
       </section>
