@@ -837,9 +837,9 @@ export default function Home() {
           ) : (
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                { title: "Google Premier Partner", desc: "Recognized as a top 3% agency globally for Google Ads performance", badge: "GP" },
-                { title: "Meta Business Partner", desc: "Certified experts in advanced Meta advertising and tracking", badge: "MB" },
-                { title: "Top B2B Company", desc: "Rated 4.9/5 on Clutch for digital strategy and execution", badge: "B2" },
+                { title: "Google Premier Partner", desc: "Recognized as a top 3% agency globally for Google Ads performance", img: "GooglePartnerBadge.png" },
+                { title: "Meta Business Partner", desc: "Certified experts in advanced Meta advertising and tracking", img: "metapartner.png" },
+                { title: "Top B2B Company", desc: "Rated 4.9/5 on Clutch for digital strategy and execution", img: "B2B partner.png" },
               ].map((item, i) => (
                 <motion.div
                   key={item.title}
@@ -849,8 +849,8 @@ export default function Home() {
                   transition={{ duration: 0.4, delay: i * 0.1 }}
                   className="glass-card flex items-center gap-6 p-6 border border-white/10 hover:border-cyan-400/30 transition-all group"
                 >
-                  <div className="w-16 h-16 shrink-0 flex items-center justify-center bg-gradient-to-br from-blue-600/20 to-cyan-600/20 border border-cyan-400/20 rounded-xl font-syne font-black text-xl gradient-text group-hover:scale-110 transition-all">
-                    {item.badge}
+                  <div className="w-16 h-16 shrink-0 flex items-center justify-center p-2 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 border border-cyan-400/20 rounded-xl group-hover:scale-110 transition-transform">
+                    <img src={`/partners/${item.img}`} alt={item.title} className="max-w-full max-h-full object-contain" />
                   </div>
                   <div>
                     <h3 className="font-syne font-bold text-lg text-white mb-1.5">{item.title}</h3>
