@@ -302,23 +302,23 @@ export default function Home() {
       <section className="hero-bg grid-bg min-h-screen flex items-center relative pt-20 lg:pt-32 overflow-hidden">
         <div className="orb orb-1" />
         <div className="orb orb-2" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-24 relative z-10 w-full max-w-[100vw] box-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-24 relative z-10 w-full mb-10">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <div className="text-center lg:text-left flex flex-col items-center lg:items-start w-full">
+            <div className="text-center lg:text-left mx-auto max-w-[95%] sm:max-w-full">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="inline-flex items-center gap-2 px-3 lg:px-4 py-1.5 lg:py-2 rounded-full border border-cyan-400/30 bg-cyan-400/5 text-cyan-400 text-xs lg:text-sm font-medium mb-4 lg:mb-6"
+                className="inline-flex items-center gap-2 px-3 lg:px-4 py-1.5 lg:py-2 rounded-full border border-cyan-400/30 bg-cyan-400/5 text-cyan-400 text-[11px] sm:text-xs lg:text-sm font-medium mb-4 lg:mb-6 whitespace-normal text-center"
               >
-                <Zap size={14} className="animate-pulse" />
-                Growth Is Not Luck. It&apos;s Strategy.
+                <Zap size={14} className="animate-pulse flex-shrink-0" />
+                <span>Growth Is Not Luck. It&apos;s Strategy.</span>
               </motion.div>
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="font-syne font-bold text-3xl sm:text-4xl lg:text-6xl text-white leading-tight mb-4 lg:mb-6 w-full"
+                className="font-syne font-bold text-[32px] leading-[1.15] sm:text-4xl lg:text-6xl text-white mb-4 lg:mb-6 drop-shadow-sm"
               >
                 Engineering <br className="hidden lg:block"/><span className="gradient-text">Predictable</span>{" "}
                 Growth.
@@ -341,7 +341,7 @@ export default function Home() {
               >
                 <Link
                   href="/contact"
-                  className="btn-glow flex justify-center text-sm lg:text-base !py-3 lg:!py-4 !px-6 w-full sm:w-auto"
+                  className="btn-glow flex justify-center text-sm lg:text-base !py-3 lg:!py-4 !px-6 w-full sm:w-auto mt-2"
                 >
                   Get Free Proposal <ArrowRight size={18} />
                 </Link>
@@ -356,7 +356,7 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
-                className="flex items-center justify-center lg:justify-start gap-3 lg:gap-4 mt-8 lg:mt-10 w-full"
+                className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 lg:gap-4 mt-8 lg:mt-10"
               >
                 <div className="flex -space-x-3">
                   {["RK", "SG", "VS", "AK", "PM"].map((i) => (
@@ -368,13 +368,13 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-                <div className="text-left shrink-0">
-                  <div className="flex text-yellow-400">
+                <div className="text-center sm:text-left shrink-0 mt-1 sm:mt-0">
+                  <div className="flex justify-center sm:justify-start text-yellow-400">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} size={12} className="lg:w-[14px] lg:h-[14px]" fill="currentColor" />
                     ))}
                   </div>
-                  <p className="text-slate-400 text-xs lg:text-sm mt-0.5 whitespace-nowrap">
+                  <p className="text-slate-400 text-[11px] lg:text-sm mt-0.5 whitespace-normal sm:whitespace-nowrap">
                     Trusted by 150+ brands
                   </p>
                 </div>
@@ -385,7 +385,7 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="mt-10 overflow-hidden text-center lg:text-left w-full max-w-[100vw]"
+                className="mt-8 lg:mt-10 overflow-hidden text-center lg:text-left mx-auto max-w-[95%] sm:max-w-full"
               >
                 <p className="text-slate-500 text-[10px] lg:text-xs font-semibold tracking-wider uppercase mb-2 lg:mb-3">
                   Featured In
