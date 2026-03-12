@@ -299,7 +299,7 @@ export default function Home() {
       <WhatsAppFAB />
 
       {/* ── HERO ── */}
-      <section className="hero-bg grid-bg min-h-screen flex items-center relative pt-20 lg:pt-32 overflow-hidden">
+      <section className="hero-bg grid-bg lg:min-h-screen lg:flex lg:items-center relative pt-28 pb-16 lg:pt-32 lg:pb-0 overflow-hidden">
         <div className="orb orb-1" />
         <div className="orb orb-2" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-24 relative z-10 w-full mb-10">
