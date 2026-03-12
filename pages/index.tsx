@@ -911,7 +911,7 @@ export default function Home() {
                   desc: "Across 15+ industries",
                 },
                 {
-                  number: "₹500Cr+",
+                  number: "₹100Cr+",
                   label: "Revenue Driven",
                   desc: "For our clients",
                 },

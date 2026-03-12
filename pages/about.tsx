@@ -56,7 +56,7 @@ const timelineEvents = [
     {
         year: '2025',
         title: 'Pan-India Growth Partner',
-        desc: 'Today, ScalerHouse is recognised as one of India\'s fastest-growing performance marketing agencies. We have partnered with brands across 20+ categories, generated ₹500Cr+ in client revenue, and are on a mission to become India\'s most trusted growth partner for ambitious brands.',
+        desc: 'Today, ScalerHouse is recognised as one of India\'s fastest-growing performance marketing agencies. We have partnered with brands across 20+ categories, generated ₹100Cr+ in client revenue, and are on a mission to become India\'s most trusted growth partner for ambitious brands.',
         tag: 'Pan-India',
         color: 'from-cyan-500 to-blue-400',
     },
@@ -102,7 +102,7 @@ export default function AboutPage() {
             url: 'https://scalerhouse.com',
             description: 'Performance marketing agency helping 150+ brands with data-driven digital growth strategies',
         },
-        description: 'Shashank Singh is the Founder and CEO of ScalerHouse, a leading performance marketing agency in Kanpur, India. Under his leadership, ScalerHouse has helped 150+ brands across India generate ₹500Cr+ in revenue through predictable, data-driven digital marketing systems.',
+        description: 'Shashank Singh is the Founder and CEO of ScalerHouse, a leading performance marketing agency in Kanpur, India. Under his leadership, ScalerHouse has helped 150+ brands across India generate ₹100Cr+ in revenue through predictable, data-driven digital marketing systems.',
         knowsAbout: ['Performance Marketing', 'Digital Marketing', 'SEO', 'Growth Strategy', 'Meta Ads', 'Google Ads'],
         sameAs: ['https://scalerhouse.com/about'],
     };
@@ -124,7 +124,7 @@ export default function AboutPage() {
         <>
             <SEO
                 title="About ScalerHouse – Shashank Singh | Performance Marketing Agency Kanpur"
-                description="ScalerHouse, founded by Shashank Singh, is Kanpur's leading performance marketing agency. We've helped 150+ brands generate ₹500Cr+ in revenue through data-driven digital growth strategies. Learn our story."
+                description="ScalerHouse, founded by Shashank Singh, is Kanpur's leading performance marketing agency. We've helped 150+ brands generate ₹100Cr+ in revenue through data-driven digital growth strategies. Learn our story."
             />
             <Head>
                 <script
@@ -185,7 +185,7 @@ export default function AboutPage() {
                         <div className="grid grid-cols-2 gap-4">
                             {[
                                 { num: '150+', label: 'Brands Scaled' },
-                                { num: '₹500Cr+', label: 'Revenue Generated' },
+                                { num: '₹100Cr+', label: 'Revenue Generated' },
                                 { num: '4 yrs', label: 'In Business' },
                                 { num: '99%', label: 'Retention Rate' },
                             ].map((s, i) => (
@@ -469,7 +469,7 @@ export default function AboutPage() {
                             The ScalerHouse <span className="gradient-text">Growth Framework</span>
                         </h2>
                         <p className="text-slate-400 mt-4 max-w-2xl mx-auto">
-                            A battle-tested 5-step system that has driven ₹500Cr+ in client revenue. Systematic. Scalable. Predictable.
+                            A battle-tested 5-step system that has driven ₹100Cr+ in client revenue. Systematic. Scalable. Predictable.
                         </p>
                     </motion.div>
 
