@@ -3,10 +3,12 @@ import type { AppProps } from 'next/app';
 import { AuthProvider } from '../lib/auth';
 import { Toaster } from 'react-hot-toast';
 import '../styles/globals.css';
+import AnimatedBackground from '../components/AnimatedBackground';
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
         <AuthProvider>
+            <AnimatedBackground />
             <Component {...pageProps} />
             <Toaster
                 position="top-right"
