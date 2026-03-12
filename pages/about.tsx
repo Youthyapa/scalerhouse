@@ -257,10 +257,10 @@ export default function AboutPage() {
                             <motion.div
                                 animate={{ y: [-6, 6, -6] }}
                                 transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                                className="absolute -bottom-4 left-1/2 -translate-x-1/2 z-20 glass-card px-4 py-2 sm:px-5 sm:py-3 flex items-center gap-2 sm:gap-3 rounded-2xl border border-cyan-500/30 w-11/12 max-w-xs"
+                                className="absolute -bottom-4 left-1/2 -translate-x-1/2 z-20 glass-card px-4 py-2 sm:px-5 sm:py-3 flex items-center gap-2 sm:gap-3 rounded-2xl border border-cyan-500/30 w-[95%] sm:w-11/12 max-w-sm justify-center"
                             >
                                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse flex-shrink-0" />
-                                <span className="text-white text-xs sm:text-sm font-semibold truncate text-center w-full">Shashank Singh – Founder & CEO</span>
+                                <span className="text-white text-[11px] sm:text-sm font-semibold text-center whitespace-normal leading-tight">Shashank Singh – Founder & CEO</span>
                             </motion.div>
                         </motion.div>
 
