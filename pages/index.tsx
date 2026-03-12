@@ -210,6 +210,43 @@ export default function Home() {
   const [offer, setOffer] = useState<Offer | null>(null);
   const [showOfferPopup, setShowOfferPopup] = useState(false);
 
+  // Audit Form State
+  const [auditForm, setAuditForm] = useState({
+    name: "",
+    website: "",
+    whatsapp: "",
+    businessType: "",
+    revenue: "",
+  });
+  const [auditStatus, setAuditStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [auditMessage, setAuditMessage] = useState("");
+
+  const handleAuditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAuditStatus("loading");
+    setAuditMessage("");
+    
+    try {
+      const res = await fetch("/api/audit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(auditForm),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setAuditStatus("success");
+        setAuditMessage("Audit request received! We'll contact you on WhatsApp soon.");
+        setAuditForm({ name: "", website: "", whatsapp: "", businessType: "", revenue: "" });
+      } else {
+        setAuditStatus("error");
+        setAuditMessage(data.error || "Failed to submit request.");
+      }
+    } catch (err) {
+      setAuditStatus("error");
+      setAuditMessage("An unexpected error occurred.");
+    }
+  };
+
   // Dynamic Content
   const [content, setContent] = useState<Record<string, ContentItem[]>>({
     client_logo: [],
@@ -1047,20 +1084,62 @@ export default function Home() {
               </div>
               
               <div className="bg-[#0f172a]/80 p-6 sm:p-8 rounded-2xl border border-white/10 shadow-xl">
-                <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert("Form submitted! (Demo)"); }}>
+                <form className="space-y-4" onSubmit={handleAuditSubmit}>
+                  {auditStatus === "success" && (
+                    <div className="bg-green-500/10 border border-green-500/50 text-green-400 p-3 rounded-xl text-sm text-center font-medium">
+                      {auditMessage}
+                    </div>
+                  )}
+                  {auditStatus === "error" && (
+                    <div className="bg-red-500/10 border border-red-500/50 text-red-500 p-3 rounded-xl text-sm text-center font-medium">
+                      {auditMessage}
+                    </div>
+                  )}
                   <div className="space-y-1.5 text-left">
                     <label className="text-xs sm:text-sm font-medium text-slate-300">Name</label>
-                    <input type="text" placeholder="Your Full Name" className="w-full bg-[#050b14]/80 border border-white/10 rounded-xl px-4 py-3 sm:py-3.5 text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm" required />
+                    <input 
+                      type="text" 
+                      placeholder="Your Full Name" 
+                      value={auditForm.name}
+                      onChange={(e) => setAuditForm({ ...auditForm, name: e.target.value })}
+                      className="w-full bg-[#050b14]/80 border border-white/10 rounded-xl px-4 py-3 sm:py-3.5 text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm" 
+                      required 
+                    />
                   </div>
-                  <div className="space-y-1.5 text-left">
-                    <label className="text-xs sm:text-sm font-medium text-slate-300">Business Website</label>
-                    <input type="url" placeholder="https://yourwebsite.com" className="w-full bg-[#050b14]/80 border border-white/10 rounded-xl px-4 py-3 sm:py-3.5 text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm" required />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5 text-left">
+                      <label className="text-xs sm:text-sm font-medium text-slate-300">WhatsApp Number</label>
+                      <input 
+                        type="tel" 
+                        placeholder="+91 98765 43210" 
+                        value={auditForm.whatsapp}
+                        onChange={(e) => setAuditForm({ ...auditForm, whatsapp: e.target.value })}
+                        className="w-full bg-[#050b14]/80 border border-white/10 rounded-xl px-4 py-3 sm:py-3.5 text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm" 
+                        required 
+                      />
+                    </div>
+                    <div className="space-y-1.5 text-left">
+                      <label className="text-xs sm:text-sm font-medium text-slate-300">Business Website</label>
+                      <input 
+                        type="url" 
+                        placeholder="https://yourwebsite.com" 
+                        value={auditForm.website}
+                        onChange={(e) => setAuditForm({ ...auditForm, website: e.target.value })}
+                        className="w-full bg-[#050b14]/80 border border-white/10 rounded-xl px-4 py-3 sm:py-3.5 text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm" 
+                        required 
+                      />
+                    </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5 text-left relative">
                       <label className="text-xs sm:text-sm font-medium text-slate-300">Business Type</label>
-                      <select className="w-full bg-[#050b14]/80 border border-white/10 rounded-xl px-4 py-3 sm:py-3.5 text-slate-300 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all appearance-none cursor-pointer text-sm font-medium">
-                        <option value="" disabled selected className="text-slate-600">Select Industry</option>
+                      <select 
+                        value={auditForm.businessType}
+                        onChange={(e) => setAuditForm({ ...auditForm, businessType: e.target.value })}
+                        required
+                        className="w-full bg-[#050b14]/80 border border-white/10 rounded-xl px-4 py-3 sm:py-3.5 text-slate-300 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all appearance-none cursor-pointer text-sm font-medium"
+                      >
+                        <option value="" disabled className="text-slate-600">Select Industry</option>
                         <option value="ecommerce">E-Commerce</option>
                         <option value="b2b">B2B / SaaS</option>
                         <option value="local">Local Business</option>
@@ -1072,8 +1151,13 @@ export default function Home() {
                     </div>
                     <div className="space-y-1.5 text-left relative">
                       <label className="text-xs sm:text-sm font-medium text-slate-300">Monthly Revenue</label>
-                      <select className="w-full bg-[#050b14]/80 border border-white/10 rounded-xl px-4 py-3 sm:py-3.5 text-slate-300 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all appearance-none cursor-pointer text-sm font-medium">
-                        <option value="" disabled selected>Revenue Range</option>
+                      <select 
+                        required
+                        value={auditForm.revenue}
+                        onChange={(e) => setAuditForm({ ...auditForm, revenue: e.target.value })}
+                        className="w-full bg-[#050b14]/80 border border-white/10 rounded-xl px-4 py-3 sm:py-3.5 text-slate-300 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all appearance-none cursor-pointer text-sm font-medium"
+                      >
+                        <option value="" disabled>Revenue Range</option>
                         <option value="startup">Starting Up</option>
                         <option value="0-1M">₹0 - ₹10 Lakhs</option>
                         <option value="1M-5M">₹10L - ₹50 Lakhs</option>
@@ -1082,8 +1166,10 @@ export default function Home() {
                       <div className="absolute right-4 top-[38px] text-slate-500 pointer-events-none">▼</div>
                     </div>
                   </div>
-                  <button type="submit" className="w-full btn-glow text-base lg:text-lg font-bold !py-4 mt-2 sm:mt-4 flex items-center justify-center gap-2 group shadow-lg shadow-blue-500/20">
-                    Get My Free Audit <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  <button disabled={auditStatus === "loading"} type="submit" className="w-full btn-glow text-base lg:text-lg font-bold !py-4 mt-2 sm:mt-4 flex items-center justify-center gap-2 group shadow-lg shadow-blue-500/20 disabled:opacity-70 disabled:cursor-not-allowed">
+                    {auditStatus === "loading" ? "Submitting..." : (
+                      <>Get My Free Audit <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" /></>
+                    )}
                   </button>
                   <p className="text-center text-slate-500 text-[11px] mt-4 flex items-center justify-center gap-1.5">
                     <Zap size={10} className="text-yellow-400" /> Fast turnaround. Strictly confidential.
