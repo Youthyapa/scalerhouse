@@ -813,53 +813,30 @@ export default function Home() {
               Proud partners of industry leaders and recognized globally for delivering outstanding digital growth results.
             </p>
           </div>
-          {content.achievement.length > 0 ? (
-            <div className="grid md:grid-cols-3 gap-6">
-              {content.achievement.map((ach, i) => (
-                <motion.div
-                  key={ach._id}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="glass-card flex items-center gap-6 p-6 border border-white/10 hover:border-cyan-400/30 transition-all group"
-                >
-                  <div className="w-24 h-24 shrink-0 flex items-center justify-center p-2 bg-white/5 rounded-xl group-hover:bg-white/10 transition-colors">
-                    <img src={ach.imageUrl} alt={ach.title} className="max-h-full max-w-full object-contain filter drop-shadow-md" />
-                  </div>
-                  <div>
-                    <h3 className="font-syne font-bold text-lg text-white mb-1.5">{ach.title}</h3>
-                    {ach.description && <p className="text-slate-400 text-sm leading-relaxed line-clamp-3">{ach.description}</p>}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                { title: "Google Premier Partner", desc: "Recognized as a top 3% agency globally for Google Ads performance", img: "GooglePartnerBadge.png" },
-                { title: "Meta Business Partner", desc: "Certified experts in advanced Meta advertising and tracking", img: "metapartner.png" },
-                { title: "Top B2B Company", desc: "Rated 4.9/5 on Clutch for digital strategy and execution", img: "B2B partner.png" },
-              ].map((item, i) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="glass-card flex items-center gap-6 p-6 border border-white/10 hover:border-cyan-400/30 transition-all group"
-                >
-                  <div className="w-16 h-16 shrink-0 flex items-center justify-center p-2 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 border border-cyan-400/20 rounded-xl group-hover:scale-110 transition-transform">
-                    <img src={`/partners/${item.img}`} alt={item.title} className="max-w-full max-h-full object-contain" />
-                  </div>
-                  <div>
-                    <h3 className="font-syne font-bold text-lg text-white mb-1.5">{item.title}</h3>
-                    <p className="text-slate-400 text-sm leading-relaxed">{item.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          )}
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { title: "Google Premier Partner", desc: "Recognized as a top 3% agency globally for Google Ads performance", img: "GooglePartnerBadge.png" },
+              { title: "Meta Business Partner", desc: "Certified experts in advanced Meta advertising and tracking", img: "metapartner.png" },
+              { title: "Top B2B Company", desc: "Rated 4.9/5 on Clutch for digital strategy and execution", img: "B2B partner.png" },
+            ].map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                className="glass-card flex items-center gap-6 p-6 border border-white/10 hover:border-cyan-400/30 transition-all group"
+              >
+                <div className="w-16 h-16 shrink-0 flex items-center justify-center p-2 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 border border-cyan-400/20 rounded-xl group-hover:scale-110 transition-transform">
+                  <img src={`/partners/${item.img}`} alt={item.title} className="max-w-full max-h-full object-contain" />
+                </div>
+                <div>
+                  <h3 className="font-syne font-bold text-lg text-white mb-1.5">{item.title}</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
