@@ -1,6 +1,6 @@
 // components/layout/Footer.tsx
 import Link from 'next/link';
-import { Mail, Phone, MapPin, Linkedin, Instagram, Youtube, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin, Linkedin, Instagram, Youtube, Twitter, Facebook } from 'lucide-react';
 
 export default function Footer() {
     return (
@@ -18,6 +18,7 @@ export default function Footer() {
                         <div className="flex gap-3">
                             {[
                                 { Icon: Linkedin, href: 'https://www.linkedin.com/company/scalerhouse' },
+                                { Icon: Facebook, href: 'https://www.facebook.com/scalerhouse' },
                                 { Icon: Instagram, href: '#' },
                                 { Icon: Youtube, href: '#' },
                                 { Icon: Twitter, href: '#' },
