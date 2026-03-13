@@ -4,11 +4,13 @@ import { AuthProvider } from '../lib/auth';
 import { Toaster } from 'react-hot-toast';
 import '../styles/globals.css';
 import AnimatedBackground from '../components/AnimatedBackground';
+import SocialFloatBar from '../components/layout/SocialFloatBar';
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
         <AuthProvider>
             <AnimatedBackground />
+            <SocialFloatBar />
             <Component {...pageProps} />
             <Toaster
                 position="top-right"
