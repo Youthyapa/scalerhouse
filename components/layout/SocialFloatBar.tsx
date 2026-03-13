@@ -6,7 +6,7 @@ const socials = [
     name: 'Facebook',
     href: 'https://www.facebook.com/scalerhouse',
     color: '#1877F2',
-    glow: 'rgba(24,119,242,0.7)',
+    glow: 'rgba(24,119,242,0.6)',
     active: true,
     svg: (
       <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
@@ -18,7 +18,7 @@ const socials = [
     name: 'LinkedIn',
     href: 'https://www.linkedin.com/company/scalerhouse',
     color: '#0A66C2',
-    glow: 'rgba(10,102,194,0.7)',
+    glow: 'rgba(10,102,194,0.6)',
     active: true,
     svg: (
       <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
@@ -30,7 +30,7 @@ const socials = [
     name: 'Instagram',
     href: '#',
     color: '#E1306C',
-    glow: 'rgba(225,48,108,0.7)',
+    glow: 'rgba(225,48,108,0.6)',
     active: false,
     svg: (
       <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
@@ -42,7 +42,7 @@ const socials = [
     name: 'YouTube',
     href: '#',
     color: '#FF0000',
-    glow: 'rgba(255,0,0,0.7)',
+    glow: 'rgba(255,0,0,0.6)',
     active: false,
     svg: (
       <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
@@ -54,7 +54,7 @@ const socials = [
     name: 'X',
     href: '#',
     color: '#e2e8f0',
-    glow: 'rgba(226,232,240,0.6)',
+    glow: 'rgba(226,232,240,0.5)',
     active: false,
     svg: (
       <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
@@ -72,113 +72,62 @@ export default function SocialFloatBar() {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
     window.addEventListener('resize', check);
-    const t = setTimeout(() => setMounted(true), 400);
+    const t = setTimeout(() => setMounted(true), 600);
     return () => { clearTimeout(t); window.removeEventListener('resize', check); };
   }, []);
 
   if (!mounted) return null;
-
-  return (
-    <>
-      <style>{`
-        @keyframes socialBob0 { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-6px)} }
-        @keyframes socialBob1 { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-7px)} }
-        @keyframes socialBob2 { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-5px)} }
-        @keyframes socialBob3 { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-8px)} }
-        @keyframes socialBob4 { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-6px)} }
-
-        @keyframes mBob0 { 0%,100%{transform:translateY(0px) scale(1)} 50%{transform:translateY(-5px) scale(1.05)} }
-        @keyframes mBob1 { 0%,100%{transform:translateY(0px) scale(1)} 50%{transform:translateY(-6px) scale(1.05)} }
-        @keyframes mBob2 { 0%,100%{transform:translateY(0px) scale(1)} 50%{transform:translateY(-4px) scale(1.05)} }
-        @keyframes mBob3 { 0%,100%{transform:translateY(0px) scale(1)} 50%{transform:translateY(-7px) scale(1.05)} }
-        @keyframes mBob4 { 0%,100%{transform:translateY(0px) scale(1)} 50%{transform:translateY(-5px) scale(1.05)} }
-
-        @keyframes shimmerBorder {
-          0%   { box-shadow: 0 0 0 0 rgba(0,212,255,0); border-color: rgba(0,212,255,0.15); }
-          50%  { box-shadow: 4px 0 24px rgba(0,212,255,0.18); border-color: rgba(0,212,255,0.4); }
-          100% { box-shadow: 0 0 0 0 rgba(0,212,255,0); border-color: rgba(0,212,255,0.15); }
-        }
-        @keyframes slideInLeft {
-          from { transform: translateX(-110%) translateY(-50%); opacity: 0; }
-          to   { transform: translateX(0)    translateY(-50%); opacity: 1; }
-        }
-        @keyframes slideInBottom {
-          from { transform: translateX(-50%) translateY(120%); opacity: 0; }
-          to   { transform: translateX(-50%) translateY(0);    opacity: 1; }
-        }
-        @keyframes labelPulse {
-          0%,100% { opacity:0.7; letter-spacing:2.5px; }
-          50%      { opacity:1;   letter-spacing:3px;   }
-        }
-        @keyframes glowPulse {
-          0%,100% { opacity: 0.3; transform: scale(1); }
-          50%     { opacity: 0.8; transform: scale(1.15); }
-        }
-        .social-icon-link { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
-        .social-icon-link:hover { transform: translateX(5px) scale(1.08) !important; animation: none !important; }
-      `}</style>
-
-      {isMobile ? <MobileBar /> : <DesktopBar />}
-    </>
-  );
+  return isMobile ? <MobileBar /> : <DesktopBar />;
 }
 
-/* ─── DESKTOP VERTICAL BAR ─────────────────────────────────── */
+/* ─── DESKTOP: vertical stack above WhatsApp FAB ─── */
 function DesktopBar() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setVisible(true), 100); return () => clearTimeout(t); }, []);
+
   return (
     <div style={{
       position: 'fixed',
-      left: 0,
-      top: '50%',
-      transform: 'translateY(-50%)',
+      right: '28px',
+      // WhatsApp FAB: bottom 28px + height 60px + gap 10px
+      bottom: '98px',
       zIndex: 9990,
-      animation: 'slideInLeft 0.7s cubic-bezier(0.34,1.56,0.64,1) forwards',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-end',
+      gap: '0',
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateY(0)' : 'translateY(30px)',
+      transition: 'opacity 0.5s ease, transform 0.6s cubic-bezier(0.34,1.56,0.64,1)',
     }}>
-
-      {/* Follow Us label */}
+      {/* "Follow Us" label at top */}
       <div style={{
         background: 'linear-gradient(135deg, rgba(9,20,45,0.97), rgba(29,78,216,0.9))',
         backdropFilter: 'blur(14px)',
-        border: '1px solid rgba(0,212,255,0.25)',
-        borderLeft: 'none',
+        border: '1px solid rgba(0,212,255,0.3)',
         borderBottom: 'none',
-        borderRadius: '0 10px 0 0',
-        padding: '8px 16px 8px 10px',
+        borderRadius: '12px 12px 0 0',
+        padding: '7px 14px',
         display: 'flex',
         alignItems: 'center',
         gap: '7px',
+        alignSelf: 'stretch',
+        justifyContent: 'center',
       }}>
-        <span style={{
-          width: '6px', height: '6px', borderRadius: '50%',
-          background: '#00d4ff',
-          boxShadow: '0 0 8px #00d4ff',
-          display: 'inline-block',
-          animation: 'glowPulse 2s ease-in-out infinite',
-        }} />
-        <span style={{
-          fontSize: '9px',
-          fontWeight: '800',
-          letterSpacing: '2.5px',
-          textTransform: 'uppercase',
-          background: 'linear-gradient(90deg, #00d4ff, #818cf8)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          animation: 'labelPulse 3s ease-in-out infinite',
-        }}>Follow Us</span>
+        <span style={{ fontSize: '7px', color: '#00d4ff', fontWeight: '800', letterSpacing: '3px', textTransform: 'uppercase' }}>
+          ✦ Follow Us ✦
+        </span>
       </div>
 
       {/* Icons panel */}
       <div style={{
-        background: 'linear-gradient(180deg, rgba(9,20,50,0.97) 0%, rgba(15,23,42,0.98) 100%)',
+        background: 'linear-gradient(180deg, rgba(9,20,50,0.97) 0%, rgba(12,24,48,0.98) 100%)',
         backdropFilter: 'blur(20px)',
-        border: '1px solid rgba(0,212,255,0.15)',
-        borderLeft: 'none',
+        border: '1px solid rgba(0,212,255,0.2)',
         borderTop: 'none',
-        borderRadius: '0 0 16px 0',
-        padding: '10px 0 10px',
-        animation: 'shimmerBorder 4s ease-in-out infinite',
-        overflow: 'visible',
+        borderRadius: '0 0 14px 14px',
+        overflow: 'hidden',
+        boxShadow: '0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,212,255,0.05)',
       }}>
         {socials.map((s, i) => (
           <DesktopIcon key={s.name} social={s} index={i} />
@@ -190,8 +139,6 @@ function DesktopBar() {
 
 function DesktopIcon({ social, index }: { social: typeof socials[0]; index: number }) {
   const [hovered, setHovered] = useState(false);
-  const delays = ['0s', '0.4s', '0.8s', '1.2s', '1.6s'];
-  const durations = ['3s', '3.4s', '2.8s', '3.8s', '3.2s'];
 
   return (
     <a
@@ -199,147 +146,108 @@ function DesktopIcon({ social, index }: { social: typeof socials[0]; index: numb
       target={social.active ? '_blank' : '_self'}
       rel="noopener noreferrer"
       aria-label={`Follow ScalerHouse on ${social.name}`}
-      className="social-icon-link"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
         display: 'flex',
         alignItems: 'center',
+        flexDirection: 'row-reverse', // label on left, icon on right
         textDecoration: 'none',
         position: 'relative',
-        borderBottom: index < socials.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
-        // Continuous bob animation per icon
-        animation: hovered ? 'none' : `socialBob${index} ${durations[index]} ease-in-out infinite ${delays[index]}`,
+        borderTop: index > 0 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+        background: hovered
+          ? `linear-gradient(90deg, ${social.color}18, ${social.color}08)`
+          : 'transparent',
+        transition: 'background 0.25s ease',
       }}
     >
-      {/* Icon button */}
+      {/* Icon column */}
       <div style={{
         width: '50px',
         height: '46px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'relative',
-        background: hovered
-          ? `linear-gradient(135deg, ${social.color}25, ${social.color}10)`
-          : 'transparent',
-        transition: 'background 0.3s ease',
+        flexShrink: 0,
+        transform: hovered ? 'translateX(-4px)' : 'translateX(0)',
+        transition: 'transform 0.3s cubic-bezier(0.34,1.56,0.64,1)',
       }}>
-        {/* Active dot */}
-        <span style={{
-          position: 'absolute',
-          left: '8px',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          width: '5px',
-          height: '5px',
-          borderRadius: '50%',
-          background: social.active ? social.color : 'rgba(100,116,139,0.35)',
-          boxShadow: hovered && social.active ? `0 0 10px ${social.color}, 0 0 20px ${social.glow}` : 'none',
-          transition: 'box-shadow 0.3s ease',
-        }} />
-
-        {/* Icon with 3D hover */}
         <span style={{
           color: hovered ? social.color : (social.active ? '#94a3b8' : '#475569'),
           transition: 'color 0.25s ease, filter 0.3s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1)',
-          transform: hovered ? 'scale(1.25) rotateY(15deg) rotateX(-5deg)' : 'scale(1)',
+          transform: hovered ? 'scale(1.25) rotateY(-15deg) rotateX(-5deg)' : 'scale(1)',
           filter: hovered && social.active ? `drop-shadow(0 0 10px ${social.color})` : 'none',
           display: 'flex',
-          perspective: '300px',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
           {social.svg}
         </span>
       </div>
 
-      {/* Slide-out label on hover */}
+      {/* Slide-out label — appears to the left on hover */}
       <div style={{
-        maxWidth: hovered ? '100px' : '0',
+        maxWidth: hovered ? '110px' : '0',
         opacity: hovered ? 1 : 0,
         overflow: 'hidden',
         whiteSpace: 'nowrap',
-        paddingRight: hovered ? '14px' : '0',
+        paddingLeft: hovered ? '14px' : '0',
         transition: 'max-width 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s ease, padding 0.35s ease',
         fontSize: '12px',
         fontWeight: '700',
         color: social.active ? social.color : '#475569',
-        letterSpacing: '0.4px',
-        textShadow: hovered && social.active ? `0 0 16px ${social.color}80` : 'none',
+        letterSpacing: '0.3px',
+        textShadow: hovered && social.active ? `0 0 14px ${social.color}80` : 'none',
       }}>
         {social.active ? social.name : `${social.name} soon`}
       </div>
 
-      {/* Right glow trail on hover */}
+      {/* Left glow accent on hover */}
       {hovered && social.active && (
         <div style={{
           position: 'absolute',
-          right: '-2px',
-          top: '20%',
-          height: '60%',
-          width: '3px',
+          left: 0,
+          top: '15%',
+          height: '70%',
+          width: '2px',
           borderRadius: '2px',
           background: `linear-gradient(180deg, transparent, ${social.color}, transparent)`,
-          boxShadow: `0 0 12px ${social.color}`,
+          boxShadow: `0 0 10px ${social.color}`,
         }} />
       )}
     </a>
   );
 }
 
-/* ─── MOBILE HORIZONTAL BOTTOM STRIP ────────────────────────── */
+/* ─── MOBILE: horizontal row beside WhatsApp FAB ─── */
 function MobileBar() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setVisible(true), 100); return () => clearTimeout(t); }, []);
+
   return (
     <div style={{
       position: 'fixed',
-      bottom: '100px',   // sits above the WhatsApp FAB (which is at bottom:28px + 60px height)
-      left: '50%',
-      transform: 'translateX(-50%)',
+      // WhatsApp FAB: right 28px + width 60px + gap 10px = 98px
+      right: '98px',
+      bottom: '28px',
       zIndex: 9990,
-      animation: 'slideInBottom 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards',
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: '8px',
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'translateX(0)' : 'translateX(60px)',
+      transition: 'opacity 0.5s ease, transform 0.6s cubic-bezier(0.34,1.56,0.64,1)',
     }}>
-      <div style={{
-        background: 'linear-gradient(135deg, rgba(9,20,45,0.92), rgba(15,23,50,0.95))',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        border: '1px solid rgba(0,212,255,0.2)',
-        borderRadius: '50px',
-        padding: '10px 16px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '4px',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,212,255,0.08)',
-        animation: 'shimmerBorder 4s ease-in-out infinite',
-      }}>
-        {/* Follow label */}
-        <span style={{
-          fontSize: '8px',
-          fontWeight: '800',
-          letterSpacing: '2px',
-          textTransform: 'uppercase',
-          background: 'linear-gradient(90deg, #00d4ff, #818cf8)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          paddingRight: '10px',
-          borderRight: '1px solid rgba(0,212,255,0.2)',
-          marginRight: '6px',
-          animation: 'labelPulse 3s ease-in-out infinite',
-          whiteSpace: 'nowrap',
-        }}>Follow</span>
-
-        {/* Icons */}
-        {socials.map((s, i) => (
-          <MobileIcon key={s.name} social={s} index={i} />
-        ))}
-      </div>
+      {socials.map((s) => (
+        <MobileIcon key={s.name} social={s} />
+      ))}
     </div>
   );
 }
 
-function MobileIcon({ social, index }: { social: typeof socials[0]; index: number }) {
+function MobileIcon({ social }: { social: typeof socials[0] }) {
   const [pressed, setPressed] = useState(false);
-  const delays = ['0s', '0.3s', '0.6s', '0.9s', '1.2s'];
-  const durations = ['3s', '3.5s', '2.8s', '4s', '3.3s'];
 
   return (
     <a
@@ -348,40 +256,42 @@ function MobileIcon({ social, index }: { social: typeof socials[0]; index: numbe
       rel="noopener noreferrer"
       aria-label={`Follow ScalerHouse on ${social.name}`}
       onTouchStart={() => setPressed(true)}
-      onTouchEnd={() => setTimeout(() => setPressed(false), 300)}
+      onTouchEnd={() => setTimeout(() => setPressed(false), 250)}
       style={{
-        width: '42px',
-        height: '42px',
+        width: '44px',
+        height: '44px',
         borderRadius: '50%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         textDecoration: 'none',
-        background: pressed
-          ? `radial-gradient(circle at center, ${social.color}30, transparent)`
-          : 'rgba(255,255,255,0.04)',
-        border: `1px solid ${pressed ? social.color + '60' : 'rgba(255,255,255,0.06)'}`,
+        background: pressed && social.active
+          ? `radial-gradient(circle, ${social.color}40, ${social.color}10)`
+          : 'linear-gradient(135deg, rgba(9,20,50,0.95), rgba(15,30,60,0.9))',
+        border: `1.5px solid ${pressed && social.active ? social.color + '80' : 'rgba(0,212,255,0.2)'}`,
         color: social.active ? (pressed ? social.color : '#94a3b8') : '#374151',
-        transition: 'all 0.2s ease',
-        transform: pressed ? 'scale(0.9)' : 'scale(1)',
-        boxShadow: pressed && social.active ? `0 0 18px ${social.glow}` : 'none',
-        // Continuous bobbing
-        animation: pressed ? 'none' : `mBob${index} ${durations[index]} ease-in-out infinite ${delays[index]}`,
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        boxShadow: pressed && social.active
+          ? `0 0 20px ${social.glow}, 0 4px 16px rgba(0,0,0,0.4)`
+          : '0 4px 16px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,212,255,0.05)',
+        transition: 'all 0.25s cubic-bezier(0.34,1.56,0.64,1)',
+        transform: pressed ? 'scale(0.88)' : 'scale(1)',
         position: 'relative',
       }}
     >
       {social.svg}
-      {/* Active dot */}
+      {/* Active badge dot */}
       {social.active && (
         <span style={{
           position: 'absolute',
-          bottom: '2px',
-          right: '2px',
-          width: '7px',
-          height: '7px',
+          bottom: '1px',
+          right: '1px',
+          width: '8px',
+          height: '8px',
           borderRadius: '50%',
           background: social.color,
-          border: '1.5px solid rgba(9,20,45,0.9)',
+          border: '1.5px solid rgba(9,20,50,0.9)',
           boxShadow: `0 0 6px ${social.color}`,
         }} />
       )}
