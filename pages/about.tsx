@@ -1,5 +1,4 @@
 // pages/about.tsx
-import Head from 'next/head';
 import SEO from '../components/seo/SEO';
 import { motion, useInView } from 'framer-motion';
 import { Users, Target, Award, Rocket, Heart, CheckCircle, ArrowRight, TrendingUp, BarChart2, Shield, Zap, Eye, Star, Search, Settings, LineChart } from 'lucide-react';
@@ -123,19 +122,15 @@ export default function AboutPage() {
     return (
         <>
             <SEO
-                title="About ScalerHouse – Shashank Singh | Performance Marketing Agency Kanpur"
-                description="ScalerHouse, founded by Shashank Singh, is Kanpur's leading performance marketing agency. We've helped 150+ brands generate ₹100Cr+ in revenue through data-driven digital growth strategies. Learn our story."
+                title="About ScalerHouse – Shashank Singh | #1 Digital Marketing Agency Kanpur"
+                description="ScalerHouse, founded by Shashank Singh, is Kanpur's leading performance marketing agency. 150+ brands scaled. ₹500Cr+ revenue generated. Learn how we engineer predictable digital growth."
+                keywords="ScalerHouse, Shashank Singh, digital marketing agency Kanpur, performance marketing agency India, about ScalerHouse"
+                schemaData={[personSchema, orgSchema]}
+                breadcrumbs={[
+                    { name: 'Home', url: 'https://scalerhouse.com' },
+                    { name: 'About', url: 'https://scalerhouse.com/about' },
+                ]}
             />
-            <Head>
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
-                />
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
-                />
-            </Head>
             <Navbar />
             <WhatsAppFAB />
 

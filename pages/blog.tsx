@@ -42,8 +42,32 @@ export default function BlogPage() {
     return (
         <>
             <SEO 
-                title="Blog – Digital Marketing Insights | ScalerHouse"
-                description="Expert insights on SEO, performance marketing, social media, and digital growth from the ScalerHouse team."
+                title="Digital Marketing Blog – SEO, Ads & Growth Insights | ScalerHouse Kanpur"
+                description="Expert insights on SEO, performance marketing, social media, web development and digital growth strategies from the ScalerHouse team in Kanpur."
+                keywords="digital marketing blog, SEO tips, performance marketing, social media strategy, web development insights, ScalerHouse blog"
+                schemaData={[
+                    {
+                        '@type': 'Blog',
+                        '@id': 'https://scalerhouse.com/blog/#blog',
+                        name: 'ScalerHouse Blog – Digital Marketing Insights',
+                        description: 'Expert insights on SEO, performance marketing, social media, and digital growth strategies from the ScalerHouse team.',
+                        url: 'https://scalerhouse.com/blog',
+                        publisher: {
+                            '@type': 'Organization',
+                            '@id': 'https://scalerhouse.com/#organization',
+                            name: 'ScalerHouse',
+                            logo: {
+                                '@type': 'ImageObject',
+                                url: 'https://scalerhouse.com/logo.png',
+                            },
+                        },
+                        inLanguage: 'en-IN',
+                    },
+                ]}
+                breadcrumbs={[
+                    { name: 'Home', url: 'https://scalerhouse.com' },
+                    { name: 'Blog', url: 'https://scalerhouse.com/blog' },
+                ]}
             />
             <Navbar />
             <WhatsAppFAB />

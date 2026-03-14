@@ -12,6 +12,12 @@ if (!JWT_SECRET) {
     );
 }
 
+// Token claims — prevents token confusion / replay attacks across different apps
+const JWT_ISSUER = 'scalerhouse';
+const JWT_AUDIENCE = 'scalerhouse-app';
+// Short-lived tokens (1 day) — reduces exposure window if a token is leaked
+const JWT_EXPIRY = '1d';
+
 const IS_PROD = process.env.NODE_ENV === 'production';
 
 export interface AuthPayload {
@@ -32,24 +38,33 @@ export function verifyToken(req: NextApiRequest): AuthPayload | null {
             : cookieToken;
 
         if (!token) return null;
-        return jwt.verify(token, JWT_SECRET as string) as AuthPayload;
+        return jwt.verify(token, JWT_SECRET as string, {
+            issuer: JWT_ISSUER,
+            audience: JWT_AUDIENCE,
+        }) as AuthPayload;
     } catch {
         return null;
     }
 }
 
 export function signToken(payload: AuthPayload): string {
-    return jwt.sign(payload, JWT_SECRET as string, { expiresIn: '7d' });
+    return jwt.sign(payload, JWT_SECRET as string, {
+        expiresIn: JWT_EXPIRY,
+        issuer: JWT_ISSUER,
+        audience: JWT_AUDIENCE,
+    });
 }
 
 /**
  * Build the Set-Cookie header value for the auth token.
- * Sets Secure flag in production automatically.
+ * Sets Secure + SameSite=Strict in production (stronger than Lax).
+ * Cookie lifetime mirrors JWT expiry (1 day).
  */
 export function buildAuthCookie(token: string): string {
-    const maxAge = 7 * 24 * 3600;
+    const maxAge = 1 * 24 * 3600; // 1 day — matches JWT_EXPIRY
     const secure = IS_PROD ? '; Secure' : '';
-    return `sh_token=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${maxAge}${secure}`;
+    const sameSite = IS_PROD ? 'Strict' : 'Lax';
+    return `sh_token=${token}; Path=/; HttpOnly; SameSite=${sameSite}; Max-Age=${maxAge}${secure}`;
 }
 
 /**
@@ -57,7 +72,8 @@ export function buildAuthCookie(token: string): string {
  */
 export function buildClearCookie(): string {
     const secure = IS_PROD ? '; Secure' : '';
-    return `sh_token=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0${secure}`;
+    const sameSite = IS_PROD ? 'Strict' : 'Lax';
+    return `sh_token=; Path=/; HttpOnly; SameSite=${sameSite}; Max-Age=0${secure}`;
 }
 
 /** Middleware wrapper — protects an API handler */

@@ -1,5 +1,5 @@
 // pages/services/[slug].tsx
-import Head from 'next/head';
+import SEO from '../../components/seo/SEO';
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, CheckCircle, ChevronDown, ChevronUp, Star, Building2, Briefcase, Lightbulb } from 'lucide-react';
@@ -43,13 +43,51 @@ export default function ServiceDetailPage({ slug }: Props) {
 
     return (
         <>
-            <Head>
-                <title>{`${service.title} – ScalerHouse Digital Agency`}</title>
-                <meta name="description" content={service.metaDesc} />
-                <meta name="keywords" content={`${service.title}, ${service.title.toLowerCase()} services, ScalerHouse, digital agency India`} />
-                <meta property="og:title" content={`${service.title} – ScalerHouse`} />
-                <meta property="og:description" content={service.metaDesc} />
-            </Head>
+            <SEO
+                title={`${service.title} in Kanpur – ScalerHouse | Expert ${service.title} Services`}
+                description={service.metaDesc}
+                keywords={`${service.title}, ${service.title.toLowerCase()} Kanpur, ${service.title.toLowerCase()} services India, ScalerHouse ${service.title.toLowerCase()}`}
+                schemaData={[
+                    {
+                        '@type': 'Service',
+                        '@id': `https://scalerhouse.com/services/${slug}/#service`,
+                        name: service.title,
+                        description: service.metaDesc,
+                        url: `https://scalerhouse.com/services/${slug}`,
+                        provider: {
+                            '@type': 'Organization',
+                            '@id': 'https://scalerhouse.com/#organization',
+                            name: 'ScalerHouse',
+                        },
+                        areaServed: {
+                            '@type': 'Country',
+                            name: 'India',
+                        },
+                        serviceType: service.title,
+                        offers: {
+                            '@type': 'Offer',
+                            url: `https://scalerhouse.com/services/${slug}`,
+                            priceCurrency: 'INR',
+                        },
+                    },
+                    {
+                        '@type': 'FAQPage',
+                        mainEntity: service.faqs.map((faq: { q: string; a: string }) => ({
+                            '@type': 'Question',
+                            name: faq.q,
+                            acceptedAnswer: {
+                                '@type': 'Answer',
+                                text: faq.a,
+                            },
+                        })),
+                    },
+                ]}
+                breadcrumbs={[
+                    { name: 'Home', url: 'https://scalerhouse.com' },
+                    { name: 'Services', url: 'https://scalerhouse.com/services' },
+                    { name: service.title, url: `https://scalerhouse.com/services/${slug}` },
+                ]}
+            />
             <Navbar />
             <WhatsAppFAB />
 

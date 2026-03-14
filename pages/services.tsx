@@ -1,5 +1,4 @@
 // pages/services.tsx
-import Head from 'next/head';
 import SEO from '../components/seo/SEO';
 import { motion } from 'framer-motion';
 import {
@@ -66,9 +65,28 @@ export default function ServicesPage() {
     return (
         <>
             <SEO 
-                title="Services – ScalerHouse | Digital Marketing, Web & App Development, Design & Automation"
-                description="Full-stack digital growth services: SEO, Performance Ads, Social Media, Web Design, App Development, UI/UX, Graphic & Logo Design, GMB, CRM Development, API Automations. Trusted by 150+ brands."
-                keywords="digital marketing agency, SEO services, Google Ads, social media management, web development, app development, UI UX design, graphic design, logo design, Google My Business, CRM development, API automation, ScalerHouse"
+                title="Digital Marketing Services in Kanpur – ScalerHouse | SEO, Ads, Web, Apps & More"
+                description="Full-stack digital growth services in Kanpur: SEO, Performance Ads, Social Media, Web Design, App Development, Graphic Design, GMB, CRM & API Automations. Trusted by 150+ brands across India."
+                keywords="digital marketing services Kanpur, SEO agency Kanpur, Google Ads Kanpur, social media marketing, web development Kanpur, app development, ScalerHouse services"
+                schemaData={[
+                    {
+                        '@type': 'ItemList',
+                        name: 'Digital Marketing & Technology Services by ScalerHouse',
+                        description: 'Complete range of digital marketing and technology services offered by ScalerHouse, Kanpur.',
+                        numberOfItems: ALL_SERVICES.length,
+                        itemListElement: ALL_SERVICES.map((svc, i) => ({
+                            '@type': 'ListItem',
+                            position: i + 1,
+                            name: svc.title,
+                            description: svc.metaDesc,
+                            url: `https://scalerhouse.com/services/${svc.slug}`,
+                        })),
+                    },
+                ]}
+                breadcrumbs={[
+                    { name: 'Home', url: 'https://scalerhouse.com' },
+                    { name: 'Services', url: 'https://scalerhouse.com/services' },
+                ]}
             />
             <Navbar />
             <WhatsAppFAB />

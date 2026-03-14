@@ -1,5 +1,4 @@
 // pages/contact.tsx
-import Head from 'next/head';
 import SEO from '../components/seo/SEO';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -42,8 +41,53 @@ export default function ContactPage() {
     return (
         <>
             <SEO 
-                title="Get Free Proposal – ScalerHouse"
-                description="Get your free custom digital marketing proposal from ScalerHouse. Fill the form or WhatsApp us directly."
+                title="Get Free Digital Marketing Proposal – ScalerHouse Kanpur"
+                description="Contact ScalerHouse for a free custom digital marketing proposal. Visit our office in Kanpur, WhatsApp us at +91 92193 31120, or email hello@scalerhouse.com. We reply within 24 hours."
+                keywords="contact ScalerHouse, digital marketing agency Kanpur contact, free marketing proposal, ScalerHouse office Kanpur"
+                schemaData={[
+                    {
+                        '@type': 'ContactPage',
+                        '@id': 'https://scalerhouse.com/contact/#contactpage',
+                        name: 'Contact ScalerHouse – Free Digital Marketing Proposal',
+                        url: 'https://scalerhouse.com/contact',
+                        description: 'Get in touch with ScalerHouse for a free digital marketing proposal, strategy consultation, or general inquiries.',
+                    },
+                    {
+                        '@type': ['LocalBusiness', 'ProfessionalService'],
+                        '@id': 'https://scalerhouse.com/#business',
+                        name: 'ScalerHouse',
+                        url: 'https://scalerhouse.com',
+                        telephone: '+919219331120',
+                        email: 'hello@scalerhouse.com',
+                        address: {
+                            '@type': 'PostalAddress',
+                            streetAddress: 'B-25, Neemeshwar MahaMandir Society, Ratan Lal Nagar, Gujaini',
+                            addressLocality: 'Kanpur',
+                            addressRegion: 'Uttar Pradesh',
+                            postalCode: '208022',
+                            addressCountry: 'IN',
+                        },
+                        geo: {
+                            '@type': 'GeoCoordinates',
+                            latitude: 26.4499,
+                            longitude: 80.3319,
+                        },
+                        openingHoursSpecification: [
+                            {
+                                '@type': 'OpeningHoursSpecification',
+                                dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                                opens: '09:00',
+                                closes: '19:00',
+                            },
+                        ],
+                        priceRange: '₹₹',
+                        image: 'https://scalerhouse.com/logo.png',
+                    },
+                ]}
+                breadcrumbs={[
+                    { name: 'Home', url: 'https://scalerhouse.com' },
+                    { name: 'Contact', url: 'https://scalerhouse.com/contact' },
+                ]}
             />
             <Navbar />
             <WhatsAppFAB />

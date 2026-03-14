@@ -1,12 +1,16 @@
 User-agent: *
 Allow: /
 
-# Block internal dashboards and portals from search engine indexing
+# Block internal dashboards, portals, and auth pages from search engine indexing
 Disallow: /admin/
 Disallow: /client/
 Disallow: /employee/
 Disallow: /affiliate/
 Disallow: /onboarding/
 Disallow: /api/
+Disallow: /login
+
+# Crawl delay for well-behaved bots (in seconds)
+Crawl-delay: 2
 
 Sitemap: https://scalerhouse.com/sitemap.xml

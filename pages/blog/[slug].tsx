@@ -1,5 +1,5 @@
 // pages/blog/[slug].tsx – Individual Blog Post Page
-import Head from 'next/head';
+import SEO from '../../components/seo/SEO';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
@@ -106,13 +106,50 @@ export default function BlogPostPage() {
 
     return (
         <>
-            <Head>
-                <title>{post.title} | ScalerHouse Blog</title>
-                <meta name="description" content={post.excerpt} />
-                <meta property="og:title" content={post.title} />
-                <meta property="og:description" content={post.excerpt} />
-                {post.coverImage && <meta property="og:image" content={post.coverImage} />}
-            </Head>
+            <SEO
+                title={`${post.title} | ScalerHouse Blog`}
+                description={post.excerpt}
+                ogImage={post.coverImage || 'https://scalerhouse.com/logo.png'}
+                isArticle={true}
+                schemaData={[
+                    {
+                        '@type': 'BlogPosting',
+                        '@id': `https://scalerhouse.com/blog/${post.slug}/#article`,
+                        headline: post.title,
+                        description: post.excerpt,
+                        author: {
+                            '@type': 'Person',
+                            name: post.author,
+                            url: 'https://scalerhouse.com/about',
+                        },
+                        publisher: {
+                            '@type': 'Organization',
+                            '@id': 'https://scalerhouse.com/#organization',
+                            name: 'ScalerHouse',
+                            logo: {
+                                '@type': 'ImageObject',
+                                url: 'https://scalerhouse.com/logo.png',
+                            },
+                        },
+                        datePublished: post.publishedAt,
+                        dateModified: post.publishedAt,
+                        image: post.coverImage || 'https://scalerhouse.com/logo.png',
+                        url: `https://scalerhouse.com/blog/${post.slug}`,
+                        mainEntityOfPage: {
+                            '@type': 'WebPage',
+                            '@id': `https://scalerhouse.com/blog/${post.slug}`,
+                        },
+                        inLanguage: 'en-IN',
+                        articleSection: post.category,
+                        keywords: post.category,
+                    },
+                ]}
+                breadcrumbs={[
+                    { name: 'Home', url: 'https://scalerhouse.com' },
+                    { name: 'Blog', url: 'https://scalerhouse.com/blog' },
+                    { name: post.title, url: `https://scalerhouse.com/blog/${post.slug}` },
+                ]}
+            />
             <Navbar />
             <WhatsAppFAB />
 

@@ -320,26 +320,113 @@ export default function Home() {
   return (
     <>
       <SEO 
-        title="ScalerHouse – Engineering Predictable Growth for Ambitious Brands"
-        description="ScalerHouse is a performance-driven digital marketing agency in Kanpur. SEO, Ads, Social Media, CRO. Scale Faster. Smarter. Stronger."
-        schemaData={{
-          "@context": "https://schema.org",
-          "@type": "LocalBusiness",
-          "name": "ScalerHouse",
-          "image": "https://scalerhouse.com/logo.png",
-          "url": "https://scalerhouse.com",
-          "telephone": "+919219331120",
-          "priceRange": "$$",
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "B-25, Neemeshwar MahaMandir Society, Ratan Lal Nagar, Gujaini",
-            "addressLocality": "Kanpur",
-            "addressRegion": "Uttar Pradesh",
-            "postalCode": "208022",
-            "addressCountry": "IN"
-          }
-        }}
+        title="ScalerHouse – #1 Digital Marketing Company in Kanpur | SEO, Ads, Social Media"
+        description="ScalerHouse is Kanpur's leading digital marketing agency. We specialise in SEO, Performance Ads, Social Media, Web Design & Development. 150+ brands scaled. Get a free proposal today."
+        keywords="digital marketing company in Kanpur, SEO company Kanpur, performance ads Kanpur, social media marketing Kanpur, web design Kanpur, ScalerHouse"
+        schemaData={[
+          {
+            '@type': ['LocalBusiness', 'ProfessionalService'],
+            '@id': 'https://scalerhouse.com/#business',
+            name: 'ScalerHouse',
+            image: 'https://scalerhouse.com/logo.png',
+            url: 'https://scalerhouse.com',
+            telephone: '+919219331120',
+            email: 'hello@scalerhouse.com',
+            priceRange: '₹₹',
+            description: 'ScalerHouse is a performance-driven digital marketing agency in Kanpur providing SEO, performance ads, social media management, web design and development services.',
+            foundingDate: '2021',
+            areaServed: ['Kanpur', 'Uttar Pradesh', 'India'],
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'B-25, Neemeshwar MahaMandir Society, Ratan Lal Nagar, Gujaini',
+              addressLocality: 'Kanpur',
+              addressRegion: 'Uttar Pradesh',
+              postalCode: '208022',
+              addressCountry: 'IN',
+            },
+            geo: {
+              '@type': 'GeoCoordinates',
+              latitude: 26.4499,
+              longitude: 80.3319,
+            },
+            openingHoursSpecification: [
+              {
+                '@type': 'OpeningHoursSpecification',
+                dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                opens: '09:00',
+                closes: '19:00',
+              },
+            ],
+            hasOfferCatalog: {
+              '@type': 'OfferCatalog',
+              name: 'Digital Marketing Services',
+              itemListElement: [
+                'SEO & Content Marketing',
+                'Performance Ads (Google & Meta)',
+                'Social Media Management',
+                'Web Design & Development',
+                'Analytics & CRO',
+                'Email Marketing',
+                'App Development',
+                'Graphic Designing',
+                'Brand Strategy',
+              ].map((service) => ({
+                '@type': 'Offer',
+                itemOffered: { '@type': 'Service', name: service },
+              })),
+            },
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: '4.9',
+              reviewCount: '150',
+              bestRating: '5',
+            },
+            sameAs: [
+              'https://www.linkedin.com/company/scalerhouse',
+              'https://twitter.com/scalerhouse',
+              'https://www.instagram.com/scalerhouse',
+              'https://www.facebook.com/scalerhouse',
+            ],
+          },
+          {
+            '@type': 'WebSite',
+            '@id': 'https://scalerhouse.com/#website',
+            url: 'https://scalerhouse.com',
+            name: 'ScalerHouse',
+            potentialAction: {
+              '@type': 'SearchAction',
+              target: 'https://scalerhouse.com/blog?q={search_term_string}',
+              'query-input': 'required name=search_term_string',
+            },
+          },
+          {
+            '@type': 'FAQPage',
+            mainEntity: [
+              { '@type': 'Question', name: 'What services does ScalerHouse offer?', acceptedAnswer: { '@type': 'Answer', text: 'ScalerHouse offers SEO & Content Marketing, Performance Ads (Google & Meta), Social Media Management, Web Design & Development, Analytics & CRO, Email Marketing Automation, App Development, Graphic Designing, Logo Designing, Brand Strategy, Google My Business Optimisation, CRM Development, and API Automations.' } },
+              { '@type': 'Question', name: 'Where is ScalerHouse located?', acceptedAnswer: { '@type': 'Answer', text: 'ScalerHouse is located at B-25, Neemeshwar MahaMandir Society, Ratan Lal Nagar, Gujaini, Kanpur, Uttar Pradesh 208022, India. We serve clients across India.' } },
+              { '@type': 'Question', name: 'How many brands has ScalerHouse scaled?', acceptedAnswer: { '@type': 'Answer', text: 'ScalerHouse has successfully scaled 150+ brands across India since 2021, generating over ₹500 Crore in client revenue with a 95%+ client retention rate.' } },
+              { '@type': 'Question', name: 'How do I get started with ScalerHouse?', acceptedAnswer: { '@type': 'Answer', text: 'You can get started by requesting a free growth audit or proposal through our contact page at scalerhouse.com/contact, or by WhatsApp/calling us at +91 92193 31120.' } },
+              { '@type': 'Question', name: 'What is the average ROAS ScalerHouse achieves for clients?', acceptedAnswer: { '@type': 'Answer', text: 'ScalerHouse achieves an average ROAS (Return on Ad Spend) of 8.2x for clients across Google and Meta advertising campaigns.' } },
+            ],
+          },
+          {
+            '@type': 'ItemList',
+            name: 'Digital Marketing Services by ScalerHouse',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'SEO & Content Marketing', url: 'https://scalerhouse.com/services/seo-content-marketing' },
+              { '@type': 'ListItem', position: 2, name: 'Performance Ads', url: 'https://scalerhouse.com/services/performance-ads' },
+              { '@type': 'ListItem', position: 3, name: 'Social Media Management', url: 'https://scalerhouse.com/services/social-media-management' },
+              { '@type': 'ListItem', position: 4, name: 'Web Design & Development', url: 'https://scalerhouse.com/services/web-design-development' },
+              { '@type': 'ListItem', position: 5, name: 'Analytics & CRO', url: 'https://scalerhouse.com/services/analytics-cro' },
+              { '@type': 'ListItem', position: 6, name: 'Email Marketing Automation', url: 'https://scalerhouse.com/services/email-marketing-automation' },
+              { '@type': 'ListItem', position: 7, name: 'App Development', url: 'https://scalerhouse.com/services/app-development' },
+              { '@type': 'ListItem', position: 8, name: 'Graphic Designing', url: 'https://scalerhouse.com/services/graphic-designing' },
+              { '@type': 'ListItem', position: 9, name: 'Brand Strategy', url: 'https://scalerhouse.com/services/brand-strategy' },
+            ],
+          },
+        ]}
       />
+
 
       <Navbar />
       <WhatsAppFAB />
