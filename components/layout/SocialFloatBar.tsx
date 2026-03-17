@@ -40,7 +40,7 @@ const socials = [
   },
   {
     name: 'YouTube',
-    href: '#',
+    href: 'https://www.youtube.com/@scalerhouse',
     color: '#FF0000',
     glow: 'rgba(255,0,0,0.6)',
     active: false,

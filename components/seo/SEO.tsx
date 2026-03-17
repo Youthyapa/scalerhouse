@@ -61,6 +61,7 @@ function buildDefaultGraph(siteUrl: string) {
                     'https://twitter.com/scalerhouse',
                     'https://www.instagram.com/scalerhouse',
                     'https://www.facebook.com/scalerhouse',
+                    'https://www.youtube.com/@scalerhouse',
                 ],
             },
             {
