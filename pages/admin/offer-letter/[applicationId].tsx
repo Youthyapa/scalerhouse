@@ -176,7 +176,7 @@ function OfferLetterPage() {
     <div class="logo">SCALER<span>HOUSE</span></div>
     <div class="tagline">GLOBAL DIGITAL GROWTH PARTNER</div>
   </div>
-  <div class="contact">scalerhouse.com<br>hr@scalerhouse.com<br>+91 92193 31120</div>
+  <div class="contact">scalerhouse.com<br>hr@scalerhouse.com<br>+91 91961 31120</div>
 </div>
 
 <div class="doc-title">Letter of Offer</div>
@@ -483,7 +483,7 @@ ${hasCustom ? `<div class="sec">${++secNum}. Additional Terms</div><p style="fon
                                 <div style={{ textAlign: 'right', color: '#94a3b8', fontSize: 9 }}>
                                     <div>scalerhouse.com</div>
                                     <div>hr@scalerhouse.com</div>
-                                    <div>+91 92193 31120</div>
+                                    <div>+91 91961 31120</div>
                                 </div>
                             </div>
                             <div style={{ textAlign: 'center', color: '#fff', fontWeight: 700, fontSize: 14, letterSpacing: 3, marginTop: 16 }}>LETTER OF OFFER</div>

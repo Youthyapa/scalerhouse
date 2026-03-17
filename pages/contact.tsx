@@ -42,7 +42,7 @@ export default function ContactPage() {
         <>
             <SEO 
                 title="Get Free Digital Marketing Proposal – ScalerHouse Kanpur"
-                description="Contact ScalerHouse for a free custom digital marketing proposal. Visit our office in Kanpur, WhatsApp us at +91 92193 31120, or email hello@scalerhouse.com. We reply within 24 hours."
+                description="Contact ScalerHouse for a free custom digital marketing proposal. Visit our office in Kanpur, WhatsApp us at +91 91961 31120, or email hello@scalerhouse.com. We reply within 24 hours."
                 keywords="contact ScalerHouse, digital marketing agency Kanpur contact, free marketing proposal, ScalerHouse office Kanpur"
                 schemaData={[
                     {
@@ -57,7 +57,7 @@ export default function ContactPage() {
                         '@id': 'https://scalerhouse.com/#business',
                         name: 'ScalerHouse',
                         url: 'https://scalerhouse.com',
-                        telephone: '+919219331120',
+                        telephone: '+919196131120',
                         email: 'hello@scalerhouse.com',
                         address: {
                             '@type': 'PostalAddress',
@@ -108,7 +108,7 @@ export default function ContactPage() {
                         <div className="space-y-4">
                             {[
                                 { icon: Mail, label: 'Email Us', val: 'hello@scalerhouse.com', href: 'mailto:hello@scalerhouse.com' },
-                                { icon: Phone, label: 'Call/WhatsApp', val: '+91 92193 31120', href: 'tel:+919219331120' },
+                                { icon: Phone, label: 'Call/WhatsApp', val: '+91 91961 31120', href: 'tel:+919196131120' },
                                 { icon: MapPin, label: 'Visit Us', val: 'B-25, Neemeshwar MahaMandir Society, Ratan Lal Nagar, Gujaini, Kanpur, Uttar Pradesh 208022', href: '#' },
                             ].map((item) => (
                                 <a key={item.label} href={item.href} className="glass-card-hover p-5 flex gap-4 items-start">

@@ -51,7 +51,7 @@ function buildDefaultGraph(siteUrl: string) {
                 areaServed: 'India',
                 contactPoint: {
                     '@type': 'ContactPoint',
-                    telephone: '+91-9219331120',
+                    telephone: '+91-9196131120',
                     contactType: 'customer service',
                     email: 'hello@scalerhouse.com',
                     availableLanguage: ['English', 'Hindi'],

@@ -177,8 +177,8 @@ function ClientsPage() {
                                 <input type="email" className="form-input" value={form.email} onChange={e => setForm(p => ({ ...p, email: e.target.value }))} placeholder="john@company.com" />
                             </div>
                             <div>
-                                <label className="form-label">Phone</label>
-                                <input className="form-input" value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} placeholder="+91 92193 31120" />
+                                <label className="block text-sm font-medium text-slate-300 mb-1">Phone</label>
+                                <input className="form-input" value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} placeholder="+91 91961 31120" />
                             </div>
                             <div>
                                 <label className="form-label">Company</label>
