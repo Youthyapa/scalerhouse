@@ -19,9 +19,9 @@ export default function Footer() {
                             {[
                                 { Icon: Linkedin, href: 'https://www.linkedin.com/company/scalerhouse' },
                                 { Icon: Facebook, href: 'https://www.facebook.com/scalerhouse' },
-                                { Icon: Instagram, href: '#' },
-                                { Icon: Youtube, href: '#' },
+                                { Icon: Instagram, href: 'https://www.instagram.com/scalerhouse' },
                                 { Icon: Twitter, href: '#' },
+                                { Icon: Linkedin, href: '#' },
                             ].map(({ Icon, href }, i) => (
                                 <a
                                     key={i}

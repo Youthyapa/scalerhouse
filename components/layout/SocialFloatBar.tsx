@@ -28,7 +28,7 @@ const socials = [
   },
   {
     name: 'Instagram',
-    href: '#',
+    href: 'https://www.instagram.com/scalerhouse',
     color: '#E1306C',
     glow: 'rgba(225,48,108,0.6)',
     active: false,
