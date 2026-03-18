@@ -7,8 +7,8 @@ Disallow: /client/
 Disallow: /employee/
 Disallow: /affiliate/dashboard/
 Disallow: /onboarding/
-Disallow: /api/
+Disallow: /api/private/
 Disallow: /login
 
 Sitemap: https://scalerhouse.com/sitemap.xml
-Host: https://scalerhouse.com
+Host: scalerhouse.com
