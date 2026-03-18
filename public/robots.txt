@@ -5,12 +5,10 @@ Allow: /
 Disallow: /admin/
 Disallow: /client/
 Disallow: /employee/
-Disallow: /affiliate/
+Disallow: /affiliate/dashboard/
 Disallow: /onboarding/
 Disallow: /api/
 Disallow: /login
 
-# Crawl delay for well-behaved bots (in seconds)
-Crawl-delay: 2
-
 Sitemap: https://scalerhouse.com/sitemap.xml
+Host: https://scalerhouse.com
