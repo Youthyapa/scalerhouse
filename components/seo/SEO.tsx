@@ -58,10 +58,11 @@ function buildDefaultGraph(siteUrl: string) {
                 },
                 sameAs: [
                     'https://www.linkedin.com/company/scalerhouse',
-                    'https://twitter.com/scalerhouse',
-                    'https://www.instagram.com/scalerhouse',
                     'https://www.facebook.com/scalerhouse',
+                    'https://www.instagram.com/scalerhouse',
+                    'https://twitter.com/scalerhouse',
                     'https://www.youtube.com/@scalerhouse',
+                    'https://www.wikidata.org/wiki/Q138752497'
                 ],
             },
             {

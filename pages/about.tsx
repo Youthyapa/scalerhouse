@@ -117,6 +117,14 @@ export default function AboutPage() {
         description: 'ScalerHouse is India\'s leading performance marketing agency based in Kanpur, helping 150+ ambitious brands grow with predictable, ROI-driven digital marketing strategies.',
         areaServed: 'India',
         numberOfEmployees: { '@type': 'QuantitativeValue', value: 20 },
+        sameAs: [
+            'https://www.linkedin.com/company/scalerhouse',
+            'https://www.facebook.com/scalerhouse',
+            'https://www.instagram.com/scalerhouse',
+            'https://twitter.com/scalerhouse',
+            'https://www.youtube.com/@scalerhouse',
+            'https://www.wikidata.org/wiki/Q138752497'
+        ],
     };
 
     return (
