@@ -46,8 +46,9 @@ function buildDefaultGraph(siteUrl: string) {
                     '@type': 'ImageObject',
                     url: `${siteUrl}/logo.png`,
                 },
+                image: `${siteUrl}/favicon_io/android-chrome-512x512.png`,
                 description: defaultSEO.description,
-                foundingDate: '2021',
+                foundingDate: '2020',
                 areaServed: 'India',
                 contactPoint: {
                     '@type': 'ContactPoint',
@@ -71,6 +72,7 @@ function buildDefaultGraph(siteUrl: string) {
                 url: siteUrl,
                 name: 'ScalerHouse',
                 publisher: { '@id': `${siteUrl}/#organization` },
+                image: `${siteUrl}/favicon_io/android-chrome-512x512.png`,
                 potentialAction: {
                     '@type': 'SearchAction',
                     target: `${siteUrl}/blog?q={search_term_string}`,
