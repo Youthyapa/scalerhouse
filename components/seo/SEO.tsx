@@ -140,6 +140,9 @@ export default function SEO({
             <link rel="canonical" href={url} />
             {robots && <meta name="robots" content={robots} />}
 
+            {/* Verification Meta Tags */}
+            <meta name="yandex-verification" content="3b3be3785b71e258" />
+
             {/* Open Graph (OG) Meta Tags for Social Media */}
             <meta property="og:type" content={isArticle ? 'article' : 'website'} />
             <meta property="og:url" content={url} />
