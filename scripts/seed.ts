@@ -60,7 +60,7 @@ async function seed() {
         Offer.deleteMany({}), Ticket.deleteMany({}), ServicePackage.deleteMany({}),
     ]);
 
-    const adminHash = await bcrypt.hash('admin123', 10);
+    const adminHash = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'admin123', 10);
     const staffHash = await bcrypt.hash('scaler123', 10);
     const clientHash = await bcrypt.hash('client123', 10);
     const affHash = await bcrypt.hash('affiliate123', 10);
@@ -177,7 +177,7 @@ async function seed() {
 
     console.log('\n🎉 Seed complete! All demo data is now in MongoDB Atlas.');
     console.log('\n📋 Demo Login Credentials:');
-    console.log('   Admin:     admin@scalerhouse.com     / admin123');
+    console.log('   Admin:     admin@scalerhouse.com     / (see ADMIN_PASSWORD in .env.local)');
     console.log('   Employee:  priya@scalerhouse.com     / scaler123');
     console.log('   Employee:  amit@scalerhouse.com      / scaler123');
     console.log('   Client:    client@scalerhouse.com    / client123');
