@@ -314,6 +314,7 @@ const ServicePackageSchema = new Schema({
     serviceSlug: String,
     name: String,
     price: String,
+    priceUSD: { type: String, default: '$0' },
     priceNote: String,
     deliverables: [String],
     isPopular: { type: Boolean, default: false },

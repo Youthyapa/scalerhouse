@@ -14,6 +14,7 @@ interface ServicePackage {
     serviceSlug: string;
     name: string;
     price: string;
+    priceUSD: string;
     priceNote: string;
     deliverables: string[];
     isPopular: boolean;
@@ -117,7 +118,16 @@ function ServicesAdminPage() {
                     fetch('/api/services/packages', {
                         method: 'PATCH',
                         headers: authJson(),
-                        body: JSON.stringify({ id: pkg._id, name: pkg.name, price: pkg.price, priceNote: pkg.priceNote, deliverables: pkg.deliverables, isPopular: pkg.isPopular, ctaLabel: pkg.ctaLabel }),
+                        body: JSON.stringify({
+                            id: pkg._id, 
+                            name: pkg.name, 
+                            price: pkg.price, 
+                            priceUSD: pkg.priceUSD, 
+                            priceNote: pkg.priceNote, 
+                            deliverables: pkg.deliverables, 
+                            isPopular: pkg.isPopular, 
+                            ctaLabel: pkg.ctaLabel 
+                        }),
                     })
                 )
             );
@@ -139,6 +149,7 @@ function ServicesAdminPage() {
                     serviceSlug,
                     name: 'New Package',
                     price: '₹0',
+                    priceUSD: '$0',
                     priceNote: '/month',
                     deliverables: ['Add your deliverables here'],
                     isPopular: false,
@@ -277,15 +288,26 @@ function ServicesAdminPage() {
                                                         </button>
                                                     </div>
 
-                                                    {/* Price */}
-                                                    <div>
-                                                        <label className="form-label">Price</label>
-                                                        <input
-                                                            className="form-input !text-sm"
-                                                            value={pkg.price}
-                                                            onChange={e => updatePackage(pkg._id, { price: e.target.value })}
-                                                            placeholder="e.g. ₹25,000"
-                                                        />
+                                                    {/* Price & USD Box */}
+                                                    <div className="flex gap-3">
+                                                        <div className="flex-1">
+                                                            <label className="form-label">Price (INR)</label>
+                                                            <input
+                                                                className="form-input !text-sm"
+                                                                value={pkg.price}
+                                                                onChange={e => updatePackage(pkg._id, { price: e.target.value })}
+                                                                placeholder="e.g. ₹25,000"
+                                                            />
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <label className="form-label">Price (USD)</label>
+                                                            <input
+                                                                className="form-input !text-sm"
+                                                                value={pkg.priceUSD}
+                                                                onChange={e => updatePackage(pkg._id, { priceUSD: e.target.value })}
+                                                                placeholder="e.g. $299"
+                                                            />
+                                                        </div>
                                                     </div>
 
                                                     {/* Price Note */}

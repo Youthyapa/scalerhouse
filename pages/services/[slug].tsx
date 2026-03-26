@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
 import WhatsAppFAB from '../../components/layout/WhatsAppFAB';
+import { useCurrency } from '../../components/context/CurrencyContext';
 import { getServiceBySlug, ALL_SERVICES } from '../../lib/serviceData';
 import { ServicePackage } from '../../lib/store';
 import type { GetStaticPaths, GetStaticProps } from 'next';
@@ -24,6 +25,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => ({
 
 export default function ServiceDetailPage({ slug }: Props) {
     const service = getServiceBySlug(slug);
+    const { currency, setCurrency } = useCurrency();
     const [packages, setPackages] = useState<ServicePackage[]>([]);
     const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -322,7 +324,26 @@ export default function ServiceDetailPage({ slug }: Props) {
                         <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
                             Choose Your <span className="gradient-text">Package</span>
                         </h2>
-                        <p className="text-slate-400 max-w-xl mx-auto">All plans include a dedicated account manager. No hidden fees. Cancel anytime with 30-day notice.</p>
+                        <p className="text-slate-400 max-w-xl mx-auto mb-8">All plans include a dedicated account manager. No hidden fees. Cancel anytime with 30-day notice.</p>
+
+                        {/* Currency Toggle */}
+                        <div className="flex items-center justify-center gap-4">
+                            <span className="text-slate-400 text-sm">View pricing in:</span>
+                            <div className="flex bg-slate-800/60 backdrop-blur border border-white/10 p-1 rounded-full">
+                                <button
+                                    onClick={() => setCurrency('USD')}
+                                    className={`flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${currency === 'USD' ? 'bg-cyan-500 text-slate-900 shadow-[0_0_20px_rgba(6,182,212,0.5)]' : 'text-slate-400 hover:text-white'}`}
+                                >
+                                    $ USD
+                                </button>
+                                <button
+                                    onClick={() => setCurrency('INR')}
+                                    className={`flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${currency === 'INR' ? 'bg-cyan-500 text-slate-900 shadow-[0_0_20px_rgba(6,182,212,0.5)]' : 'text-slate-400 hover:text-white'}`}
+                                >
+                                    ₹ INR
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     {packages.length === 0 ? (
@@ -351,7 +372,11 @@ export default function ServiceDetailPage({ slug }: Props) {
                                     <div className="mb-5">
                                         <h3 className="font-syne font-bold text-xl text-white mb-1">{pkg.name}</h3>
                                         <div className="flex items-end gap-1">
-                                            <span className="font-syne font-black text-4xl gradient-text">{pkg.price}</span>
+                                            <span className="font-syne font-black text-4xl gradient-text">
+                                                {currency === 'USD' && (pkg as any).priceUSD 
+                                                    ? (pkg as any).priceUSD 
+                                                    : pkg.price}
+                                            </span>
                                             <span className="text-slate-400 text-sm mb-1">{pkg.priceNote}</span>
                                         </div>
                                     </div>

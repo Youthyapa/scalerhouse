@@ -12,6 +12,7 @@ import WhatsAppFAB from '../components/layout/WhatsAppFAB';
 import { ALL_SERVICES } from '../lib/serviceData';
 import { useEffect, useState } from 'react';
 import { ServicePackage } from '../lib/store';
+import { useCurrency } from '../components/context/CurrencyContext';
 
 const iconMap: Record<string, React.ElementType> = {
     'seo-content-marketing': Search,
@@ -47,6 +48,7 @@ const colorMap: Record<string, { card: string; border: string; iconBg: string; i
 
 export default function ServicesPage() {
     const [packages, setPackages] = useState<ServicePackage[]>([]);
+    const { currency } = useCurrency();
 
     useEffect(() => {
         fetch('/api/services/packages')
@@ -59,7 +61,11 @@ export default function ServicesPage() {
         const pkgs = packages.filter(p => p.serviceSlug === slug);
         if (!pkgs.length) return null;
         const starter = pkgs.find(p => p.name === 'Starter') || pkgs[0];
-        return `From ${starter.price}${starter.priceNote}`;
+        
+        const displayPrice = (currency === 'USD' && (starter as any).priceUSD) 
+            ? (starter as any).priceUSD 
+            : starter.price;
+        return `From ${displayPrice}${starter.priceNote}`;
     };
 
     return (
