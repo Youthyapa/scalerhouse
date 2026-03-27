@@ -15,5 +15,6 @@ export const adminNav = [
     { href: '/admin/careers', label: 'Careers', icon: '💼' },
     { href: '/admin/applications', label: 'Applications', icon: '📝' },
     { href: '/admin/tickets', label: 'Tickets', icon: '🎫' },
+    { href: '/admin/roles', label: 'Roles', icon: '🛡️' },
     { href: '/admin/activity', label: 'Activity Log', icon: '📋' },
 ];

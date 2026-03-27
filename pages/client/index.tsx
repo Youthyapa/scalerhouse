@@ -193,4 +193,4 @@ function ClientDashboard() {
     );
 }
 
-export default withAuth(ClientDashboard, ['client']);
+export default withAuth(ClientDashboard, ['client', 'admin']);

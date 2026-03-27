@@ -37,6 +37,8 @@ const CareerSchema = new mongoose.Schema({ _id: String, title: String, departmen
 const OfferSchema = new mongoose.Schema({ _id: String, title: String, description: String, couponCode: String, discount: Number, discountType: String, startDate: String, endDate: String, pages: [String], isActive: Boolean, createdAt: String }, { _id: false });
 const TicketSchema = new mongoose.Schema({ _id: String, subject: String, description: String, status: String, priority: String, raisedBy: String, raisedByRole: String, assignedTo: String, messages: mix, createdAt: String, updatedAt: String }, { _id: false });
 const ServicePackageSchema = new mongoose.Schema({ _id: String, serviceSlug: String, name: String, price: String, priceNote: String, deliverables: [String], isPopular: Boolean, ctaLabel: String }, { _id: false });
+const PermissionSchema = new mongoose.Schema({ path: String, canView: Boolean, canEdit: Boolean, canDelete: Boolean }, { _id: false });
+const RoleSchema = new mongoose.Schema({ _id: String, name: String, description: String, isProtected: Boolean, permissions: [PermissionSchema] }, { _id: false });
 
 async function seed() {
     console.log('🌱 Connecting to MongoDB...');
@@ -52,18 +54,47 @@ async function seed() {
     const Offer = mongoose.models.Offer || mongoose.model('Offer', OfferSchema);
     const Ticket = mongoose.models.Ticket || mongoose.model('Ticket', TicketSchema);
     const ServicePackage = mongoose.models.ServicePackage || mongoose.model('ServicePackage', ServicePackageSchema);
+    const Role = mongoose.models.Role || mongoose.model('Role', RoleSchema);
 
     console.log('🗑️  Clearing existing data...');
     await Promise.all([
         Employee.deleteMany({}), Lead.deleteMany({}), Client.deleteMany({}),
         Affiliate.deleteMany({}), Blog.deleteMany({}), Career.deleteMany({}),
-        Offer.deleteMany({}), Ticket.deleteMany({}), ServicePackage.deleteMany({}),
+        Offer.deleteMany({}), Ticket.deleteMany({}), ServicePackage.deleteMany({}), Role.deleteMany({})
     ]);
 
     const adminHash = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'admin123', 10);
     const staffHash = await bcrypt.hash('scaler123', 10);
     const clientHash = await bcrypt.hash('client123', 10);
     const affHash = await bcrypt.hash('affiliate123', 10);
+
+    const defaultRoles = [
+        {
+            _id: 'role_admin', name: 'Admin', description: 'Super Administrator', isProtected: true,
+            permissions: [{ path: '*', canView: true, canEdit: true, canDelete: true }]
+        },
+        {
+            _id: 'role_sales', name: 'Sales Executive', description: 'Handles leads and client onboarding', isProtected: false,
+            permissions: [
+                { path: '/admin', canView: true, canEdit: false, canDelete: false },
+                { path: '/admin/leads', canView: true, canEdit: true, canDelete: false },
+                { path: '/admin/clients', canView: true, canEdit: true, canDelete: false },
+                { path: '/admin/proposals', canView: true, canEdit: true, canDelete: false }
+            ]
+        },
+        {
+            _id: 'role_seo', name: 'SEO Specialist', description: 'Manages blogs and content', isProtected: false,
+            permissions: [
+                { path: '/admin', canView: true, canEdit: false, canDelete: false },
+                { path: '/admin/blog', canView: true, canEdit: true, canDelete: true },
+                { path: '/admin/content', canView: true, canEdit: true, canDelete: false },
+                { path: '/admin/tickets', canView: true, canEdit: true, canDelete: false }
+            ]
+        }
+    ];
+
+    await Role.insertMany(defaultRoles);
+    console.log('✅ Roles seeded');
 
     await Employee.insertMany([
         { _id: 'emp_admin', name: 'Shashank Singh', email: 'admin@scalerhouse.com', passwordHash: adminHash, role: 'Admin', department: 'Management', assignedLeads: [], assignedClients: [], tasks: [], status: 'Active', joinedAt: '2024-01-01', performanceScore: 98 },

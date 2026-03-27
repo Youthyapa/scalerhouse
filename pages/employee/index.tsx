@@ -7,15 +7,11 @@ import DashboardLayout from '../../components/layout/DashboardLayout';
 import { getAll, saveAll, KEYS, Employee, Lead, Client, Ticket, updateItem, logActivity } from '../../lib/store';
 import toast from 'react-hot-toast';
 
-const employeeNav = [
-    { href: '/employee', label: 'Dashboard', icon: '📊' },
-    { href: '/employee/leads', label: 'My Leads', icon: '🎯' },
-    { href: '/employee/clients', label: 'My Clients', icon: '🏢' },
-    { href: '/employee/tickets', label: 'Tickets', icon: '🎫' },
-];
+import { useEmployeeNav } from '../../lib/employeeNav';
 
 function EmployeeDashboard() {
     const { user } = useAuth();
+    const navItems = useEmployeeNav();
     const [employee, setEmployee] = useState<Employee | null>(null);
     const [leads, setLeads] = useState<Lead[]>([]);
     const [clients, setClients] = useState<Client[]>([]);
@@ -51,7 +47,7 @@ function EmployeeDashboard() {
     };
 
     if (!employee) return (
-        <DashboardLayout navItems={employeeNav} title="Employee Dashboard" roleBadge="Employee" roleBadgeClass="badge-blue">
+        <DashboardLayout navItems={navItems} title="Employee Dashboard" roleBadge="Employee" roleBadgeClass="badge-blue">
             <div className="text-center text-slate-400 py-20">Employee data not found. Contact your HR manager.</div>
         </DashboardLayout>
     );
@@ -60,7 +56,7 @@ function EmployeeDashboard() {
     const pendingTasks = employee.tasks.filter(t => t.status === 'Pending').length;
 
     return (
-        <DashboardLayout navItems={employeeNav} title="Employee Dashboard" roleBadge={employee.role} roleBadgeClass="badge-blue">
+        <DashboardLayout navItems={navItems} title="Employee Dashboard" roleBadge={employee.role} roleBadgeClass="badge-blue">
             <Head><title>Employee Dashboard – ScalerHouse</title></Head>
 
             {/* Welcome */}
@@ -173,4 +169,4 @@ function EmployeeDashboard() {
     );
 }
 
-export default withAuth(EmployeeDashboard, ['employee']);
+export default withAuth(EmployeeDashboard, ['employee', 'admin']);

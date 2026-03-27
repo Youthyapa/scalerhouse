@@ -154,4 +154,4 @@ function AffiliateLeads() {
     );
 }
 
-export default withAuth(AffiliateLeads, ['affiliate']);
+export default withAuth(AffiliateLeads, ['affiliate', 'admin']);

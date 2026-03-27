@@ -13,17 +13,31 @@ const TaskSchema = new Schema({
     createdAt: { type: String, default: () => new Date().toISOString() },
 });
 
+// ─── Roles ───────────────────────────────────────────────────────────────────
+const PermissionSchema = new Schema({
+    path: String,
+    canView: { type: Boolean, default: false },
+    canEdit: { type: Boolean, default: false },
+    canDelete: { type: Boolean, default: false },
+}, { _id: false });
+
+const RoleSchema = new Schema({
+    _id: String,
+    name: { type: String, required: true, unique: true },
+    description: String,
+    isProtected: { type: Boolean, default: false }, // true for "Admin"
+    permissions: [PermissionSchema],
+    createdAt: { type: String, default: () => new Date().toISOString() },
+    updatedAt: { type: String, default: () => new Date().toISOString() },
+}, { _id: false });
+
 const EmployeeSchema = new Schema({
     _id: String,
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     phone: String,
     passwordHash: String,  // bcrypt hash
-    role: {
-        type: String,
-        enum: ['Sales Executive', 'Digital Marketing Executive', 'SEO Specialist', 'Ads Manager', 'HR Manager', 'Accounts Manager', 'Admin'],
-        default: 'Sales Executive',
-    },
+    role: { type: String, required: true },
     department: String,
     assignedLeads: [String],
     assignedClients: [String],
@@ -358,3 +372,4 @@ export const ContactModel = models.Contact || model('Contact', ContactSubmission
 export const ApplicationModel = models.Application || model('Application', ApplicationSchema);
 export const OnboardingModel = models.Onboarding || model('Onboarding', OnboardingSchema);
 export const OnboardingTokenModel = models.OnboardingToken || model('OnboardingToken', OnboardingTokenSchema);
+export const RoleModel = models.Role || model('Role', RoleSchema);

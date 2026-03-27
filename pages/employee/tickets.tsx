@@ -7,15 +7,12 @@ import DashboardLayout from '../../components/layout/DashboardLayout';
 import { getAll, updateItem, KEYS, Employee, Ticket, logActivity } from '../../lib/store';
 import toast from 'react-hot-toast';
 
-const employeeNav = [
-    { href: '/employee', label: 'Dashboard', icon: '📊' },
-    { href: '/employee/leads', label: 'My Leads', icon: '🎯' },
-    { href: '/employee/clients', label: 'My Clients', icon: '🏢' },
-    { href: '/employee/tickets', label: 'Tickets', icon: '🎫' },
-];
+import { useEmployeeNav, useEmployeePermission } from '../../lib/employeeNav';
 
 function EmployeeTickets() {
     const { user } = useAuth();
+    const navItems = useEmployeeNav();
+    const hasAccess = useEmployeePermission('/admin/tickets');
     const [employee, setEmployee] = useState<Employee | null>(null);
     const [tickets, setTickets] = useState<Ticket[]>([]);
     const [selected, setSelected] = useState<Ticket | null>(null);
@@ -43,8 +40,18 @@ function EmployeeTickets() {
     const statusBadge = (s: string) => ({ Open: 'badge-yellow', 'In Progress': 'badge-blue', Resolved: 'badge-green', Closed: 'badge-purple' }[s] || 'badge-blue');
     const priorityBadge = (p: string) => ({ High: 'badge-red', Medium: 'badge-yellow', Low: 'badge-blue' }[p] || 'badge-blue');
 
+    if (!hasAccess) return (
+        <DashboardLayout navItems={navItems} title="Support Tickets" roleBadge={employee?.role || 'Employee'} roleBadgeClass="badge-blue">
+            <div className="flex flex-col items-center justify-center py-32 text-center">
+                <div className="text-6xl mb-4">🔒</div>
+                <h2 className="text-xl font-bold text-white mb-2">Access Restricted</h2>
+                <p className="text-slate-400 text-sm max-w-sm">Your role does not include access to Tickets. Please contact your administrator to request access.</p>
+            </div>
+        </DashboardLayout>
+    );
+
     return (
-        <DashboardLayout navItems={employeeNav} title="Support Tickets" roleBadge={employee?.role || 'Employee'} roleBadgeClass="badge-blue">
+        <DashboardLayout navItems={navItems} title="Support Tickets" roleBadge={employee?.role || 'Employee'} roleBadgeClass="badge-blue">
             <Head><title>Tickets – ScalerHouse</title></Head>
 
             <div className="grid grid-cols-3 gap-4 mb-5">

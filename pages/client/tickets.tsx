@@ -168,4 +168,4 @@ function ClientTickets() {
     );
 }
 
-export default withAuth(ClientTickets, ['client']);
+export default withAuth(ClientTickets, ['client', 'admin']);

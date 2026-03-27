@@ -2,10 +2,13 @@
 // Updated to use real JWT API instead of hardcoded passwords
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { apiLogin, apiLogout } from './api';
+import { useRouter } from 'next/router';
 
 interface AuthUser {
     email: string;
     role: 'admin' | 'employee' | 'client' | 'affiliate';
+    roleName?: string;
+    permissions?: any[];
     entityId: string;
     name: string;
 }
@@ -38,6 +41,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const authUser: AuthUser = {
                 email: data.user.email,
                 role: data.user.role,
+                roleName: data.user.roleName,
+                permissions: data.user.permissions,
                 entityId: data.user.entityId,
                 name: data.user.name,
             };
@@ -77,6 +82,7 @@ export function withAuth(
     return function GuardedPage(props: object) {
         const { user, isLoading } = useAuth();
         const [mounted, setMounted] = useState(false);
+        const router = useRouter();
 
         useEffect(() => { setMounted(true); }, []);
 
@@ -96,6 +102,7 @@ export function withAuth(
             return null;
         }
 
+        // Hard role check
         if (!allowedRoles.includes(user.role)) {
             return (
                 <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
@@ -107,6 +114,29 @@ export function withAuth(
                     </div>
                 </div>
             );
+        }
+
+        // Granular permission check for admin panel paths (unless they are Super Admin)
+        if (router.pathname.startsWith('/admin') && user.role !== 'admin') {
+            const isSuperAdmin = user.permissions?.some(p => p.path === '*' && p.canView);
+            if (!isSuperAdmin) {
+                const pathParts = router.pathname.split('/');
+                const baseRoute = pathParts.length > 2 ? `/${pathParts[1]}/${pathParts[2]}` : router.pathname; // /admin/clients/[id] -> /admin/clients
+                
+                const hasAccess = user.permissions?.some(p => p.path === baseRoute && p.canView);
+                if (!hasAccess && baseRoute !== '/admin') { // Let everyone see dashboard if they got past role check
+                    return (
+                        <div className="min-h-screen flex items-center justify-center" style={{ background: '#0a1628' }}>
+                            <div className="text-center glass-card p-10">
+                                <div className="text-6xl mb-4">🛡️</div>
+                                <h1 className="text-2xl font-bold text-white mb-2">Restricted Area</h1>
+                                <p className="text-slate-400 mb-6">Your role ({user.roleName}) does not have view access for this section.</p>
+                                <a href="/admin" className="btn-glow">Go back</a>
+                            </div>
+                        </div>
+                    );
+                }
+            }
         }
 
         return <Component {...props} />;

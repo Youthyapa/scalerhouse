@@ -96,4 +96,4 @@ function ClientReports() {
     );
 }
 
-export default withAuth(ClientReports, ['client']);
+export default withAuth(ClientReports, ['client', 'admin']);

@@ -24,6 +24,8 @@ export interface AuthPayload {
     userId: string;
     email: string;
     role: 'admin' | 'employee' | 'client' | 'affiliate';
+    roleName?: string;
+    permissions?: any[];
     entityId: string;
     name: string;
 }

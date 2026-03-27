@@ -254,4 +254,4 @@ function AffiliateDashboard() {
     );
 }
 
-export default withAuth(AffiliateDashboard, ['affiliate']);
+export default withAuth(AffiliateDashboard, ['affiliate', 'admin']);

@@ -6,15 +6,12 @@ import { withAuth, useAuth } from '../../lib/auth';
 import DashboardLayout from '../../components/layout/DashboardLayout';
 import { getAll, KEYS, Employee, Client } from '../../lib/store';
 
-const employeeNav = [
-    { href: '/employee', label: 'Dashboard', icon: '📊' },
-    { href: '/employee/leads', label: 'My Leads', icon: '🎯' },
-    { href: '/employee/clients', label: 'My Clients', icon: '🏢' },
-    { href: '/employee/tickets', label: 'Tickets', icon: '🎫' },
-];
+import { useEmployeeNav, useEmployeePermission } from '../../lib/employeeNav';
 
 function EmployeeClients() {
     const { user } = useAuth();
+    const navItems = useEmployeeNav();
+    const hasAccess = useEmployeePermission('/admin/clients');
     const [employee, setEmployee] = useState<Employee | null>(null);
     const [clients, setClients] = useState<Client[]>([]);
     const [selected, setSelected] = useState<Client | null>(null);
@@ -29,8 +26,18 @@ function EmployeeClients() {
         }
     }, [user]);
 
+    if (!hasAccess) return (
+        <DashboardLayout navItems={navItems} title="My Clients" roleBadge={employee?.role || 'Employee'} roleBadgeClass="badge-blue">
+            <div className="flex flex-col items-center justify-center py-32 text-center">
+                <div className="text-6xl mb-4">🔒</div>
+                <h2 className="text-xl font-bold text-white mb-2">Access Restricted</h2>
+                <p className="text-slate-400 text-sm max-w-sm">Your role does not include access to Clients. Please contact your administrator to request access.</p>
+            </div>
+        </DashboardLayout>
+    );
+
     return (
-        <DashboardLayout navItems={employeeNav} title="My Clients" roleBadge={employee?.role || 'Employee'} roleBadgeClass="badge-blue">
+        <DashboardLayout navItems={navItems} title="My Clients" roleBadge={employee?.role || 'Employee'} roleBadgeClass="badge-blue">
             <Head><title>My Clients – ScalerHouse</title></Head>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">

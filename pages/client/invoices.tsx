@@ -116,4 +116,4 @@ function ClientInvoices() {
     );
 }
 
-export default withAuth(ClientInvoices, ['client']);
+export default withAuth(ClientInvoices, ['client', 'admin']);

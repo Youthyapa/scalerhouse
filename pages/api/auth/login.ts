@@ -2,7 +2,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcryptjs';
 import { connectDB } from '../../../lib/db';
-import { EmployeeModel, ClientModel, AffiliateModel } from '../../../lib/models';
+import { EmployeeModel, ClientModel, AffiliateModel, RoleModel } from '../../../lib/models';
 import { signToken, buildAuthCookie } from '../../../lib/apiAuth';
 import { checkRateLimit, LOGIN_RATE_LIMIT } from '../../../lib/rateLimit';
 
@@ -32,17 +32,34 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (emp) {
             const valid = await bcrypt.compare(password, emp.passwordHash || '');
             if (!valid) return res.status(401).json({ error: 'Invalid password' });
+            
+            // Fetch Role
+            let roleDoc = null;
+            if (emp.role) {
+                roleDoc = await RoleModel.findById(emp.role).lean() || await RoleModel.findOne({ name: emp.role }).lean();
+            }
+            const isAdmin = roleDoc ? (roleDoc.isProtected && roleDoc.name === 'Admin') : (emp.role === 'Admin');
+
             const token = signToken({
                 userId: emp._id,
                 email: emp.email,
-                role: emp.role === 'Admin' ? 'admin' : 'employee',
+                role: isAdmin ? 'admin' : 'employee',
+                roleName: roleDoc ? roleDoc.name : (emp.role || 'Employee'),
+                permissions: roleDoc ? roleDoc.permissions : [],
                 entityId: emp._id,
                 name: emp.name,
             });
             res.setHeader('Set-Cookie', buildAuthCookie(token));
             return res.status(200).json({
                 token,
-                user: { email: emp.email, role: emp.role === 'Admin' ? 'admin' : 'employee', entityId: emp._id, name: emp.name },
+                user: { 
+                    email: emp.email, 
+                    role: isAdmin ? 'admin' : 'employee', 
+                    roleName: roleDoc ? roleDoc.name : (emp.role || 'Employee'),
+                    permissions: roleDoc ? roleDoc.permissions : [],
+                    entityId: emp._id, 
+                    name: emp.name 
+                },
             });
         }
 

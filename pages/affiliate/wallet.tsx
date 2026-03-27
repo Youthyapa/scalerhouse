@@ -172,4 +172,4 @@ function AffiliateWallet() {
     );
 }
 
-export default withAuth(AffiliateWallet, ['affiliate']);
+export default withAuth(AffiliateWallet, ['affiliate', 'admin']);

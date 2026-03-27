@@ -6,13 +6,21 @@ import { Toaster } from 'react-hot-toast';
 import '../styles/globals.css';
 import AnimatedBackground from '../components/AnimatedBackground';
 import SocialFloatBar from '../components/layout/SocialFloatBar';
+import { useRouter } from 'next/router';
 
 export default function App({ Component, pageProps }: AppProps) {
+    const router = useRouter();
+    const isPortalOrAuth =
+        router.pathname.startsWith('/admin') ||
+        router.pathname.startsWith('/employee') ||
+        router.pathname.startsWith('/client') ||
+        router.pathname.startsWith('/affiliate') ||
+        router.pathname === '/login';
     return (
         <AuthProvider>
             <CurrencyProvider>
                 <AnimatedBackground />
-                <SocialFloatBar />
+                {!isPortalOrAuth && <SocialFloatBar />}
                 <Component {...pageProps} />
                 <Toaster
                     position="top-right"

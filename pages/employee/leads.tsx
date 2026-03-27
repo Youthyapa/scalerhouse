@@ -7,17 +7,14 @@ import DashboardLayout from '../../components/layout/DashboardLayout';
 import { getAll, updateItem, KEYS, Employee, Lead, logActivity } from '../../lib/store';
 import toast from 'react-hot-toast';
 
-const employeeNav = [
-    { href: '/employee', label: 'Dashboard', icon: '📊' },
-    { href: '/employee/leads', label: 'My Leads', icon: '🎯' },
-    { href: '/employee/clients', label: 'My Clients', icon: '🏢' },
-    { href: '/employee/tickets', label: 'Tickets', icon: '🎫' },
-];
+import { useEmployeeNav, useEmployeePermission } from '../../lib/employeeNav';
 
 const STATUSES: Lead['status'][] = ['New', 'Contacted', 'Proposal Sent', 'Negotiation', 'Won', 'Lost'];
 
 function EmployeeLeads() {
     const { user } = useAuth();
+    const navItems = useEmployeeNav();
+    const hasAccess = useEmployeePermission('/admin/leads');
     const [employee, setEmployee] = useState<Employee | null>(null);
     const [leads, setLeads] = useState<Lead[]>([]);
     const [filter, setFilter] = useState('All');
@@ -42,8 +39,18 @@ function EmployeeLeads() {
     const filtered = filter === 'All' ? leads : leads.filter(l => l.status === filter);
     const statusBadge = (s: string) => ({ Won: 'badge-green', New: 'badge-blue', Lost: 'badge-red', Contacted: 'badge-purple', 'Proposal Sent': 'badge-cyan', Negotiation: 'badge-yellow' }[s] || 'badge-blue');
 
+    if (!hasAccess) return (
+        <DashboardLayout navItems={navItems} title="My Leads" roleBadge={employee?.role || 'Employee'} roleBadgeClass="badge-blue">
+            <div className="flex flex-col items-center justify-center py-32 text-center">
+                <div className="text-6xl mb-4">🔒</div>
+                <h2 className="text-xl font-bold text-white mb-2">Access Restricted</h2>
+                <p className="text-slate-400 text-sm max-w-sm">Your role does not include access to Leads. Please contact your administrator to request access.</p>
+            </div>
+        </DashboardLayout>
+    );
+
     return (
-        <DashboardLayout navItems={employeeNav} title="My Leads" roleBadge={employee?.role || 'Employee'} roleBadgeClass="badge-blue">
+        <DashboardLayout navItems={navItems} title="My Leads" roleBadge={employee?.role || 'Employee'} roleBadgeClass="badge-blue">
             <Head><title>My Leads – ScalerHouse</title></Head>
 
             {/* Filter Tabs */}

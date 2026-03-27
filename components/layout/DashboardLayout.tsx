@@ -51,7 +51,16 @@ export default function DashboardLayout({ navItems, children, title, roleBadge, 
 
                 {/* Scrollable Nav – scrollbar hidden */}
                 <nav className="flex-1 overflow-y-auto py-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                    {navItems.map((item) => {
+                    {navItems.filter(item => {
+                        if (user?.role === 'admin') return true;
+                        if (!user?.permissions) return false;
+                        if (item.href === '/admin') return true; // Everyone who can login can see dashboard base
+                        const isSuperAdmin = user.permissions.some(p => p.path === '*' && p.canView);
+                        if (isSuperAdmin) return true;
+                        
+                        const perm = user.permissions.find(p => p.path === item.href);
+                        return perm ? perm.canView : false;
+                    }).map((item) => {
                         const active = item.href === '/admin'
                             ? router.pathname === '/admin'
                             : router.pathname === item.href || router.pathname.startsWith(item.href + '/');
