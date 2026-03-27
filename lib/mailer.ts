@@ -22,7 +22,7 @@ export interface SendMailOptions {
 
 export async function sendMail({ to, subject, html, attachments }: SendMailOptions) {
     const mailOptions = {
-        from: `"ScalerHouse Careers" <${process.env.GMAIL_USER}>`,
+        from: `"ScalerHouse" <${process.env.GMAIL_USER}>`,
         to,
         subject,
         html,
