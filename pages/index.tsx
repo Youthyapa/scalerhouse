@@ -144,12 +144,12 @@ const services = [
     slug: "app-development"
   },
   {
-    icon: Search,
-    title: "Graphic Designing",
-    desc: "Eye-catching visuals, brand identities, and social media creatives that pop.",
+    icon: Compass,
+    title: "Branding / Advertisement",
+    desc: "Comprehensive brand analysis, print media, OOH media, and electronic & radio advertising.",
     color: "from-fuchsia-600/20 to-pink-900/10",
     border: "border-fuchsia-500/20",
-    slug: "graphic-designing"
+    slug: "branding-advertisement"
   },
 ];
 

@@ -37,7 +37,7 @@ export default function Document() {
                 <link rel="manifest" href="/favicon_io/site.webmanifest" />
                 <link rel="shortcut icon" href="/favicon_io/favicon.ico" />
             </Head>
-            <body>
+            <body suppressHydrationWarning={true}>
                 <Main />
                 <NextScript />
             </body>

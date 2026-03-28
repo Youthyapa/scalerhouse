@@ -1,8 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false, // Disabled: prevents double-render in dev that causes hydration mismatch loop with lucide-react SVG icons
   poweredByHeader: false, // hide X-Powered-By: Next.js
   compress: true, // enable gzip/brotli compression
+
+  // Fix lucide-react SVG hydration mismatch (cx/cy attribute rounding between SSR and client)
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
 
   images: {
     domains: [
@@ -23,9 +28,10 @@ const nextConfig = {
 
   // Production-grade HTTP security headers
   async headers() {
+    const isProd = process.env.NODE_ENV === 'production';
     return [
-      // ── Static asset long-term caching ──────────────────────────────
-      {
+      // ── Static asset long-term caching (production only — dev needs fresh builds) ──
+      ...(isProd ? [{
         source: '/_next/static/(.*)',
         headers: [
           {
@@ -33,7 +39,7 @@ const nextConfig = {
             value: 'public, max-age=31536000, immutable',
           },
         ],
-      },
+      }] : []),
       // ── Public image/font assets ─────────────────────────────────────
       {
         source: '/(.*)\\.(png|jpg|jpeg|gif|webp|avif|svg|ico|woff|woff2)',

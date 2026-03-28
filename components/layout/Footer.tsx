@@ -21,7 +21,7 @@ export default function Footer() {
                                 { Icon: Facebook, href: 'https://www.facebook.com/scalerhouse' },
                                 { Icon: Instagram, href: 'https://www.instagram.com/scalerhouse' },
                                 { Icon: Youtube, href: 'https://www.youtube.com/@scalerhouse' },
-                                { Icon: Twitter, href: '#' },
+                                { Icon: Twitter, href: 'https://x.com/scalerhouse' },
                             ].map(({ Icon, href }, i) => (
                                 <a
                                     key={i}

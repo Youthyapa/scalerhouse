@@ -42,6 +42,9 @@ export default function ServiceDetailPage({ slug }: Props) {
 
     const hasWhyItMatters = Array.isArray((service as any).whyItMatters) && (service as any).whyItMatters.length > 0;
     const hasDescription = typeof (service as any).description === 'string';
+    const hasOurServices = Array.isArray((service as any).ourServices) && (service as any).ourServices.length > 0;
+    const hasWeOffer = Array.isArray((service as any).weOffer) && (service as any).weOffer.length > 0;
+    const hasResearchShows = Array.isArray((service as any).researchShows) && (service as any).researchShows.length > 0;
 
     return (
         <>
@@ -174,6 +177,95 @@ export default function ServiceDetailPage({ slug }: Props) {
                                     ))}
                                 </div>
                             )}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* ── RESEARCH SHOWS ──────────────────────────────────── */}
+            {hasResearchShows && (
+                <section className="py-24 bg-[#080a14]">
+                    <div className="max-w-4xl mx-auto px-6">
+                        <div className="text-center mb-12">
+                            <span className="badge badge-yellow mb-4">Market Insights</span>
+                            <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
+                                Research <span className="gradient-text">Shows</span>
+                            </h2>
+                        </div>
+                        <div className="space-y-6">
+                            {(service as any).researchShows.map((para: string, i: number) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, y: 15 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                                    className="glass-card p-6 md:p-8 border-l-4 border-l-cyan-500 border-white/5 bg-slate-900/40"
+                                >
+                                    <p className="text-slate-300 text-lg leading-relaxed">{para}</p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* ── OUR SERVICES ─────────────────────────────────────── */}
+            {hasOurServices && (
+                <section className="py-24 bg-[#0a1222]">
+                    <div className="max-w-7xl mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <span className="badge badge-purple mb-4">Core Offerings</span>
+                            <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
+                                Our <span className="gradient-text">Services</span>
+                            </h2>
+                        </div>
+                        <div className="grid md:grid-cols-2 gap-8">
+                            {(service as any).ourServices.map((srv: any, i: number) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                                    className="glass-card p-8 border border-white/8 hover:border-cyan-400/20 transition-all duration-300"
+                                >
+                                    <div className="text-4xl mb-6">{srv.icon}</div>
+                                    <h3 className="font-syne font-bold text-white text-2xl mb-4">{srv.title}</h3>
+                                    <p className="text-slate-300 text-sm leading-relaxed">{srv.desc}</p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* ── WE OFFER (TABULAR) ─────────────────────────────── */}
+            {hasWeOffer && (
+                <section className="py-24 bg-[#080f1e]">
+                    <div className="max-w-6xl mx-auto px-6">
+                        <div className="text-center mb-16">
+                            <span className="badge badge-cyan mb-4">Complete Capabilities</span>
+                            <h2 className="font-syne font-black text-4xl lg:text-5xl text-white mb-4">
+                                We <span className="gradient-text">Offer</span>
+                            </h2>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {(service as any).weOffer.map((item: any, i: number) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.3, delay: (Math.min(i, 20)) * 0.03 }}
+                                    className="flex items-center gap-4 p-4 rounded-xl glass-card border border-white/5 hover:border-cyan-400/30 transition-all duration-300 group"
+                                >
+                                    <div className="text-2xl w-12 h-12 flex items-center justify-center shrink-0 bg-slate-800/80 rounded-lg border border-white/10 group-hover:bg-slate-700/80 transition-colors">
+                                        {item.icon}
+                                    </div>
+                                    <span className="text-slate-200 font-semibold">{item.label}</span>
+                                </motion.div>
+                            ))}
                         </div>
                     </div>
                 </section>
