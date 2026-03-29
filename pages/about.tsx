@@ -131,7 +131,7 @@ export default function AboutPage() {
         <>
             <SEO
                 title="About ScalerHouse – Shashank Singh | #1 Digital Marketing Agency Kanpur"
-                description="ScalerHouse, founded by Shashank Singh, is Kanpur's leading performance marketing agency. 150+ brands scaled. ₹500Cr+ revenue generated. Learn how we engineer predictable digital growth."
+                description="ScalerHouse, founded by Shashank Singh, is Kanpur's leading performance marketing agency. 150+ brands scaled. ₹100Cr+ revenue generated. Learn how we engineer predictable digital growth."
                 keywords="ScalerHouse, Shashank Singh, digital marketing agency Kanpur, performance marketing agency India, about ScalerHouse"
                 schemaData={[personSchema, orgSchema]}
                 breadcrumbs={[
@@ -288,7 +288,7 @@ export default function AboutPage() {
                                     At ScalerHouse, we flipped the script. We build data-backed growth systems — not vanity campaigns. Every rupee we manage is accountable. Every strategy is tied to revenue, not reach.
                                 </p>
                                 <p className="text-white font-medium leading-relaxed">
-                                    Today, I am proud to say that <span className="gradient-text font-bold">150+ brands</span> across India trust us to grow their business — and we have helped them generate over <span className="gradient-text font-bold">₹500 Crore</span> in revenue.
+                                    Today, I am proud to say that <span className="gradient-text font-bold">150+ brands</span> across India trust us to grow their business — and we have helped them generate over <span className="gradient-text font-bold">₹100 Crore</span> in revenue.
                                 </p>
                                 <p className="text-slate-300 leading-relaxed">
                                     This is just the beginning. India has millions of brilliant businesses waiting to scale. We are here to make that happen — one measurable result at a time.
