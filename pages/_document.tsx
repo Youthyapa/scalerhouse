@@ -13,6 +13,7 @@ export default function Document() {
                 <meta property="og:type" content="website" />
                 <meta name="theme-color" content="#0a1628" />
                 <meta name="p:domain_verify" content="e32f11a3580c24b27c021491eb709f0e" />
+                <meta name="facebook-domain-verification" content="eygdn1ke62baftkqpfmufoxatpocvt" />
 
                 {/* ── DNS Prefetch & Preconnect (performance) ── */}
                 <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
