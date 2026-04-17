@@ -98,7 +98,7 @@ async function seed() {
 
     await Employee.insertMany([
         { _id: 'emp_admin', name: 'Shashank Singh', email: 'admin@scalerhouse.com', passwordHash: adminHash, role: 'Admin', department: 'Management', assignedLeads: [], assignedClients: [], tasks: [], status: 'Active', joinedAt: '2024-01-01', performanceScore: 98 },
-        { _id: 'emp_001', name: 'Priya Nair', email: 'priya@scalerhouse.com', passwordHash: staffHash, role: 'Sales Executive', department: 'Sales', assignedLeads: ['lead_001', 'lead_002'], assignedClients: ['client_001'], tasks: [{ id: 'task_001', title: 'Follow up with TechCorp lead', status: 'Pending', priority: 'High', createdAt: new Date().toISOString() }], status: 'Active', joinedAt: '2024-03-15', performanceScore: 87 },
+        { _id: 'emp_001', name: 'Sandeep Patel', email: 'sandeep@scalerhouse.com', passwordHash: staffHash, role: 'Sales Executive', department: 'Sales', assignedLeads: ['lead_001', 'lead_002'], assignedClients: ['client_001'], tasks: [{ id: 'task_001', title: 'Follow up with TechCorp lead', status: 'Pending', priority: 'High', createdAt: new Date().toISOString() }], status: 'Active', joinedAt: '2024-03-15', performanceScore: 87 },
         { _id: 'emp_002', name: 'Amit Verma', email: 'amit@scalerhouse.com', passwordHash: staffHash, role: 'SEO Specialist', department: 'Digital Marketing', assignedLeads: [], assignedClients: ['client_001'], tasks: [], status: 'Active', joinedAt: '2024-04-01', performanceScore: 91 },
     ]);
     console.log('✅ Employees seeded');
@@ -209,7 +209,7 @@ async function seed() {
     console.log('\n🎉 Seed complete! All demo data is now in MongoDB Atlas.');
     console.log('\n📋 Demo Login Credentials:');
     console.log('   Admin:     admin@scalerhouse.com     / (see ADMIN_PASSWORD in .env.local)');
-    console.log('   Employee:  priya@scalerhouse.com     / scaler123');
+    console.log('   Employee:  sandeep@scalerhouse.com   / scaler123');
     console.log('   Employee:  amit@scalerhouse.com      / scaler123');
     console.log('   Client:    client@scalerhouse.com    / client123');
     console.log('   Affiliate: affiliate@scalerhouse.com / affiliate123');
