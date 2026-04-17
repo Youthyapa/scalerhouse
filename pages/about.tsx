@@ -11,7 +11,7 @@ import { useRef } from 'react';
 
 const team = [
     { name: 'Shashank Singh', role: 'Founder & CEO', initials: 'SS', color: 'from-blue-600 to-cyan-500' },
-    { name: 'Sandeep Patel', role: 'Head of Growth', initials: 'SP', color: 'from-purple-600 to-pink-500' },
+    { name: 'Sandeep Verma', role: 'Head of Growth', initials: 'SV', color: 'from-purple-600 to-pink-500' },
     { name: 'Amit Verma', role: 'SEO Lead', initials: 'AV', color: 'from-green-600 to-emerald-500' },
     { name: 'Kiran Mehta', role: 'Performance Ads Manager', initials: 'KM', color: 'from-orange-600 to-yellow-500' },
 ];
